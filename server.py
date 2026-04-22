@@ -184,7 +184,7 @@ class H(BaseHTTPRequestHandler):
         if p == '/api/login':
             d = self.body()
             users = read_json(USERS, [])
-            u = next((x for x in users if x['usuario'] == d.get('usuario', '')), None)
+            u = next((x for x in users if x['usuario'].upper() == d.get('usuario', '').upper()), None)
             if u and check_pw(d.get('senha', ''), u['senha']):
                 token = sess_create(u['id'], u['nome'])
                 self.json_resp(200, {'ok': True, 'nome': u['nome']},
