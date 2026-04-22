@@ -1,0 +1,909 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"/>
+  <title>Bobo do Pix</title>
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;font-family:'Inter',sans-serif;-webkit-tap-highlight-color:transparent}
+    html,body{background:#13151c;color:#f1f5f9;margin:0;min-height:100%}
+    ::-webkit-scrollbar{width:4px;height:4px}
+    ::-webkit-scrollbar-track{background:#1a1d26}
+    ::-webkit-scrollbar-thumb{background:#2e3550;border-radius:4px}
+    input[type="date"]::-webkit-calendar-picker-indicator{filter:invert(.5);cursor:pointer}
+
+    @keyframes pulse-ring{0%{box-shadow:0 0 0 0 rgba(239,68,68,.6)}70%{box-shadow:0 0 0 8px rgba(239,68,68,0)}100%{box-shadow:0 0 0 0 rgba(239,68,68,0)}}
+    .pulse{animation:pulse-ring 1.8s ease-in-out infinite}
+
+    @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+    .fade-up{animation:fadeUp .3s ease-out both}
+
+    @keyframes slideDown{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)}}
+    .slide-down{animation:slideDown .2s ease-out both}
+
+    @keyframes modalIn{from{opacity:0;transform:scale(.95) translateY(12px)}to{opacity:1;transform:scale(1) translateY(0)}}
+    .modal-in{animation:modalIn .22s ease-out both}
+
+    @keyframes spin{to{transform:rotate(360deg)}}
+    .spin{animation:spin .7s linear infinite}
+
+    @keyframes toast{from{opacity:0;transform:translateY(20px) scale(.95)}to{opacity:1;transform:translateY(0) scale(1)}}
+    .toast{animation:toast .25s ease-out both}
+  </style>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+const { useState, useEffect, useMemo, useCallback, useRef } = React;
+
+/* ── API ────────────────────────────────────────────────────────────────────── */
+const api = {
+  get:    p     => fetch(p).then(r=>r.json()),
+  post:   (p,b) => fetch(p,{method:'POST',  headers:{'Content-Type':'application/json'},body:JSON.stringify(b)}).then(r=>r.json()),
+  put:    (p,b) => fetch(p,{method:'PUT',   headers:{'Content-Type':'application/json'},body:JSON.stringify(b)}).then(r=>r.json()),
+  delete: p     => fetch(p,{method:'DELETE'}).then(r=>r.json()),
+};
+
+/* ── Financials ─────────────────────────────────────────────────────────────── */
+const SOCIO_NOME = 'Vinicius';
+const SOCIO_PCT  = 0.30;
+
+const calcFin = c => {
+  const lucro   = c.valorRetorno - c.valorEmprestado;
+  const socio   = lucro * SOCIO_PCT;
+  const liquido = lucro * (1 - SOCIO_PCT);
+  return { lucro, socio, liquido };
+};
+
+/* ── Date helpers ───────────────────────────────────────────────────────────── */
+const today = () => { const d = new Date(); d.setHours(0,0,0,0); return d; };
+const parseDate = s => new Date(s + 'T00:00:00');
+const daysLeft  = venc => Math.round((parseDate(venc) - today()) / 86400000);
+const daysDiff  = (a, b) => Math.round((parseDate(b) - parseDate(a)) / 86400000);
+
+const getStatus = venc => {
+  const d = daysLeft(venc);
+  if (d < 0)  return 'Atrasado';
+  if (d === 0) return 'Vence Hoje';
+  return 'No Prazo';
+};
+
+/* ── Formatters ─────────────────────────────────────────────────────────────── */
+const R$ = v => new Intl.NumberFormat('pt-BR',{style:'currency',currency:'BRL'}).format(v||0);
+const uid = () => Math.random().toString(36).slice(2,9) + Date.now().toString(36);
+
+const fmtCPF = v => {
+  const d = v.replace(/\D/g,'').slice(0,11);
+  if(d.length<=3) return d;
+  if(d.length<=6) return `${d.slice(0,3)}.${d.slice(3)}`;
+  if(d.length<=9) return `${d.slice(0,3)}.${d.slice(3,6)}.${d.slice(6)}`;
+  return `${d.slice(0,3)}.${d.slice(3,6)}.${d.slice(6,9)}-${d.slice(9)}`;
+};
+const fmtPhone = v => {
+  const d = v.replace(/\D/g,'').slice(0,11);
+  if(!d.length) return '';
+  if(d.length<=2)  return `(${d}`;
+  if(d.length<=6)  return `(${d.slice(0,2)}) ${d.slice(2)}`;
+  if(d.length<=10) return `(${d.slice(0,2)}) ${d.slice(2,6)}-${d.slice(6)}`;
+  return `(${d.slice(0,2)}) ${d.slice(2,7)}-${d.slice(7)}`;
+};
+const validateCPF = cpf => {
+  const d = cpf.replace(/\D/g,'');
+  if(d.length!==11||/^(\d)\1+$/.test(d)) return false;
+  let s=0; for(let i=0;i<9;i++) s+=+d[i]*(10-i);
+  let r=(s*10)%11; if(r>=10)r=0; if(r!==+d[9]) return false;
+  s=0; for(let i=0;i<10;i++) s+=+d[i]*(11-i);
+  r=(s*10)%11; if(r>=10)r=0; return r===+d[10];
+};
+
+const exportCSV = rows => {
+  const hdr = ['Nome','CPF','Chave Pix','Emprestado','Taxa%','Retorno','Lucro Bruto','Parte Vinicius','Seu Liquido','Inicio','Vencimento','Dias Restantes','Status'];
+  const body = rows.map(c => {
+    const f = calcFin(c);
+    return [c.nome,c.cpf,c.chavePix,c.valorEmprestado.toFixed(2),c.taxaServico,
+      c.valorRetorno.toFixed(2),f.lucro.toFixed(2),f.socio.toFixed(2),f.liquido.toFixed(2),
+      c.dataInicio,c.dataVencimento,daysLeft(c.dataVencimento),getStatus(c.dataVencimento)];
+  });
+  const csv = '\uFEFF'+[hdr,...body].map(r=>r.map(v=>`"${v}"`).join(',')).join('\r\n');
+  const url = URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8;'}));
+  Object.assign(document.createElement('a'),{href:url,download:`bobo_pix_${new Date().toISOString().slice(0,10)}.csv`}).click();
+  URL.revokeObjectURL(url);
+};
+
+/* ── Icons ──────────────────────────────────────────────────────────────────── */
+const Icon = ({ d, size=20, stroke='currentColor', sw=1.8, fill='none', className='' }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill={fill} stroke={stroke}
+    strokeWidth={sw} strokeLinecap="round" strokeLinejoin="round" className={className}>
+    {typeof d === 'string' ? <path d={d}/> : d}
+  </svg>
+);
+
+const ICONS = {
+  plus:     'M12 5v14M5 12h14',
+  search:   <><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></>,
+  edit:     'M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z',
+  trash:    <><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6m3 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></>,
+  download: <><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></>,
+  logout:   <><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></>,
+  clock:    <><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></>,
+  alert:    <><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><circle cx="12" cy="16" r=".5" fill="currentColor" stroke="none"/></>,
+  check:    <><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></>,
+  x:        'M18 6 6 18M6 6l12 12',
+  whatsapp: null,
+  coin:     <><circle cx="12" cy="12" r="10"/><path d="M12 6v12M9 9h4.5a1.5 1.5 0 0 1 0 3h-3a1.5 1.5 0 0 0 0 3H15"/></>,
+  trend:    <><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></>,
+  chart:    <><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></>,
+  users:    <><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></>,
+  shield:   'M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z',
+  chevdown: 'M6 9l6 6 6-6',
+  chevup:   'M18 15l-6-6-6 6',
+  filter:   <><line x1="4" y1="6" x2="20" y2="6"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="11" y1="18" x2="13" y2="18"/></>,
+  calendar: <><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></>,
+  info:     <><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></>,
+  person:   <><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></>,
+};
+
+const WA = ({ size=18 }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor">
+    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+  </svg>
+);
+
+/* ── Countdown Badge ────────────────────────────────────────────────────────── */
+const Countdown = ({ dataInicio, dataVencimento, size='md' }) => {
+  const days  = daysLeft(dataVencimento);
+  const total = daysDiff(dataInicio, dataVencimento);
+  const passed = Math.max(0, total - Math.max(0, days));
+  const pct   = total > 0 ? Math.min(100, (passed / total) * 100) : 0;
+
+  const isLate   = days < 0;
+  const isToday  = days === 0;
+  const isUrgent = days > 0 && days <= 5;
+
+  const color = isLate ? '#ef4444' : isToday ? '#f59e0b' : isUrgent ? '#f97316' : '#4a6fa5';
+  const bg    = isLate ? 'rgba(239,68,68,.1)'  : isToday ? 'rgba(245,158,11,.1)' : isUrgent ? 'rgba(249,115,22,.1)' : 'rgba(74,111,165,.1)';
+  const ring  = isLate ? 'rgba(239,68,68,.3)'  : isToday ? 'rgba(245,158,11,.3)' : isUrgent ? 'rgba(249,115,22,.3)' : 'rgba(74,111,165,.3)';
+
+  const label = isLate
+    ? `${Math.abs(days)}d atrasado`
+    : isToday
+      ? 'Vence hoje!'
+      : `${days}d restantes`;
+
+  const r = 18, circ = 2 * Math.PI * r;
+  const dash = circ - (pct / 100) * circ;
+
+  return (
+    <div style={{display:'flex',alignItems:'center',gap:'10px'}}>
+      {/* ring */}
+      <div style={{position:'relative',width:52,height:52,flexShrink:0}}>
+        <svg width="52" height="52" viewBox="0 0 52 52" style={{transform:'rotate(-90deg)'}}>
+          <circle cx="26" cy="26" r={r} fill="none" stroke="rgba(255,255,255,.06)" strokeWidth="3.5"/>
+          <circle cx="26" cy="26" r={r} fill="none" stroke={color} strokeWidth="3.5"
+            strokeDasharray={circ} strokeDashoffset={isLate ? 0 : dash}
+            strokeLinecap="round" style={{transition:'stroke-dashoffset .5s ease'}}/>
+        </svg>
+        <div style={{
+          position:'absolute',inset:0,display:'flex',alignItems:'center',justifyContent:'center',
+          fontSize:isLate||isToday?'9px':'11px',fontWeight:800,color,lineHeight:1,textAlign:'center',
+          padding:'2px'
+        }}>
+          {isLate ? `+${Math.abs(days)}` : isToday ? '!!!' : days}
+        </div>
+      </div>
+      {/* text */}
+      <div>
+        <div style={{
+          display:'inline-flex',alignItems:'center',gap:'5px',
+          background:bg,border:`1px solid ${ring}`,
+          borderRadius:'999px',padding:'3px 10px',
+          fontSize:'12px',fontWeight:700,color,
+          ...(isLate ? {boxShadow:`0 0 0 0 ${color}`} : {})
+        }} className={isLate?'pulse':''}>
+          {isLate && <span style={{width:6,height:6,borderRadius:'50%',background:color,display:'inline-block'}}/>}
+          {label}
+        </div>
+        <div style={{fontSize:'10px',color:'#4b5563',marginTop:'3px',paddingLeft:'2px'}}>
+          {new Date(dataVencimento+'T00:00:00').toLocaleDateString('pt-BR')} &bull; {passed}/{total} dias
+        </div>
+      </div>
+    </div>
+  );
+};
+
+/* ── Progress bar ───────────────────────────────────────────────────────────── */
+const ProgressBar = ({ dataInicio, dataVencimento }) => {
+  const days  = daysLeft(dataVencimento);
+  const total = daysDiff(dataInicio, dataVencimento);
+  const passed = Math.max(0, total - Math.max(0, days));
+  const pct   = total > 0 ? Math.min(100, (passed / total) * 100) : 0;
+  const isLate = days < 0;
+  const color  = isLate ? '#ef4444' : pct > 80 ? '#f97316' : pct > 60 ? '#f59e0b' : '#4a6fa5';
+  return (
+    <div style={{width:'100%',height:3,background:'rgba(255,255,255,.06)',borderRadius:99,overflow:'hidden',marginTop:6}}>
+      <div style={{height:'100%',width:`${isLate?100:pct}%`,background:color,borderRadius:99,transition:'width .5s ease'}}/>
+    </div>
+  );
+};
+
+/* ── Profit Split Card ──────────────────────────────────────────────────────── */
+const ProfitRow = ({ label, value, color, sub }) => (
+  <div style={{
+    background:'rgba(255,255,255,.03)',border:'1px solid rgba(255,255,255,.06)',
+    borderRadius:12,padding:'10px 14px',
+  }}>
+    <div style={{fontSize:10,color:'#4b5563',fontWeight:600,textTransform:'uppercase',letterSpacing:'.06em',marginBottom:2}}>{label}</div>
+    <div style={{fontSize:18,fontWeight:800,color,lineHeight:1}}>{value}</div>
+    {sub && <div style={{fontSize:10,color:'#374151',marginTop:3}}>{sub}</div>}
+  </div>
+);
+
+/* ── Summary Card ───────────────────────────────────────────────────────────── */
+const SumCard = ({ label, value, sub, accent, icon }) => (
+  <div style={{
+    background:'#1a1d26',border:'1px solid #22263a',borderRadius:16,
+    padding:'16px',minWidth:140,flex:'1 0 140px',
+  }}>
+    <div style={{display:'flex',justifyContent:'space-between',alignItems:'flex-start',marginBottom:10}}>
+      <div style={{fontSize:10,color:'#4b5563',fontWeight:700,textTransform:'uppercase',letterSpacing:'.07em',lineHeight:1.3,maxWidth:90}}>{label}</div>
+      <div style={{width:32,height:32,borderRadius:10,display:'flex',alignItems:'center',justifyContent:'center',background:accent,flexShrink:0}}>
+        <Icon d={icon} size={15} stroke="currentColor" className={accent.includes('blue')?'text-blue-300':accent.includes('emerald')?'text-emerald-300':accent.includes('violet')?'text-violet-300':accent.includes('amber')?'text-amber-300':'text-rose-300'}/>
+      </div>
+    </div>
+    <div style={{fontSize:20,fontWeight:800,color:'#f1f5f9',letterSpacing:'-.02em',lineHeight:1}}>{value}</div>
+    {sub && <div style={{fontSize:10,color:'#374151',marginTop:5}}>{sub}</div>}
+  </div>
+);
+
+/* ── Toast ──────────────────────────────────────────────────────────────────── */
+const Toast = ({ msg, type }) => {
+  const cfg = {
+    success: { bg:'#059669', icon: ICONS.check },
+    error:   { bg:'#dc2626', icon: ICONS.alert },
+    info:    { bg:'#1d3a6e', icon: ICONS.info  },
+  };
+  const c = cfg[type] || cfg.info;
+  return (
+    <div className="toast" style={{
+      position:'fixed',bottom:24,left:'50%',transform:'translateX(-50%)',
+      background:c.bg,color:'#fff',borderRadius:14,padding:'12px 20px',
+      display:'flex',alignItems:'center',gap:10,
+      boxShadow:'0 8px 32px rgba(0,0,0,.5)',zIndex:999,
+      fontSize:14,fontWeight:600,whiteSpace:'nowrap',
+    }}>
+      <Icon d={c.icon} size={16}/>{msg}
+    </div>
+  );
+};
+
+/* ── Input styles ───────────────────────────────────────────────────────────── */
+const inputStyle = (err) => ({
+  width:'100%',background:'rgba(19,21,28,.9)',
+  border:`1.5px solid ${err?'rgba(239,68,68,.5)':'rgba(74,111,165,.2)'}`,
+  borderRadius:12,padding:'11px 14px',fontSize:15,color:'#e8eaf0',
+  outline:'none',fontFamily:'inherit',WebkitAppearance:'none',
+});
+
+const FieldWrap = ({ label, err, required, children }) => (
+  <div style={{marginBottom:14}}>
+    <label style={{display:'block',fontSize:11,fontWeight:700,color:'#4a6fa5',letterSpacing:'.06em',textTransform:'uppercase',marginBottom:6}}>
+      {label}{required && <span style={{color:'#ef4444',marginLeft:3}}>*</span>}
+    </label>
+    {children}
+    {err && <div style={{color:'#f87171',fontSize:11,marginTop:4,display:'flex',alignItems:'center',gap:4}}>
+      <Icon d={ICONS.alert} size={11}/>{err}
+    </div>}
+  </div>
+);
+
+/* ── Contract Modal ─────────────────────────────────────────────────────────── */
+const EMPTY = { nome:'', cpf:'', telefone:'', chavePix:'', valorEmprestado:'', taxaServico:'30', dataInicio:'', dataVencimento:'', observacoes:'' };
+
+const ContractModal = ({ contract, onSave, onClose }) => {
+  const todayStr = new Date().toISOString().slice(0,10);
+  const [form, setForm] = useState(() =>
+    contract
+      ? { ...contract, valorEmprestado:String(contract.valorEmprestado), taxaServico:String(contract.taxaServico) }
+      : { ...EMPTY, dataInicio:todayStr }
+  );
+  const [errs, setErrs] = useState({});
+  const [saving, setSaving] = useState(false);
+
+  const set = (k,v) => setForm(f=>({...f,[k]:v}));
+
+  const retorno  = useMemo(() => (parseFloat(form.valorEmprestado)||0)*(1+(parseFloat(form.taxaServico)||0)/100), [form.valorEmprestado, form.taxaServico]);
+  const lucro    = retorno - (parseFloat(form.valorEmprestado)||0);
+  const socio    = lucro * SOCIO_PCT;
+  const liquido  = lucro * (1 - SOCIO_PCT);
+
+  const validate = () => {
+    const e = {};
+    if(!form.nome.trim())                                         e.nome = 'Obrigatorio';
+    if(form.cpf.replace(/\D/g,'').length!==11)                   e.cpf  = 'CPF incompleto';
+    else if(!validateCPF(form.cpf))                              e.cpf  = 'CPF invalido';
+    if(!form.chavePix.trim())                                    e.chavePix = 'Obrigatorio';
+    if(!form.valorEmprestado||parseFloat(form.valorEmprestado)<=0) e.valorEmprestado = 'Informe um valor';
+    if(!form.dataInicio)                                         e.dataInicio = 'Obrigatorio';
+    if(!form.dataVencimento)                                     e.dataVencimento = 'Obrigatorio';
+    else if(form.dataVencimento<=form.dataInicio)                 e.dataVencimento = 'Deve ser apos inicio';
+    setErrs(e);
+    return !Object.keys(e).length;
+  };
+
+  const submit = async e => {
+    e.preventDefault();
+    if(!validate()) return;
+    setSaving(true);
+    await onSave({
+      ...(contract||{id:uid(),createdAt:new Date().toISOString()}),
+      ...form,
+      valorEmprestado: parseFloat(form.valorEmprestado),
+      taxaServico:     parseFloat(form.taxaServico)||30,
+      valorRetorno:    retorno,
+    });
+    setSaving(false);
+  };
+
+  const overlay = { position:'fixed',inset:0,background:'rgba(0,0,0,.75)',backdropFilter:'blur(6px)',zIndex:50,display:'flex',alignItems:'flex-end',justifyContent:'center' };
+  const modal   = { background:'#1a1d26',border:'1px solid #22263a',borderRadius:'24px 24px 0 0',width:'100%',maxWidth:480,maxHeight:'92vh',overflowY:'auto',paddingBottom:32 };
+
+  return (
+    <div style={overlay} onClick={e=>e.target===e.currentTarget&&onClose()}>
+      <div className="modal-in" style={modal}>
+        {/* handle */}
+        <div style={{width:36,height:4,background:'#2e3550',borderRadius:99,margin:'12px auto 0'}}/>
+
+        {/* header */}
+        <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',padding:'16px 20px 0'}}>
+          <div>
+            <div style={{fontWeight:800,fontSize:17,color:'#f1f5f9'}}>{contract?'Editar Contrato':'Novo Contrato'}</div>
+            <div style={{fontSize:11,color:'#4b5563',marginTop:2}}>Campos com * sao obrigatorios</div>
+          </div>
+          <button onClick={onClose} style={{background:'rgba(255,255,255,.06)',border:'none',borderRadius:10,width:34,height:34,display:'flex',alignItems:'center',justifyContent:'center',cursor:'pointer',color:'#9ca3af'}}>
+            <Icon d={ICONS.x} size={16}/>
+          </button>
+        </div>
+
+        <form onSubmit={submit} style={{padding:'20px 20px 0'}}>
+          <FieldWrap label="Nome Completo" err={errs.nome} required>
+            <input style={inputStyle(errs.nome)} value={form.nome} onChange={e=>set('nome',e.target.value)} placeholder="Ex: Bruno Neves"/>
+          </FieldWrap>
+
+          <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:12}}>
+            <FieldWrap label="CPF" err={errs.cpf} required>
+              <input style={inputStyle(errs.cpf)} value={form.cpf} onChange={e=>set('cpf',fmtCPF(e.target.value))} placeholder="000.000.000-00" maxLength={14}/>
+            </FieldWrap>
+            <FieldWrap label="WhatsApp">
+              <input style={inputStyle(false)} value={form.telefone} onChange={e=>set('telefone',fmtPhone(e.target.value))} placeholder="(00) 00000-0000" maxLength={15}/>
+            </FieldWrap>
+          </div>
+
+          <FieldWrap label="Chave Pix" err={errs.chavePix} required>
+            <input style={inputStyle(errs.chavePix)} value={form.chavePix} onChange={e=>set('chavePix',e.target.value)} placeholder="CPF, e-mail, telefone ou aleatoria"/>
+          </FieldWrap>
+
+          <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:12}}>
+            <FieldWrap label="Valor Emprestado (R$)" err={errs.valorEmprestado} required>
+              <input type="number" min="0.01" step="0.01" style={inputStyle(errs.valorEmprestado)} value={form.valorEmprestado} onChange={e=>set('valorEmprestado',e.target.value)} placeholder="0,00"/>
+            </FieldWrap>
+            <FieldWrap label="Taxa (%)">
+              <input type="number" min="0" max="9999" step="0.1" style={inputStyle(false)} value={form.taxaServico} onChange={e=>set('taxaServico',e.target.value)} placeholder="30"/>
+            </FieldWrap>
+          </div>
+
+          {/* Financial preview */}
+          {retorno > 0 && (
+            <div style={{background:'rgba(74,111,165,.08)',border:'1px solid rgba(74,111,165,.2)',borderRadius:14,padding:14,marginBottom:14}}>
+              <div style={{fontSize:10,color:'#4a6fa5',fontWeight:700,letterSpacing:'.06em',textTransform:'uppercase',marginBottom:10}}>Previsao Financeira</div>
+              <div style={{display:'grid',gridTemplateColumns:'1fr 1fr 1fr',gap:8}}>
+                <div>
+                  <div style={{fontSize:9,color:'#4b5563',textTransform:'uppercase',letterSpacing:'.05em'}}>Retorno Total</div>
+                  <div style={{fontSize:15,fontWeight:800,color:'#4a6fa5',marginTop:2}}>{R$(retorno)}</div>
+                </div>
+                <div>
+                  <div style={{fontSize:9,color:'#4b5563',textTransform:'uppercase',letterSpacing:'.05em'}}>Parte {SOCIO_NOME}</div>
+                  <div style={{fontSize:15,fontWeight:800,color:'#a78bfa',marginTop:2}}>{R$(socio)}</div>
+                </div>
+                <div>
+                  <div style={{fontSize:9,color:'#4b5563',textTransform:'uppercase',letterSpacing:'.05em'}}>Seu Liquido</div>
+                  <div style={{fontSize:15,fontWeight:800,color:'#34d399',marginTop:2}}>{R$(liquido)}</div>
+                </div>
+              </div>
+            </div>
+          )}
+
+          <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:12}}>
+            <FieldWrap label="Data Inicio" err={errs.dataInicio} required>
+              <input type="date" style={{...inputStyle(errs.dataInicio),colorScheme:'dark'}} value={form.dataInicio} onChange={e=>set('dataInicio',e.target.value)}/>
+            </FieldWrap>
+            <FieldWrap label="Data Vencimento" err={errs.dataVencimento} required>
+              <input type="date" style={{...inputStyle(errs.dataVencimento),colorScheme:'dark'}} value={form.dataVencimento} onChange={e=>set('dataVencimento',e.target.value)}/>
+            </FieldWrap>
+          </div>
+
+          <FieldWrap label="Observacoes">
+            <textarea rows={2} style={{...inputStyle(false),resize:'none'}} value={form.observacoes} onChange={e=>set('observacoes',e.target.value)} placeholder="Garantias, referencias, etc."/>
+          </FieldWrap>
+
+          <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:12,marginTop:4}}>
+            <button type="button" onClick={onClose} style={{
+              background:'rgba(255,255,255,.06)',border:'1px solid rgba(255,255,255,.08)',
+              color:'#9ca3af',borderRadius:14,padding:'13px',fontSize:14,fontWeight:600,cursor:'pointer',fontFamily:'inherit'
+            }}>Cancelar</button>
+            <button type="submit" disabled={saving} style={{
+              background:'linear-gradient(135deg,#4a6fa5,#1d3a6e)',border:'none',
+              color:'#fff',borderRadius:14,padding:'13px',fontSize:14,fontWeight:700,cursor:'pointer',fontFamily:'inherit',
+              boxShadow:'0 4px 20px rgba(29,58,110,.4)',opacity:saving?.7:1
+            }}>
+              {saving ? 'Salvando...' : contract ? 'Salvar' : 'Cadastrar'}
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  );
+};
+
+/* ── Delete Modal ───────────────────────────────────────────────────────────── */
+const DeleteModal = ({ name, onConfirm, onClose }) => (
+  <div style={{position:'fixed',inset:0,background:'rgba(0,0,0,.8)',backdropFilter:'blur(6px)',zIndex:50,display:'flex',alignItems:'center',justifyContent:'center',padding:20}} onClick={e=>e.target===e.currentTarget&&onClose()}>
+    <div className="modal-in" style={{background:'#1a1d26',border:'1px solid #22263a',borderRadius:20,padding:24,width:'100%',maxWidth:340}}>
+      <div style={{width:44,height:44,background:'rgba(239,68,68,.1)',borderRadius:12,display:'flex',alignItems:'center',justifyContent:'center',marginBottom:16}}>
+        <Icon d={ICONS.trash} size={20} stroke="#ef4444"/>
+      </div>
+      <div style={{fontWeight:800,fontSize:16,color:'#f1f5f9',marginBottom:6}}>Excluir contrato</div>
+      <div style={{fontSize:13,color:'#6b7280',lineHeight:1.6,marginBottom:20}}>
+        Tem certeza que deseja excluir o contrato de <strong style={{color:'#f1f5f9'}}>{name}</strong>?<br/>
+        <span style={{fontSize:11,color:'#4b5563'}}>Esta acao nao pode ser desfeita.</span>
+      </div>
+      <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:10}}>
+        <button onClick={onClose} style={{background:'rgba(255,255,255,.06)',border:'1px solid rgba(255,255,255,.08)',color:'#9ca3af',borderRadius:12,padding:'12px',fontSize:13,fontWeight:600,cursor:'pointer',fontFamily:'inherit'}}>Cancelar</button>
+        <button onClick={onConfirm} style={{background:'#dc2626',border:'none',color:'#fff',borderRadius:12,padding:'12px',fontSize:13,fontWeight:700,cursor:'pointer',fontFamily:'inherit'}}>Excluir</button>
+      </div>
+    </div>
+  </div>
+);
+
+/* ── Contract Card (mobile) ─────────────────────────────────────────────────── */
+const ContractCard = ({ c, onEdit, onDelete }) => {
+  const [open, setOpen] = useState(false);
+  const fin    = calcFin(c);
+  const status = getStatus(c.dataVencimento);
+  const days   = daysLeft(c.dataVencimento);
+  const isLate = days < 0;
+
+  const initials = c.nome.trim().split(' ').filter(Boolean).slice(0,2).map(w=>w[0].toUpperCase()).join('');
+
+  const statusColor = isLate ? '#ef4444' : days===0 ? '#f59e0b' : days<=5 ? '#f97316' : '#4a6fa5';
+  const statusBg    = isLate ? 'rgba(239,68,68,.1)' : days===0 ? 'rgba(245,158,11,.1)' : days<=5 ? 'rgba(249,115,22,.1)' : 'rgba(74,111,165,.1)';
+  const statusRing  = isLate ? 'rgba(239,68,68,.25)' : days===0 ? 'rgba(245,158,11,.25)' : days<=5 ? 'rgba(249,115,22,.25)' : 'rgba(74,111,165,.25)';
+
+  const openWA = () => {
+    if(!c.telefone) return;
+    const d = c.telefone.replace(/\D/g,'');
+    const br = d.startsWith('55') ? d : '55'+d;
+    window.open(`https://wa.me/${br}?text=${encodeURIComponent(`Ola ${c.nome.split(' ')[0]}, tudo bem? Passando para lembrar sobre o contrato.`)}`, '_blank');
+  };
+
+  return (
+    <div className="fade-up" style={{
+      background:'#1a1d26',border:`1px solid ${isLate?'rgba(239,68,68,.2)':'#22263a'}`,
+      borderRadius:18,overflow:'hidden',marginBottom:10,
+      boxShadow: isLate ? '0 0 0 1px rgba(239,68,68,.1)' : 'none',
+    }}>
+      {/* top row */}
+      <div style={{padding:'14px 16px',display:'flex',alignItems:'center',gap:12}}>
+        {/* avatar */}
+        <div style={{
+          width:42,height:42,borderRadius:13,
+          background:'linear-gradient(135deg,#1d3a6e,#4a6fa5)',
+          display:'flex',alignItems:'center',justifyContent:'center',
+          fontSize:14,fontWeight:800,color:'#fff',flexShrink:0,
+          boxShadow:'0 4px 12px rgba(29,58,110,.3)'
+        }}>{initials}</div>
+
+        {/* name + pix */}
+        <div style={{flex:1,minWidth:0}}>
+          <div style={{fontWeight:700,fontSize:15,color:'#f1f5f9',overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap'}}>{c.nome}</div>
+          <div style={{fontSize:11,color:'#4b5563',overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap',marginTop:1}}>{c.chavePix}</div>
+        </div>
+
+        {/* status pill */}
+        <div style={{
+          background:statusBg,border:`1px solid ${statusRing}`,color:statusColor,
+          borderRadius:99,padding:'4px 10px',fontSize:11,fontWeight:700,flexShrink:0,
+          ...(isLate?{boxShadow:`0 0 0 0 ${statusColor}`}:{})
+        }} className={isLate?'pulse':''}>
+          {status}
+        </div>
+      </div>
+
+      {/* countdown */}
+      <div style={{padding:'0 16px 12px'}}>
+        <Countdown dataInicio={c.dataInicio} dataVencimento={c.dataVencimento}/>
+        <ProgressBar dataInicio={c.dataInicio} dataVencimento={c.dataVencimento}/>
+      </div>
+
+      {/* values row */}
+      <div style={{
+        display:'grid',gridTemplateColumns:'1fr 1fr 1fr',gap:1,
+        background:'rgba(255,255,255,.04)',borderTop:'1px solid #22263a',borderBottom:'1px solid #22263a',
+      }}>
+        {[
+          {l:'Emprestado', v:R$(c.valorEmprestado), c:'#9ca3af'},
+          {l:'Retorno',    v:R$(c.valorRetorno),    c:'#4a6fa5'},
+          {l:'Seu Lucro',  v:R$(fin.liquido),       c:'#34d399'},
+        ].map(({l,v,c:col},i)=>(
+          <div key={i} style={{padding:'10px 12px',textAlign:'center',background:'#1a1d26',...(i===1?{borderLeft:'1px solid #22263a',borderRight:'1px solid #22263a'}:{})}}>
+            <div style={{fontSize:9,color:'#374151',textTransform:'uppercase',letterSpacing:'.06em',marginBottom:3}}>{l}</div>
+            <div style={{fontSize:13,fontWeight:800,color:col}}>{v}</div>
+          </div>
+        ))}
+      </div>
+
+      {/* expandable: partner split */}
+      <button onClick={()=>setOpen(o=>!o)} style={{
+        width:'100%',background:'none',border:'none',cursor:'pointer',
+        display:'flex',alignItems:'center',justifyContent:'space-between',
+        padding:'10px 16px',color:'#4b5563',fontFamily:'inherit',
+      }}>
+        <span style={{fontSize:11,fontWeight:600,letterSpacing:'.04em'}}>VER DIVISAO DE LUCROS</span>
+        <Icon d={open?ICONS.chevup:ICONS.chevdown} size={14}/>
+      </button>
+
+      {open && (
+        <div className="slide-down" style={{padding:'0 14px 14px',display:'grid',gridTemplateColumns:'1fr 1fr 1fr',gap:8}}>
+          <ProfitRow label="Lucro Bruto" value={R$(fin.lucro)} color="#9ca3af" sub={`${c.taxaServico}% da op.`}/>
+          <ProfitRow label={`${SOCIO_NOME} (30%)`} value={R$(fin.socio)} color="#a78bfa" sub="30% do lucro"/>
+          <ProfitRow label="Seu Liquido" value={R$(fin.liquido)} color="#34d399" sub="70% do lucro"/>
+        </div>
+      )}
+
+      {/* actions */}
+      <div style={{display:'flex',borderTop:'1px solid #22263a',gap:1}}>
+        {c.telefone && (
+          <button onClick={openWA} style={{flex:1,background:'none',border:'none',cursor:'pointer',padding:'11px',display:'flex',alignItems:'center',justifyContent:'center',gap:6,color:'#22c55e',fontFamily:'inherit',fontSize:12,fontWeight:600}}>
+            <WA size={14}/>WhatsApp
+          </button>
+        )}
+        <button onClick={()=>onEdit(c)} style={{flex:1,background:'none',border:'none',cursor:'pointer',padding:'11px',display:'flex',alignItems:'center',justifyContent:'center',gap:6,color:'#4a6fa5',fontFamily:'inherit',fontSize:12,fontWeight:600,borderLeft:'1px solid #22263a'}}>
+          <Icon d={ICONS.edit} size={13}/>Editar
+        </button>
+        <button onClick={()=>onDelete(c)} style={{flex:1,background:'none',border:'none',cursor:'pointer',padding:'11px',display:'flex',alignItems:'center',justifyContent:'center',gap:6,color:'#ef4444',fontFamily:'inherit',fontSize:12,fontWeight:600,borderLeft:'1px solid #22263a'}}>
+          <Icon d={ICONS.trash} size={13}/>Excluir
+        </button>
+      </div>
+    </div>
+  );
+};
+
+/* ── Main App ───────────────────────────────────────────────────────────────── */
+const App = () => {
+  const [user,      setUser]     = useState(null);
+  const [contracts, setContracts]= useState([]);
+  const [loading,   setLoading]  = useState(true);
+  const [search,    setSearch]   = useState('');
+  const [modal,     setModal]    = useState(null);
+  const [delTgt,    setDelTgt]   = useState(null);
+  const [filter,    setFilter]   = useState('all');
+  const [toast,     setToast]    = useState(null);
+  const [tab,       setTab]      = useState('contratos'); // 'contratos' | 'financeiro'
+
+  const showToast = (msg, type='success') => { setToast({msg,type}); setTimeout(()=>setToast(null),3000); };
+
+  const load = useCallback(async () => {
+    const data = await api.get('/api/contratos');
+    setContracts(Array.isArray(data) ? data : []);
+  }, []);
+
+  useEffect(()=>{
+    (async()=>{
+      const me = await api.get('/api/me');
+      if(!me.ok){ window.location='/login'; return; }
+      setUser(me.nome);
+      await load();
+      setLoading(false);
+    })();
+  },[]);
+
+  const handleSave = async data => {
+    const exists = contracts.find(c=>c.id===data.id);
+    if(exists) await api.put(`/api/contratos/${data.id}`,data);
+    else        await api.post('/api/contratos',data);
+    await load();
+    setModal(null);
+    showToast(exists?'Contrato atualizado!':'Contrato cadastrado!');
+  };
+
+  const handleDelete = async () => {
+    await api.delete(`/api/contratos/${delTgt.id}`);
+    await load();
+    setDelTgt(null);
+    showToast('Contrato excluido.','info');
+  };
+
+  const logout = async () => { await api.post('/api/logout',{}); window.location='/login'; };
+
+  const filtered = useMemo(()=>{
+    const q=search.toLowerCase().replace(/\D/g,''), qr=search.toLowerCase();
+    return contracts
+      .filter(c=>{
+        if(filter==='Atrasado'&&getStatus(c.dataVencimento)!=='Atrasado') return false;
+        if(filter==='Hoje'&&getStatus(c.dataVencimento)!=='Vence Hoje') return false;
+        if(filter==='Prazo'&&getStatus(c.dataVencimento)!=='No Prazo') return false;
+        if(!search) return true;
+        return c.nome.toLowerCase().includes(qr)||c.cpf.replace(/\D/g,'').includes(q);
+      })
+      .sort((a,b)=>daysLeft(a.dataVencimento)-daysLeft(b.dataVencimento));
+  },[contracts,search,filter]);
+
+  const summary = useMemo(()=>{
+    const inv   = contracts.reduce((s,c)=>s+c.valorEmprestado,0);
+    const rec   = contracts.reduce((s,c)=>s+c.valorRetorno,0);
+    const lucro = contracts.reduce((s,c)=>s+calcFin(c).lucro,0);
+    const socio = contracts.reduce((s,c)=>s+calcFin(c).socio,0);
+    const liq   = contracts.reduce((s,c)=>s+calcFin(c).liquido,0);
+    const late  = contracts.filter(c=>getStatus(c.dataVencimento)==='Atrasado').length;
+    const hoje  = contracts.filter(c=>getStatus(c.dataVencimento)==='Vence Hoje').length;
+    return {inv,rec,lucro,socio,liq,late,hoje,count:contracts.length};
+  },[contracts]);
+
+  if(loading) return (
+    <div style={{minHeight:'100vh',background:'#13151c',display:'flex',alignItems:'center',justifyContent:'center',flexDirection:'column',gap:12}}>
+      <svg className="spin" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#4a6fa5" strokeWidth="2.5"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83" strokeLinecap="round"/></svg>
+      <div style={{fontSize:13,color:'#4b5563'}}>Carregando...</div>
+    </div>
+  );
+
+  const filters = [['all','Todos'],['Prazo','No Prazo'],['Hoje','Hoje'],['Atrasado','Atrasados']];
+
+  return (
+    <div style={{minHeight:'100vh',background:'#13151c',maxWidth:480,margin:'0 auto',position:'relative'}}>
+
+      {/* ── Header ── */}
+      <div style={{
+        position:'sticky',top:0,zIndex:30,
+        background:'rgba(19,21,28,.95)',backdropFilter:'blur(16px)',
+        borderBottom:'1px solid #1a1d26',
+        padding:'14px 16px',
+        display:'flex',alignItems:'center',justifyContent:'space-between',
+      }}>
+        <div style={{display:'flex',alignItems:'center',gap:10}}>
+          <img src="/logo.png" alt="logo" style={{height:34,filter:'drop-shadow(0 2px 8px rgba(74,111,165,.4))'}}/>
+          <div>
+            <div style={{fontWeight:800,fontSize:15,color:'#f1f5f9',letterSpacing:'-.01em'}}>Bobo do Pix</div>
+            <div style={{fontSize:10,color:'#374151',marginTop:1}}>
+              {summary.count} contrato{summary.count!==1?'s':''} &bull; {new Date().toLocaleDateString('pt-BR',{day:'2-digit',month:'short'})}
+            </div>
+          </div>
+        </div>
+        <div style={{display:'flex',alignItems:'center',gap:8}}>
+          {summary.late>0 && (
+            <div className="pulse" style={{background:'rgba(239,68,68,.1)',border:'1px solid rgba(239,68,68,.25)',borderRadius:99,padding:'4px 10px',fontSize:11,fontWeight:700,color:'#ef4444'}}>
+              {summary.late} atrasado{summary.late>1?'s':''}
+            </div>
+          )}
+          <button onClick={logout} style={{background:'rgba(255,255,255,.05)',border:'1px solid #1a1d26',borderRadius:10,width:34,height:34,display:'flex',alignItems:'center',justifyContent:'center',cursor:'pointer',color:'#6b7280'}}>
+            <Icon d={ICONS.logout} size={15}/>
+          </button>
+        </div>
+      </div>
+
+      {/* ── Tabs ── */}
+      <div style={{display:'flex',gap:4,padding:'12px 16px 0',borderBottom:'1px solid #1a1d26'}}>
+        {[['contratos','Contratos'],['financeiro','Financeiro']].map(([k,l])=>(
+          <button key={k} onClick={()=>setTab(k)} style={{
+            flex:1,padding:'9px',borderRadius:12,border:'none',cursor:'pointer',
+            fontFamily:'inherit',fontSize:13,fontWeight:700,
+            background: tab===k ? 'rgba(74,111,165,.15)' : 'transparent',
+            color: tab===k ? '#4a6fa5' : '#4b5563',
+            borderBottom: tab===k ? '2px solid #4a6fa5' : '2px solid transparent',
+            transition:'all .15s',
+          }}>{l}</button>
+        ))}
+      </div>
+
+      {/* ══════════ TAB: CONTRATOS ══════════ */}
+      {tab==='contratos' && (
+        <div style={{padding:'14px 14px 120px'}}>
+
+          {/* summary cards */}
+          <div style={{display:'flex',gap:8,overflowX:'auto',paddingBottom:4,marginBottom:14,scrollbarWidth:'none'}}>
+            <SumCard label="Capital Investido" value={R$(summary.inv)}  icon={ICONS.coin}  accent="rgba(74,111,165,.15)"  sub={`${summary.count} contratos`}/>
+            <SumCard label="Total a Receber"   value={R$(summary.rec)}  icon={ICONS.trend} accent="rgba(74,111,165,.15)"  sub="Soma retornos"/>
+            <SumCard label="Seu Lucro Liq."    value={R$(summary.liq)}  icon={ICONS.chart} accent="rgba(52,211,153,.1)"   sub="Descontado socio"/>
+          </div>
+
+          {/* search */}
+          <div style={{position:'relative',marginBottom:10}}>
+            <div style={{position:'absolute',left:12,top:'50%',transform:'translateY(-50%)',color:'#2e3550',pointerEvents:'none'}}>
+              <Icon d={ICONS.search} size={15}/>
+            </div>
+            <input value={search} onChange={e=>setSearch(e.target.value)} placeholder="Buscar por nome ou CPF..."
+              style={{width:'100%',background:'#1a1d26',border:'1px solid #22263a',borderRadius:12,padding:'11px 36px 11px 38px',fontSize:14,color:'#f1f5f9',outline:'none',fontFamily:'inherit',WebkitAppearance:'none'}}
+            />
+            {search && (
+              <button onClick={()=>setSearch('')} style={{position:'absolute',right:10,top:'50%',transform:'translateY(-50%)',background:'none',border:'none',cursor:'pointer',color:'#4b5563'}}>
+                <Icon d={ICONS.x} size={14}/>
+              </button>
+            )}
+          </div>
+
+          {/* filter pills */}
+          <div style={{display:'flex',gap:6,marginBottom:14,overflowX:'auto',scrollbarWidth:'none'}}>
+            {filters.map(([v,l])=>(
+              <button key={v} onClick={()=>setFilter(v)} style={{
+                flexShrink:0,padding:'7px 14px',borderRadius:99,border:'none',cursor:'pointer',
+                fontFamily:'inherit',fontSize:12,fontWeight:700,
+                background: filter===v ? '#4a6fa5' : '#1a1d26',
+                color:      filter===v ? '#fff'    : '#4b5563',
+                boxShadow:  filter===v ? '0 2px 10px rgba(74,111,165,.3)' : 'none',
+                transition:'all .15s',
+              }}>{l}</button>
+            ))}
+            <button onClick={()=>exportCSV(filtered)} style={{
+              flexShrink:0,padding:'7px 14px',borderRadius:99,border:'1px solid #22263a',
+              background:'#1a1d26',color:'#4b5563',cursor:'pointer',fontFamily:'inherit',
+              fontSize:12,fontWeight:700,display:'flex',alignItems:'center',gap:5,marginLeft:'auto',
+            }}>
+              <Icon d={ICONS.download} size={12}/>CSV
+            </button>
+          </div>
+
+          {/* list */}
+          {filtered.length===0 ? (
+            <div style={{textAlign:'center',padding:'60px 20px'}}>
+              <div style={{width:56,height:56,background:'rgba(255,255,255,.03)',borderRadius:16,display:'flex',alignItems:'center',justifyContent:'center',margin:'0 auto 12px',border:'1px solid #22263a'}}>
+                <Icon d={ICONS.search} size={22} stroke="#2e3550"/>
+              </div>
+              <div style={{color:'#4b5563',fontSize:14,fontWeight:600,marginBottom:4}}>
+                {search||filter!=='all'?'Nenhum resultado':'Nenhum contrato cadastrado'}
+              </div>
+              <div style={{color:'#2e3550',fontSize:12}}>{search||filter!=='all'?'Ajuste o filtro ou busca':'Toque em + para comecar'}</div>
+            </div>
+          ) : filtered.map(c => (
+            <ContractCard key={c.id} c={c} onEdit={c=>setModal({contract:c})} onDelete={c=>setDelTgt(c)}/>
+          ))}
+        </div>
+      )}
+
+      {/* ══════════ TAB: FINANCEIRO ══════════ */}
+      {tab==='financeiro' && (
+        <div style={{padding:'16px 14px 120px'}}>
+
+          {/* big summary */}
+          <div style={{
+            background:'linear-gradient(135deg,rgba(74,111,165,.15),rgba(29,58,110,.1))',
+            border:'1px solid rgba(74,111,165,.2)',borderRadius:20,padding:20,marginBottom:14,
+          }}>
+            <div style={{fontSize:11,color:'#4a6fa5',fontWeight:700,letterSpacing:'.08em',textTransform:'uppercase',marginBottom:14}}>Resumo Geral</div>
+            <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:12,marginBottom:12}}>
+              <div>
+                <div style={{fontSize:10,color:'#4b5563',textTransform:'uppercase',letterSpacing:'.05em',marginBottom:4}}>Capital em Giro</div>
+                <div style={{fontSize:22,fontWeight:900,color:'#f1f5f9',letterSpacing:'-.02em'}}>{R$(summary.inv)}</div>
+              </div>
+              <div>
+                <div style={{fontSize:10,color:'#4b5563',textTransform:'uppercase',letterSpacing:'.05em',marginBottom:4}}>Total a Receber</div>
+                <div style={{fontSize:22,fontWeight:900,color:'#4a6fa5',letterSpacing:'-.02em'}}>{R$(summary.rec)}</div>
+              </div>
+            </div>
+            <div style={{height:1,background:'rgba(74,111,165,.15)',marginBottom:12}}/>
+            <div style={{display:'grid',gridTemplateColumns:'1fr 1fr 1fr',gap:10}}>
+              {[
+                {l:'Lucro Bruto', v:R$(summary.lucro), c:'#9ca3af'},
+                {l:`${SOCIO_NOME} (30%)`, v:R$(summary.socio), c:'#a78bfa'},
+                {l:'Seu Liquido', v:R$(summary.liq), c:'#34d399'},
+              ].map(({l,v,c},i)=>(
+                <div key={i}>
+                  <div style={{fontSize:9,color:'#4b5563',textTransform:'uppercase',letterSpacing:'.05em',marginBottom:4}}>{l}</div>
+                  <div style={{fontSize:16,fontWeight:800,color:c}}>{v}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* partner card */}
+          <div style={{background:'rgba(167,139,250,.06)',border:'1px solid rgba(167,139,250,.2)',borderRadius:20,padding:20,marginBottom:14}}>
+            <div style={{display:'flex',alignItems:'center',gap:10,marginBottom:16}}>
+              <div style={{width:40,height:40,background:'rgba(167,139,250,.15)',borderRadius:12,display:'flex',alignItems:'center',justifyContent:'center'}}>
+                <Icon d={ICONS.person} size={18} stroke="#a78bfa"/>
+              </div>
+              <div>
+                <div style={{fontWeight:800,fontSize:15,color:'#f1f5f9'}}>Socio: {SOCIO_NOME}</div>
+                <div style={{fontSize:11,color:'#6b7280'}}>30% do lucro liquido de cada operacao</div>
+              </div>
+            </div>
+            <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:10,marginBottom:14}}>
+              <div style={{background:'rgba(167,139,250,.08)',borderRadius:14,padding:'14px'}}>
+                <div style={{fontSize:10,color:'#6b7280',textTransform:'uppercase',letterSpacing:'.06em',marginBottom:6}}>Total a Receber</div>
+                <div style={{fontSize:24,fontWeight:900,color:'#a78bfa'}}>{R$(summary.socio)}</div>
+                <div style={{fontSize:10,color:'#4b5563',marginTop:4}}>Sobre {R$(summary.lucro)} de lucro bruto</div>
+              </div>
+              <div style={{background:'rgba(52,211,153,.05)',borderRadius:14,padding:'14px'}}>
+                <div style={{fontSize:10,color:'#6b7280',textTransform:'uppercase',letterSpacing:'.06em',marginBottom:6}}>Seu Liquido</div>
+                <div style={{fontSize:24,fontWeight:900,color:'#34d399'}}>{R$(summary.liq)}</div>
+                <div style={{fontSize:10,color:'#4b5563',marginTop:4}}>Apos participacao do socio</div>
+              </div>
+            </div>
+          </div>
+
+          {/* per contract breakdown */}
+          <div style={{fontSize:11,color:'#4b5563',fontWeight:700,letterSpacing:'.07em',textTransform:'uppercase',marginBottom:10}}>Por Contrato</div>
+          {contracts.length===0 && <div style={{color:'#2e3550',fontSize:13,textAlign:'center',padding:'30px 0'}}>Nenhum contrato ainda.</div>}
+          {contracts
+            .sort((a,b)=>daysLeft(a.dataVencimento)-daysLeft(b.dataVencimento))
+            .map(c=>{
+              const fin=calcFin(c), days=daysLeft(c.dataVencimento), isLate=days<0;
+              const initials=c.nome.trim().split(' ').filter(Boolean).slice(0,2).map(w=>w[0].toUpperCase()).join('');
+              return (
+                <div key={c.id} style={{
+                  background:'#1a1d26',border:`1px solid ${isLate?'rgba(239,68,68,.2)':'#22263a'}`,
+                  borderRadius:16,marginBottom:10,overflow:'hidden',
+                }}>
+                  <div style={{padding:'14px 16px',display:'flex',alignItems:'center',gap:10}}>
+                    <div style={{width:36,height:36,borderRadius:10,background:'linear-gradient(135deg,#1d3a6e,#4a6fa5)',display:'flex',alignItems:'center',justifyContent:'center',fontSize:12,fontWeight:800,color:'#fff',flexShrink:0}}>{initials}</div>
+                    <div style={{flex:1,minWidth:0}}>
+                      <div style={{fontWeight:700,fontSize:14,color:'#f1f5f9',overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap'}}>{c.nome}</div>
+                      <div style={{fontSize:10,color:'#4b5563',marginTop:1}}>
+                        {isLate ? `${Math.abs(days)}d em atraso` : days===0 ? 'Vence hoje' : `${days}d restantes`}
+                        &nbsp;&bull;&nbsp;Venc. {new Date(c.dataVencimento+'T00:00:00').toLocaleDateString('pt-BR')}
+                      </div>
+                    </div>
+                    <div style={{textAlign:'right',flexShrink:0}}>
+                      <div style={{fontSize:10,color:'#4b5563'}}>Emprestado</div>
+                      <div style={{fontSize:14,fontWeight:800,color:'#9ca3af'}}>{R$(c.valorEmprestado)}</div>
+                    </div>
+                  </div>
+                  <div style={{display:'grid',gridTemplateColumns:'1fr 1fr 1fr',borderTop:'1px solid #22263a'}}>
+                    {[
+                      {l:'Lucro Bruto',     v:R$(fin.lucro),   c:'#9ca3af', bg:'rgba(255,255,255,.02)'},
+                      {l:`${SOCIO_NOME}`,   v:R$(fin.socio),   c:'#a78bfa', bg:'rgba(167,139,250,.05)'},
+                      {l:'Seu Liquido',     v:R$(fin.liquido), c:'#34d399', bg:'rgba(52,211,153,.04)'},
+                    ].map(({l,v,c:col,bg},i)=>(
+                      <div key={i} style={{padding:'10px 12px',textAlign:'center',background:bg,...(i>0?{borderLeft:'1px solid #22263a'}:{})}}>
+                        <div style={{fontSize:9,color:'#374151',textTransform:'uppercase',letterSpacing:'.05em',marginBottom:4}}>{l}</div>
+                        <div style={{fontSize:13,fontWeight:800,color:col}}>{v}</div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              );
+            })}
+        </div>
+      )}
+
+      {/* ── FAB ── */}
+      <button onClick={()=>setModal('add')} style={{
+        position:'fixed',bottom:24,right:20,
+        width:56,height:56,borderRadius:'50%',
+        background:'linear-gradient(135deg,#4a6fa5,#1d3a6e)',
+        border:'none',cursor:'pointer',
+        display:'flex',alignItems:'center',justifyContent:'center',
+        boxShadow:'0 8px 32px rgba(29,58,110,.55), 0 2px 0 rgba(255,255,255,.08) inset',
+        color:'#fff',zIndex:40,
+        transition:'transform .15s,box-shadow .15s',
+      }}>
+        <Icon d={ICONS.plus} size={22} sw={2.5}/>
+      </button>
+
+      {/* ── Modals ── */}
+      {(modal==='add'||modal?.contract) && (
+        <ContractModal contract={modal?.contract||null} onSave={handleSave} onClose={()=>setModal(null)}/>
+      )}
+      {delTgt && (
+        <DeleteModal name={delTgt.nome} onConfirm={handleDelete} onClose={()=>setDelTgt(null)}/>
+      )}
+      {toast && <Toast msg={toast.msg} type={toast.type}/>}
+    </div>
+  );
+};
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+</script>
+</body>
+</html>

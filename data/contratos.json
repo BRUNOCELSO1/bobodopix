@@ -1,0 +1,72 @@
+[
+  {
+    "id": "kqahhx3mo9d4e6w",
+    "createdAt": "2026-04-22T01:17:01.784Z",
+    "nome": "bruno neves",
+    "cpf": "131.675.774-95",
+    "telefone": "(98) 65454-5454",
+    "chavePix": "988687876",
+    "valorEmprestado": 1000,
+    "taxaServico": 30,
+    "dataInicio": "2026-04-22",
+    "dataVencimento": "2026-05-22",
+    "observacoes": "",
+    "valorRetorno": 1300
+  },
+  {
+    "id": "yga50acmo9doinl",
+    "createdAt": "2026-04-22T01:32:40.689Z",
+    "nome": "Lucas Neves ",
+    "cpf": "131.675.774-95",
+    "telefone": "",
+    "chavePix": "21312312312",
+    "valorEmprestado": 1000,
+    "taxaServico": 30,
+    "dataInicio": "2026-02-12",
+    "dataVencimento": "2026-03-12",
+    "observacoes": "PAGO!",
+    "valorRetorno": 1300
+  },
+  {
+    "id": "kam3bjjmo9dplqg",
+    "createdAt": "2026-04-22T01:33:31.336Z",
+    "nome": "JR MOTA ",
+    "cpf": "131.675.774-95",
+    "telefone": "",
+    "chavePix": "12312312321",
+    "valorEmprestado": 1000,
+    "taxaServico": 30,
+    "dataInicio": "2026-02-18",
+    "dataVencimento": "2026-03-18",
+    "observacoes": "",
+    "valorRetorno": 1300
+  },
+  {
+    "id": "qtx4artmo9dqhvf",
+    "createdAt": "2026-04-22T01:34:12.987Z",
+    "nome": "LUCAS NEVES",
+    "cpf": "131.675.774-95",
+    "telefone": "",
+    "chavePix": "1213123123",
+    "valorEmprestado": 1200,
+    "taxaServico": 30,
+    "dataInicio": "2026-03-23",
+    "dataVencimento": "2026-04-23",
+    "observacoes": "",
+    "valorRetorno": 1560
+  },
+  {
+    "id": "ln8q9fymo9dr8kj",
+    "createdAt": "2026-04-22T01:34:47.587Z",
+    "nome": "RUAN VICTOR ",
+    "cpf": "131.675.774-95",
+    "telefone": "",
+    "chavePix": "23123123123",
+    "valorEmprestado": 2000,
+    "taxaServico": 30,
+    "dataInicio": "2026-03-26",
+    "dataVencimento": "2026-04-26",
+    "observacoes": "",
+    "valorRetorno": 2600
+  }
+]
