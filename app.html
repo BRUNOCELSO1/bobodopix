@@ -3,45 +3,67 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"/>
-  <title>Bobo do Pix</title>
+  <title>Bobo do Pix 💰</title>
   <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
   <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-  <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
   <style>
     *,*::before,*::after{box-sizing:border-box;font-family:'Inter',sans-serif;-webkit-tap-highlight-color:transparent}
-    html,body{background:#13151c;color:#f1f5f9;margin:0;min-height:100%}
-    ::-webkit-scrollbar{width:4px;height:4px}
-    ::-webkit-scrollbar-track{background:#1a1d26}
-    ::-webkit-scrollbar-thumb{background:#2e3550;border-radius:4px}
-    input[type="date"]::-webkit-calendar-picker-indicator{filter:invert(.5);cursor:pointer}
+    html,body{background:#080a10;color:#f1f5f9;margin:0;min-height:100%}
 
-    @keyframes pulse-ring{0%{box-shadow:0 0 0 0 rgba(239,68,68,.6)}70%{box-shadow:0 0 0 8px rgba(239,68,68,0)}100%{box-shadow:0 0 0 0 rgba(239,68,68,0)}}
-    .pulse{animation:pulse-ring 1.8s ease-in-out infinite}
+    .bg-orbs{position:fixed;inset:0;overflow:hidden;pointer-events:none;z-index:0}
+    .orb{position:absolute;border-radius:50%;filter:blur(90px);opacity:.12}
+    .orb1{width:550px;height:550px;background:radial-gradient(circle,#4a6fa5,transparent);top:-180px;left:-120px;animation:orb1 14s ease-in-out infinite}
+    .orb2{width:420px;height:420px;background:radial-gradient(circle,#7c3aed,transparent);bottom:-120px;right:-120px;animation:orb2 17s ease-in-out infinite}
+    .orb3{width:320px;height:320px;background:radial-gradient(circle,#059669,transparent);top:45%;left:40%;animation:orb3 11s ease-in-out infinite}
 
-    @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
-    .fade-up{animation:fadeUp .3s ease-out both}
+    @keyframes orb1{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(70px,-50px) scale(1.1)}66%{transform:translate(-40px,60px) scale(.9)}}
+    @keyframes orb2{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(-60px,40px) scale(1.15)}66%{transform:translate(50px,-70px) scale(.92)}}
+    @keyframes orb3{0%,100%{transform:translate(-50%,-50%) scale(1)}50%{transform:translate(-50%,-50%) scale(1.35)}}
 
-    @keyframes slideDown{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)}}
-    .slide-down{animation:slideDown .2s ease-out both}
+    ::-webkit-scrollbar{width:3px;height:3px}
+    ::-webkit-scrollbar-track{background:transparent}
+    ::-webkit-scrollbar-thumb{background:#2e3550;border-radius:99px}
 
-    @keyframes modalIn{from{opacity:0;transform:scale(.95) translateY(12px)}to{opacity:1;transform:scale(1) translateY(0)}}
-    .modal-in{animation:modalIn .22s ease-out both}
-
+    @keyframes fadeUp{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}
+    @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+    @keyframes slideDown{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:translateY(0)}}
+    @keyframes modalIn{from{opacity:0;transform:scale(.95) translateY(20px)}to{opacity:1;transform:scale(1) translateY(0)}}
     @keyframes spin{to{transform:rotate(360deg)}}
-    .spin{animation:spin .7s linear infinite}
+    @keyframes pulseRing{0%{box-shadow:0 0 0 0 rgba(239,68,68,.5)}70%{box-shadow:0 0 0 10px rgba(239,68,68,0)}100%{box-shadow:0 0 0 0 rgba(239,68,68,0)}}
+    @keyframes toast{from{opacity:0;transform:translateY(22px) scale(.93)}to{opacity:1;transform:translateY(0) scale(1)}}
+    @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+    @keyframes glow{0%,100%{box-shadow:0 0 24px rgba(74,111,165,.2)}50%{box-shadow:0 0 48px rgba(74,111,165,.45)}}
+    @keyframes shimmer{0%{background-position:-200% 0}100%{background-position:200% 0}}
 
-    @keyframes toast{from{opacity:0;transform:translateY(20px) scale(.95)}to{opacity:1;transform:translateY(0) scale(1)}}
-    .toast{animation:toast .25s ease-out both}
+    .fade-up{animation:fadeUp .4s ease-out both}
+    .fade-in{animation:fadeIn .35s ease-out both}
+    .slide-down{animation:slideDown .22s ease-out both}
+    .modal-in{animation:modalIn .26s cubic-bezier(.34,1.56,.64,1) both}
+    .spin{animation:spin .8s linear infinite}
+    .pulse{animation:pulseRing 2s ease-in-out infinite}
+    .float-anim{animation:float 3.5s ease-in-out infinite}
+    .glow-anim{animation:glow 3s ease-in-out infinite}
+
+    .contract-card{transition:transform .2s ease,box-shadow .2s ease}
+    .contract-card:active{transform:scale(.99)}
+
+    input[type="date"]::-webkit-calendar-picker-indicator{filter:invert(.4);cursor:pointer}
   </style>
 </head>
 <body>
-<div id="root"></div>
+<div class="bg-orbs">
+  <div class="orb orb1"></div>
+  <div class="orb orb2"></div>
+  <div class="orb orb3"></div>
+</div>
+<div id="root" style="position:relative;z-index:1"></div>
+
 <script type="text/babel">
 const { useState, useEffect, useMemo, useCallback, useRef } = React;
 
-/* ── API ────────────────────────────────────────────────────────────────────── */
+/* ── API ── */
 const api = {
   get:    p     => fetch(p).then(r=>r.json()),
   post:   (p,b) => fetch(p,{method:'POST',  headers:{'Content-Type':'application/json'},body:JSON.stringify(b)}).then(r=>r.json()),
@@ -49,7 +71,7 @@ const api = {
   delete: p     => fetch(p,{method:'DELETE'}).then(r=>r.json()),
 };
 
-/* ── Financials ─────────────────────────────────────────────────────────────── */
+/* ── Config ── */
 const SOCIO_NOME = 'Vinicius';
 const SOCIO_PCT  = 0.30;
 
@@ -60,23 +82,22 @@ const calcFin = c => {
   return { lucro, socio, liquido };
 };
 
-/* ── Date helpers ───────────────────────────────────────────────────────────── */
-const today = () => { const d = new Date(); d.setHours(0,0,0,0); return d; };
-const parseDate = s => new Date(s + 'T00:00:00');
-const daysLeft  = venc => Math.round((parseDate(venc) - today()) / 86400000);
-const daysDiff  = (a, b) => Math.round((parseDate(b) - parseDate(a)) / 86400000);
-
-const getStatus = venc => {
+/* ── Date helpers ── */
+const today     = () => { const d = new Date(); d.setHours(0,0,0,0); return d; };
+const parseDate = s  => new Date(s + 'T00:00:00');
+const daysLeft  = v  => Math.round((parseDate(v) - today()) / 86400000);
+const daysDiff  = (a,b) => Math.round((parseDate(b) - parseDate(a)) / 86400000);
+const getStatus = (venc, pago) => {
+  if (pago) return 'Pago';
   const d = daysLeft(venc);
   if (d < 0)  return 'Atrasado';
   if (d === 0) return 'Vence Hoje';
   return 'No Prazo';
 };
 
-/* ── Formatters ─────────────────────────────────────────────────────────────── */
-const R$ = v => new Intl.NumberFormat('pt-BR',{style:'currency',currency:'BRL'}).format(v||0);
-const uid = () => Math.random().toString(36).slice(2,9) + Date.now().toString(36);
-
+/* ── Formatters ── */
+const R$     = v => new Intl.NumberFormat('pt-BR',{style:'currency',currency:'BRL'}).format(v||0);
+const uid    = () => Math.random().toString(36).slice(2,9) + Date.now().toString(36);
 const fmtCPF = v => {
   const d = v.replace(/\D/g,'').slice(0,11);
   if(d.length<=3) return d;
@@ -101,13 +122,40 @@ const validateCPF = cpf => {
   r=(s*10)%11; if(r>=10)r=0; return r===+d[10];
 };
 
+/* ── Count-up hook ── */
+const useCountUp = (end, duration=1300) => {
+  const [val, setVal] = useState(0);
+  const raf = useRef(null);
+  useEffect(() => {
+    if (raf.current) cancelAnimationFrame(raf.current);
+    if (!end) { setVal(0); return; }
+    let startTime = null;
+    const step = ts => {
+      if (!startTime) startTime = ts;
+      const prog = Math.min((ts - startTime) / duration, 1);
+      const ease = 1 - Math.pow(1 - prog, 4);
+      setVal(end * ease);
+      if (prog < 1) raf.current = requestAnimationFrame(step);
+    };
+    raf.current = requestAnimationFrame(step);
+    return () => { if (raf.current) cancelAnimationFrame(raf.current); };
+  }, [end]);
+  return val;
+};
+
+const AnimVal = ({ value }) => {
+  const v = useCountUp(value);
+  return <span>{new Intl.NumberFormat('pt-BR',{style:'currency',currency:'BRL'}).format(v)}</span>;
+};
+
+/* ── Export CSV ── */
 const exportCSV = rows => {
-  const hdr = ['Nome','CPF','Chave Pix','Emprestado','Taxa%','Retorno','Lucro Bruto','Parte Vinicius','Seu Liquido','Inicio','Vencimento','Dias Restantes','Status'];
+  const hdr = ['Nome','CPF','Chave Pix','Emprestado','Taxa%','Retorno','Lucro Bruto','Vinicius','Seu Liquido','Inicio','Vencimento','Dias Restantes','Status','Pago'];
   const body = rows.map(c => {
     const f = calcFin(c);
     return [c.nome,c.cpf,c.chavePix,c.valorEmprestado.toFixed(2),c.taxaServico,
       c.valorRetorno.toFixed(2),f.lucro.toFixed(2),f.socio.toFixed(2),f.liquido.toFixed(2),
-      c.dataInicio,c.dataVencimento,daysLeft(c.dataVencimento),getStatus(c.dataVencimento)];
+      c.dataInicio,c.dataVencimento,daysLeft(c.dataVencimento),getStatus(c.dataVencimento,c.pago),c.pago?'Sim':'Não'];
   });
   const csv = '\uFEFF'+[hdr,...body].map(r=>r.map(v=>`"${v}"`).join(',')).join('\r\n');
   const url = URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8;'}));
@@ -115,14 +163,12 @@ const exportCSV = rows => {
   URL.revokeObjectURL(url);
 };
 
-/* ── Icons ──────────────────────────────────────────────────────────────────── */
-const Icon = ({ d, size=20, stroke='currentColor', sw=1.8, fill='none', className='' }) => (
-  <svg width={size} height={size} viewBox="0 0 24 24" fill={fill} stroke={stroke}
-    strokeWidth={sw} strokeLinecap="round" strokeLinejoin="round" className={className}>
+/* ── Icons ── */
+const Icon = ({ d, size=20, stroke='currentColor', sw=1.8, fill='none' }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill={fill} stroke={stroke} strokeWidth={sw} strokeLinecap="round" strokeLinejoin="round">
     {typeof d === 'string' ? <path d={d}/> : d}
   </svg>
 );
-
 const ICONS = {
   plus:     'M12 5v14M5 12h14',
   search:   <><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></>,
@@ -130,85 +176,57 @@ const ICONS = {
   trash:    <><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6m3 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></>,
   download: <><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></>,
   logout:   <><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></>,
-  clock:    <><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></>,
-  alert:    <><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><circle cx="12" cy="16" r=".5" fill="currentColor" stroke="none"/></>,
   check:    <><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></>,
   x:        'M18 6 6 18M6 6l12 12',
-  whatsapp: null,
-  coin:     <><circle cx="12" cy="12" r="10"/><path d="M12 6v12M9 9h4.5a1.5 1.5 0 0 1 0 3h-3a1.5 1.5 0 0 0 0 3H15"/></>,
-  trend:    <><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></>,
-  chart:    <><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></>,
-  users:    <><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></>,
-  shield:   'M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z',
+  alert:    <><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><circle cx="12" cy="16" r=".5" fill="currentColor" stroke="none"/></>,
   chevdown: 'M6 9l6 6 6-6',
   chevup:   'M18 15l-6-6-6 6',
-  filter:   <><line x1="4" y1="6" x2="20" y2="6"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="11" y1="18" x2="13" y2="18"/></>,
-  calendar: <><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></>,
-  info:     <><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></>,
   person:   <><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></>,
 };
 
-const WA = ({ size=18 }) => (
+const WA = ({ size=16 }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor">
     <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
   </svg>
 );
 
-/* ── Countdown Badge ────────────────────────────────────────────────────────── */
-const Countdown = ({ dataInicio, dataVencimento, size='md' }) => {
-  const days  = daysLeft(dataVencimento);
-  const total = daysDiff(dataInicio, dataVencimento);
+/* ── Countdown ── */
+const Countdown = ({ dataInicio, dataVencimento }) => {
+  const days   = daysLeft(dataVencimento);
+  const total  = daysDiff(dataInicio, dataVencimento);
   const passed = Math.max(0, total - Math.max(0, days));
-  const pct   = total > 0 ? Math.min(100, (passed / total) * 100) : 0;
-
+  const pct    = total > 0 ? Math.min(100, (passed / total) * 100) : 0;
   const isLate   = days < 0;
   const isToday  = days === 0;
   const isUrgent = days > 0 && days <= 5;
 
   const color = isLate ? '#ef4444' : isToday ? '#f59e0b' : isUrgent ? '#f97316' : '#4a6fa5';
-  const bg    = isLate ? 'rgba(239,68,68,.1)'  : isToday ? 'rgba(245,158,11,.1)' : isUrgent ? 'rgba(249,115,22,.1)' : 'rgba(74,111,165,.1)';
-  const ring  = isLate ? 'rgba(239,68,68,.3)'  : isToday ? 'rgba(245,158,11,.3)' : isUrgent ? 'rgba(249,115,22,.3)' : 'rgba(74,111,165,.3)';
-
-  const label = isLate
-    ? `${Math.abs(days)}d atrasado`
-    : isToday
-      ? 'Vence hoje!'
-      : `${days}d restantes`;
+  const bg    = isLate ? 'rgba(239,68,68,.1)' : isToday ? 'rgba(245,158,11,.1)' : isUrgent ? 'rgba(249,115,22,.1)' : 'rgba(74,111,165,.08)';
+  const ring  = isLate ? 'rgba(239,68,68,.3)' : isToday ? 'rgba(245,158,11,.3)' : isUrgent ? 'rgba(249,115,22,.3)' : 'rgba(74,111,165,.2)';
+  const emoji = isLate ? '🔴' : isToday ? '🟡' : isUrgent ? '🟠' : '🟢';
+  const label = isLate ? `${Math.abs(days)}d atrasado` : isToday ? 'Vence hoje!' : `${days}d restantes`;
 
   const r = 18, circ = 2 * Math.PI * r;
   const dash = circ - (pct / 100) * circ;
 
   return (
-    <div style={{display:'flex',alignItems:'center',gap:'10px'}}>
-      {/* ring */}
+    <div style={{display:'flex',alignItems:'center',gap:10}}>
       <div style={{position:'relative',width:52,height:52,flexShrink:0}}>
         <svg width="52" height="52" viewBox="0 0 52 52" style={{transform:'rotate(-90deg)'}}>
-          <circle cx="26" cy="26" r={r} fill="none" stroke="rgba(255,255,255,.06)" strokeWidth="3.5"/>
-          <circle cx="26" cy="26" r={r} fill="none" stroke={color} strokeWidth="3.5"
+          <circle cx="26" cy="26" r={r} fill="none" stroke="rgba(255,255,255,.04)" strokeWidth="3"/>
+          <circle cx="26" cy="26" r={r} fill="none" stroke={color} strokeWidth="3"
             strokeDasharray={circ} strokeDashoffset={isLate ? 0 : dash}
-            strokeLinecap="round" style={{transition:'stroke-dashoffset .5s ease'}}/>
+            strokeLinecap="round" style={{transition:'stroke-dashoffset .6s ease'}}/>
         </svg>
-        <div style={{
-          position:'absolute',inset:0,display:'flex',alignItems:'center',justifyContent:'center',
-          fontSize:isLate||isToday?'9px':'11px',fontWeight:800,color,lineHeight:1,textAlign:'center',
-          padding:'2px'
-        }}>
+        <div style={{position:'absolute',inset:0,display:'flex',alignItems:'center',justifyContent:'center',fontSize:isLate||isToday?'9px':'11px',fontWeight:900,color,lineHeight:1,textAlign:'center'}}>
           {isLate ? `+${Math.abs(days)}` : isToday ? '!!!' : days}
         </div>
       </div>
-      {/* text */}
       <div>
-        <div style={{
-          display:'inline-flex',alignItems:'center',gap:'5px',
-          background:bg,border:`1px solid ${ring}`,
-          borderRadius:'999px',padding:'3px 10px',
-          fontSize:'12px',fontWeight:700,color,
-          ...(isLate ? {boxShadow:`0 0 0 0 ${color}`} : {})
-        }} className={isLate?'pulse':''}>
-          {isLate && <span style={{width:6,height:6,borderRadius:'50%',background:color,display:'inline-block'}}/>}
-          {label}
+        <div style={{display:'inline-flex',alignItems:'center',gap:5,background:bg,border:`1px solid ${ring}`,borderRadius:'999px',padding:'4px 12px',fontSize:'12px',fontWeight:700,color}} className={isLate?'pulse':''}>
+          <span style={{fontSize:10}}>{emoji}</span>{label}
         </div>
-        <div style={{fontSize:'10px',color:'#4b5563',marginTop:'3px',paddingLeft:'2px'}}>
+        <div style={{fontSize:'10px',color:'#374151',marginTop:'3px',paddingLeft:'2px'}}>
           {new Date(dataVencimento+'T00:00:00').toLocaleDateString('pt-BR')} &bull; {passed}/{total} dias
         </div>
       </div>
@@ -216,77 +234,96 @@ const Countdown = ({ dataInicio, dataVencimento, size='md' }) => {
   );
 };
 
-/* ── Progress bar ───────────────────────────────────────────────────────────── */
+/* ── Progress Bar ── */
 const ProgressBar = ({ dataInicio, dataVencimento }) => {
-  const days  = daysLeft(dataVencimento);
-  const total = daysDiff(dataInicio, dataVencimento);
+  const days   = daysLeft(dataVencimento);
+  const total  = daysDiff(dataInicio, dataVencimento);
   const passed = Math.max(0, total - Math.max(0, days));
-  const pct   = total > 0 ? Math.min(100, (passed / total) * 100) : 0;
+  const pct    = total > 0 ? Math.min(100, (passed / total) * 100) : 0;
   const isLate = days < 0;
   const color  = isLate ? '#ef4444' : pct > 80 ? '#f97316' : pct > 60 ? '#f59e0b' : '#4a6fa5';
   return (
-    <div style={{width:'100%',height:3,background:'rgba(255,255,255,.06)',borderRadius:99,overflow:'hidden',marginTop:6}}>
-      <div style={{height:'100%',width:`${isLate?100:pct}%`,background:color,borderRadius:99,transition:'width .5s ease'}}/>
+    <div style={{width:'100%',height:3,background:'rgba(255,255,255,.04)',borderRadius:99,overflow:'hidden',marginTop:6}}>
+      <div style={{height:'100%',width:`${isLate?100:pct}%`,background:`linear-gradient(90deg,${color},${color}88)`,borderRadius:99,transition:'width .7s ease'}}/>
     </div>
   );
 };
 
-/* ── Profit Split Card ──────────────────────────────────────────────────────── */
-const ProfitRow = ({ label, value, color, sub }) => (
-  <div style={{
-    background:'rgba(255,255,255,.03)',border:'1px solid rgba(255,255,255,.06)',
-    borderRadius:12,padding:'10px 14px',
-  }}>
-    <div style={{fontSize:10,color:'#4b5563',fontWeight:600,textTransform:'uppercase',letterSpacing:'.06em',marginBottom:2}}>{label}</div>
-    <div style={{fontSize:18,fontWeight:800,color,lineHeight:1}}>{value}</div>
-    {sub && <div style={{fontSize:10,color:'#374151',marginTop:3}}>{sub}</div>}
-  </div>
-);
+/* ── Meta Ring ── */
+const MetaRing = ({ current, meta, onClick }) => {
+  const pct        = meta > 0 ? Math.min(100, (current / meta) * 100) : 0;
+  const isAchieved = pct >= 100;
+  const color      = isAchieved ? '#10b981' : pct >= 70 ? '#f59e0b' : pct >= 40 ? '#4a6fa5' : '#4b5563';
+  const r = 44, circ = 2 * Math.PI * r;
+  const dash = circ - (pct / 100) * circ;
+  const motivation = isAchieved ? '🏆 Meta atingida! Parabéns!' : pct >= 70 ? '🔥 Quase lá, vai!' : pct >= 40 ? '💪 No caminho certo!' : pct > 0 ? '🚀 Começando bem!' : '🎯 Toque para definir sua meta';
 
-/* ── Summary Card ───────────────────────────────────────────────────────────── */
-const SumCard = ({ label, value, sub, accent, icon }) => (
-  <div style={{
-    background:'#1a1d26',border:'1px solid #22263a',borderRadius:16,
-    padding:'16px',minWidth:140,flex:'1 0 140px',
-  }}>
-    <div style={{display:'flex',justifyContent:'space-between',alignItems:'flex-start',marginBottom:10}}>
-      <div style={{fontSize:10,color:'#4b5563',fontWeight:700,textTransform:'uppercase',letterSpacing:'.07em',lineHeight:1.3,maxWidth:90}}>{label}</div>
-      <div style={{width:32,height:32,borderRadius:10,display:'flex',alignItems:'center',justifyContent:'center',background:accent,flexShrink:0}}>
-        <Icon d={icon} size={15} stroke="currentColor" className={accent.includes('blue')?'text-blue-300':accent.includes('emerald')?'text-emerald-300':accent.includes('violet')?'text-violet-300':accent.includes('amber')?'text-amber-300':'text-rose-300'}/>
+  return (
+    <div onClick={onClick} style={{
+      background:'linear-gradient(135deg,rgba(74,111,165,.1),rgba(29,58,110,.06))',
+      border:`1px solid ${isAchieved?'rgba(16,185,129,.35)':'rgba(74,111,165,.18)'}`,
+      borderRadius:22,padding:'16px 18px',cursor:'pointer',
+      display:'flex',alignItems:'center',gap:16,
+      boxShadow: isAchieved ? '0 0 40px rgba(16,185,129,.12)' : 'none',
+      transition:'all .25s ease',
+    }} className={isAchieved?'glow-anim':''}>
+      <div style={{position:'relative',flexShrink:0}}>
+        <svg width="100" height="100" viewBox="0 0 100 100" style={{transform:'rotate(-90deg)'}}>
+          <circle cx="50" cy="50" r={r} fill="none" stroke="rgba(255,255,255,.04)" strokeWidth="7"/>
+          <circle cx="50" cy="50" r={r} fill="none" stroke={color} strokeWidth="7"
+            strokeDasharray={circ} strokeDashoffset={meta === 0 ? circ : dash}
+            strokeLinecap="round" style={{transition:'stroke-dashoffset .9s ease, stroke .4s'}}/>
+        </svg>
+        <div style={{position:'absolute',inset:0,display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center'}}>
+          <div style={{fontSize:20,fontWeight:900,color,lineHeight:1}}>{Math.round(pct)}%</div>
+          <div style={{fontSize:8,color:'#4b5563',marginTop:2,fontWeight:700,letterSpacing:'.05em'}}>DA META</div>
+        </div>
+      </div>
+      <div style={{flex:1,minWidth:0}}>
+        <div style={{fontSize:10,color:'#4b5563',fontWeight:700,textTransform:'uppercase',letterSpacing:'.08em',marginBottom:5}}>🎯 Meta do Mês</div>
+        <div style={{fontSize:22,fontWeight:900,color:'#f1f5f9',letterSpacing:'-.02em',lineHeight:1,marginBottom:4}}>
+          <AnimVal value={current}/>
+        </div>
+        <div style={{fontSize:11,color:'#374151',marginBottom:8}}>
+          de {meta > 0 ? R$(meta) : '—'} &bull; falta {meta > 0 ? R$(Math.max(0, meta - current)) : '—'}
+        </div>
+        <div style={{display:'inline-flex',alignItems:'center',gap:4,background:'rgba(255,255,255,.04)',borderRadius:99,padding:'4px 10px',fontSize:11,fontWeight:700,color,border:'1px solid rgba(255,255,255,.06)'}}>
+          {motivation}
+        </div>
       </div>
     </div>
-    <div style={{fontSize:20,fontWeight:800,color:'#f1f5f9',letterSpacing:'-.02em',lineHeight:1}}>{value}</div>
-    {sub && <div style={{fontSize:10,color:'#374151',marginTop:5}}>{sub}</div>}
-  </div>
-);
+  );
+};
 
-/* ── Toast ──────────────────────────────────────────────────────────────────── */
+/* ── Toast ── */
 const Toast = ({ msg, type }) => {
   const cfg = {
-    success: { bg:'#059669', icon: ICONS.check },
-    error:   { bg:'#dc2626', icon: ICONS.alert },
-    info:    { bg:'#1d3a6e', icon: ICONS.info  },
+    success: { bg:'linear-gradient(135deg,#059669,#047857)', emoji:'✅' },
+    error:   { bg:'linear-gradient(135deg,#dc2626,#b91c1c)', emoji:'❌' },
+    info:    { bg:'linear-gradient(135deg,#1e3a5f,#1d3a6e)', emoji:'ℹ️' },
   };
   const c = cfg[type] || cfg.info;
   return (
     <div className="toast" style={{
-      position:'fixed',bottom:24,left:'50%',transform:'translateX(-50%)',
-      background:c.bg,color:'#fff',borderRadius:14,padding:'12px 20px',
+      position:'fixed',bottom:96,left:'50%',transform:'translateX(-50%)',
+      background:c.bg,color:'#fff',borderRadius:16,padding:'12px 22px',
       display:'flex',alignItems:'center',gap:10,
-      boxShadow:'0 8px 32px rgba(0,0,0,.5)',zIndex:999,
-      fontSize:14,fontWeight:600,whiteSpace:'nowrap',
+      boxShadow:'0 10px 40px rgba(0,0,0,.65)',zIndex:999,
+      fontSize:14,fontWeight:700,whiteSpace:'nowrap',
+      border:'1px solid rgba(255,255,255,.1)',
     }}>
-      <Icon d={c.icon} size={16}/>{msg}
+      <span>{c.emoji}</span>{msg}
     </div>
   );
 };
 
-/* ── Input styles ───────────────────────────────────────────────────────────── */
-const inputStyle = (err) => ({
-  width:'100%',background:'rgba(19,21,28,.9)',
+/* ── Input styles ── */
+const iStyle = err => ({
+  width:'100%',background:'rgba(8,10,16,.85)',
   border:`1.5px solid ${err?'rgba(239,68,68,.5)':'rgba(74,111,165,.2)'}`,
   borderRadius:12,padding:'11px 14px',fontSize:15,color:'#e8eaf0',
   outline:'none',fontFamily:'inherit',WebkitAppearance:'none',
+  transition:'border-color .2s,box-shadow .2s',
 });
 
 const FieldWrap = ({ label, err, required, children }) => (
@@ -295,13 +332,11 @@ const FieldWrap = ({ label, err, required, children }) => (
       {label}{required && <span style={{color:'#ef4444',marginLeft:3}}>*</span>}
     </label>
     {children}
-    {err && <div style={{color:'#f87171',fontSize:11,marginTop:4,display:'flex',alignItems:'center',gap:4}}>
-      <Icon d={ICONS.alert} size={11}/>{err}
-    </div>}
+    {err && <div style={{color:'#f87171',fontSize:11,marginTop:4,display:'flex',alignItems:'center',gap:4}}><Icon d={ICONS.alert} size={11}/>{err}</div>}
   </div>
 );
 
-/* ── Contract Modal ─────────────────────────────────────────────────────────── */
+/* ── Contract Modal ── */
 const EMPTY = { nome:'', cpf:'', telefone:'', chavePix:'', valorEmprestado:'', taxaServico:'30', dataInicio:'', dataVencimento:'', observacoes:'' };
 
 const ContractModal = ({ contract, onSave, onClose }) => {
@@ -311,26 +346,26 @@ const ContractModal = ({ contract, onSave, onClose }) => {
       ? { ...contract, valorEmprestado:String(contract.valorEmprestado), taxaServico:String(contract.taxaServico) }
       : { ...EMPTY, dataInicio:todayStr }
   );
-  const [errs, setErrs] = useState({});
+  const [errs, setErrs]   = useState({});
   const [saving, setSaving] = useState(false);
 
-  const set = (k,v) => setForm(f=>({...f,[k]:v}));
+  const set = (k,v) => setForm(f => ({ ...f, [k]: v }));
 
-  const retorno  = useMemo(() => (parseFloat(form.valorEmprestado)||0)*(1+(parseFloat(form.taxaServico)||0)/100), [form.valorEmprestado, form.taxaServico]);
-  const lucro    = retorno - (parseFloat(form.valorEmprestado)||0);
-  const socio    = lucro * SOCIO_PCT;
-  const liquido  = lucro * (1 - SOCIO_PCT);
+  const retorno = useMemo(() => (parseFloat(form.valorEmprestado)||0)*(1+(parseFloat(form.taxaServico)||0)/100), [form.valorEmprestado, form.taxaServico]);
+  const lucro   = retorno - (parseFloat(form.valorEmprestado)||0);
+  const socio   = lucro * SOCIO_PCT;
+  const liquido = lucro * (1 - SOCIO_PCT);
 
   const validate = () => {
     const e = {};
-    if(!form.nome.trim())                                         e.nome = 'Obrigatorio';
-    if(form.cpf.replace(/\D/g,'').length!==11)                   e.cpf  = 'CPF incompleto';
-    else if(!validateCPF(form.cpf))                              e.cpf  = 'CPF invalido';
-    if(!form.chavePix.trim())                                    e.chavePix = 'Obrigatorio';
+    if(!form.nome.trim())                                          e.nome = 'Obrigatorio';
+    if(form.cpf.replace(/\D/g,'').length!==11)                    e.cpf  = 'CPF incompleto';
+    else if(!validateCPF(form.cpf))                               e.cpf  = 'CPF invalido';
+    if(!form.chavePix.trim())                                     e.chavePix = 'Obrigatorio';
     if(!form.valorEmprestado||parseFloat(form.valorEmprestado)<=0) e.valorEmprestado = 'Informe um valor';
-    if(!form.dataInicio)                                         e.dataInicio = 'Obrigatorio';
-    if(!form.dataVencimento)                                     e.dataVencimento = 'Obrigatorio';
-    else if(form.dataVencimento<=form.dataInicio)                 e.dataVencimento = 'Deve ser apos inicio';
+    if(!form.dataInicio)                                          e.dataInicio = 'Obrigatorio';
+    if(!form.dataVencimento)                                      e.dataVencimento = 'Obrigatorio';
+    else if(form.dataVencimento <= form.dataInicio)                e.dataVencimento = 'Deve ser apos inicio';
     setErrs(e);
     return !Object.keys(e).length;
   };
@@ -340,7 +375,7 @@ const ContractModal = ({ contract, onSave, onClose }) => {
     if(!validate()) return;
     setSaving(true);
     await onSave({
-      ...(contract||{id:uid(),createdAt:new Date().toISOString()}),
+      ...(contract || { id:uid(), createdAt:new Date().toISOString() }),
       ...form,
       valorEmprestado: parseFloat(form.valorEmprestado),
       taxaServico:     parseFloat(form.taxaServico)||30,
@@ -349,98 +384,82 @@ const ContractModal = ({ contract, onSave, onClose }) => {
     setSaving(false);
   };
 
-  const overlay = { position:'fixed',inset:0,background:'rgba(0,0,0,.75)',backdropFilter:'blur(6px)',zIndex:50,display:'flex',alignItems:'flex-end',justifyContent:'center' };
-  const modal   = { background:'#1a1d26',border:'1px solid #22263a',borderRadius:'24px 24px 0 0',width:'100%',maxWidth:480,maxHeight:'92vh',overflowY:'auto',paddingBottom:32 };
-
   return (
-    <div style={overlay} onClick={e=>e.target===e.currentTarget&&onClose()}>
-      <div className="modal-in" style={modal}>
-        {/* handle */}
-        <div style={{width:36,height:4,background:'#2e3550',borderRadius:99,margin:'12px auto 0'}}/>
-
-        {/* header */}
+    <div style={{position:'fixed',inset:0,background:'rgba(0,0,0,.82)',backdropFilter:'blur(10px)',zIndex:50,display:'flex',alignItems:'flex-end',justifyContent:'center'}} onClick={e=>e.target===e.currentTarget&&onClose()}>
+      <div className="modal-in" style={{background:'#0c0e16',border:'1px solid #1e2235',borderRadius:'28px 28px 0 0',width:'100%',maxWidth:480,maxHeight:'93vh',overflowY:'auto',paddingBottom:36}}>
+        <div style={{width:36,height:4,background:'#2e3550',borderRadius:99,margin:'14px auto 0'}}/>
         <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',padding:'16px 20px 0'}}>
           <div>
-            <div style={{fontWeight:800,fontSize:17,color:'#f1f5f9'}}>{contract?'Editar Contrato':'Novo Contrato'}</div>
-            <div style={{fontSize:11,color:'#4b5563',marginTop:2}}>Campos com * sao obrigatorios</div>
+            <div style={{fontWeight:900,fontSize:18,color:'#f1f5f9'}}>{contract ? '✏️ Editar Contrato' : '💸 Novo Contrato'}</div>
+            <div style={{fontSize:11,color:'#4b5563',marginTop:2}}>Campos com * são obrigatórios</div>
           </div>
-          <button onClick={onClose} style={{background:'rgba(255,255,255,.06)',border:'none',borderRadius:10,width:34,height:34,display:'flex',alignItems:'center',justifyContent:'center',cursor:'pointer',color:'#9ca3af'}}>
+          <button onClick={onClose} style={{background:'rgba(255,255,255,.05)',border:'1px solid rgba(255,255,255,.07)',borderRadius:12,width:36,height:36,display:'flex',alignItems:'center',justifyContent:'center',cursor:'pointer',color:'#6b7280'}}>
             <Icon d={ICONS.x} size={16}/>
           </button>
         </div>
 
         <form onSubmit={submit} style={{padding:'20px 20px 0'}}>
-          <FieldWrap label="Nome Completo" err={errs.nome} required>
-            <input style={inputStyle(errs.nome)} value={form.nome} onChange={e=>set('nome',e.target.value)} placeholder="Ex: Bruno Neves"/>
+          <FieldWrap label="👤 Nome Completo" err={errs.nome} required>
+            <input style={iStyle(errs.nome)} value={form.nome} onChange={e=>set('nome',e.target.value)} placeholder="Ex: Bruno Neves"/>
           </FieldWrap>
-
           <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:12}}>
             <FieldWrap label="CPF" err={errs.cpf} required>
-              <input style={inputStyle(errs.cpf)} value={form.cpf} onChange={e=>set('cpf',fmtCPF(e.target.value))} placeholder="000.000.000-00" maxLength={14}/>
+              <input style={iStyle(errs.cpf)} value={form.cpf} onChange={e=>set('cpf',fmtCPF(e.target.value))} placeholder="000.000.000-00" maxLength={14}/>
             </FieldWrap>
-            <FieldWrap label="WhatsApp">
-              <input style={inputStyle(false)} value={form.telefone} onChange={e=>set('telefone',fmtPhone(e.target.value))} placeholder="(00) 00000-0000" maxLength={15}/>
+            <FieldWrap label="📱 WhatsApp">
+              <input style={iStyle(false)} value={form.telefone} onChange={e=>set('telefone',fmtPhone(e.target.value))} placeholder="(00) 00000-0000" maxLength={15}/>
             </FieldWrap>
           </div>
-
-          <FieldWrap label="Chave Pix" err={errs.chavePix} required>
-            <input style={inputStyle(errs.chavePix)} value={form.chavePix} onChange={e=>set('chavePix',e.target.value)} placeholder="CPF, e-mail, telefone ou aleatoria"/>
+          <FieldWrap label="🔑 Chave Pix" err={errs.chavePix} required>
+            <input style={iStyle(errs.chavePix)} value={form.chavePix} onChange={e=>set('chavePix',e.target.value)} placeholder="CPF, e-mail, telefone ou aleatória"/>
           </FieldWrap>
-
           <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:12}}>
-            <FieldWrap label="Valor Emprestado (R$)" err={errs.valorEmprestado} required>
-              <input type="number" min="0.01" step="0.01" style={inputStyle(errs.valorEmprestado)} value={form.valorEmprestado} onChange={e=>set('valorEmprestado',e.target.value)} placeholder="0,00"/>
+            <FieldWrap label="💰 Valor Emprestado" err={errs.valorEmprestado} required>
+              <input type="number" min="0.01" step="0.01" style={iStyle(errs.valorEmprestado)} value={form.valorEmprestado} onChange={e=>set('valorEmprestado',e.target.value)} placeholder="0,00"/>
             </FieldWrap>
-            <FieldWrap label="Taxa (%)">
-              <input type="number" min="0" max="9999" step="0.1" style={inputStyle(false)} value={form.taxaServico} onChange={e=>set('taxaServico',e.target.value)} placeholder="30"/>
+            <FieldWrap label="📈 Taxa (%)">
+              <input type="number" min="0" max="9999" step="0.1" style={iStyle(false)} value={form.taxaServico} onChange={e=>set('taxaServico',e.target.value)} placeholder="30"/>
             </FieldWrap>
           </div>
 
-          {/* Financial preview */}
           {retorno > 0 && (
-            <div style={{background:'rgba(74,111,165,.08)',border:'1px solid rgba(74,111,165,.2)',borderRadius:14,padding:14,marginBottom:14}}>
-              <div style={{fontSize:10,color:'#4a6fa5',fontWeight:700,letterSpacing:'.06em',textTransform:'uppercase',marginBottom:10}}>Previsao Financeira</div>
-              <div style={{display:'grid',gridTemplateColumns:'1fr 1fr 1fr',gap:8}}>
+            <div style={{background:'linear-gradient(135deg,rgba(74,111,165,.1),rgba(29,58,110,.05))',border:'1px solid rgba(74,111,165,.2)',borderRadius:18,padding:16,marginBottom:14}}>
+              <div style={{fontSize:10,color:'#4a6fa5',fontWeight:700,letterSpacing:'.07em',textTransform:'uppercase',marginBottom:12}}>💡 Previsão Financeira</div>
+              <div style={{display:'grid',gridTemplateColumns:'1fr 1fr 1fr',gap:8,textAlign:'center'}}>
                 <div>
-                  <div style={{fontSize:9,color:'#4b5563',textTransform:'uppercase',letterSpacing:'.05em'}}>Retorno Total</div>
-                  <div style={{fontSize:15,fontWeight:800,color:'#4a6fa5',marginTop:2}}>{R$(retorno)}</div>
+                  <div style={{fontSize:9,color:'#4b5563',textTransform:'uppercase',letterSpacing:'.05em',marginBottom:4}}>Retorno Total</div>
+                  <div style={{fontSize:16,fontWeight:900,color:'#4a6fa5'}}>{R$(retorno)}</div>
                 </div>
                 <div>
-                  <div style={{fontSize:9,color:'#4b5563',textTransform:'uppercase',letterSpacing:'.05em'}}>Parte {SOCIO_NOME}</div>
-                  <div style={{fontSize:15,fontWeight:800,color:'#a78bfa',marginTop:2}}>{R$(socio)}</div>
+                  <div style={{fontSize:9,color:'#4b5563',textTransform:'uppercase',letterSpacing:'.05em',marginBottom:4}}>{SOCIO_NOME} 🤝</div>
+                  <div style={{fontSize:16,fontWeight:900,color:'#a78bfa'}}>{R$(socio)}</div>
                 </div>
                 <div>
-                  <div style={{fontSize:9,color:'#4b5563',textTransform:'uppercase',letterSpacing:'.05em'}}>Seu Liquido</div>
-                  <div style={{fontSize:15,fontWeight:800,color:'#34d399',marginTop:2}}>{R$(liquido)}</div>
+                  <div style={{fontSize:9,color:'#4b5563',textTransform:'uppercase',letterSpacing:'.05em',marginBottom:4}}>Seu Lucro 🏆</div>
+                  <div style={{fontSize:16,fontWeight:900,color:'#10b981'}}>{R$(liquido)}</div>
                 </div>
               </div>
             </div>
           )}
 
           <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:12}}>
-            <FieldWrap label="Data Inicio" err={errs.dataInicio} required>
-              <input type="date" style={{...inputStyle(errs.dataInicio),colorScheme:'dark'}} value={form.dataInicio} onChange={e=>set('dataInicio',e.target.value)}/>
+            <FieldWrap label="📅 Data Início" err={errs.dataInicio} required>
+              <input type="date" style={{...iStyle(errs.dataInicio),colorScheme:'dark'}} value={form.dataInicio} onChange={e=>set('dataInicio',e.target.value)}/>
             </FieldWrap>
-            <FieldWrap label="Data Vencimento" err={errs.dataVencimento} required>
-              <input type="date" style={{...inputStyle(errs.dataVencimento),colorScheme:'dark'}} value={form.dataVencimento} onChange={e=>set('dataVencimento',e.target.value)}/>
+            <FieldWrap label="🏁 Vencimento" err={errs.dataVencimento} required>
+              <input type="date" style={{...iStyle(errs.dataVencimento),colorScheme:'dark'}} value={form.dataVencimento} onChange={e=>set('dataVencimento',e.target.value)}/>
             </FieldWrap>
           </div>
-
-          <FieldWrap label="Observacoes">
-            <textarea rows={2} style={{...inputStyle(false),resize:'none'}} value={form.observacoes} onChange={e=>set('observacoes',e.target.value)} placeholder="Garantias, referencias, etc."/>
+          <FieldWrap label="📝 Observações">
+            <textarea rows={2} style={{...iStyle(false),resize:'none'}} value={form.observacoes} onChange={e=>set('observacoes',e.target.value)} placeholder="Garantias, referências, etc."/>
           </FieldWrap>
 
           <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:12,marginTop:4}}>
-            <button type="button" onClick={onClose} style={{
-              background:'rgba(255,255,255,.06)',border:'1px solid rgba(255,255,255,.08)',
-              color:'#9ca3af',borderRadius:14,padding:'13px',fontSize:14,fontWeight:600,cursor:'pointer',fontFamily:'inherit'
-            }}>Cancelar</button>
-            <button type="submit" disabled={saving} style={{
-              background:'linear-gradient(135deg,#4a6fa5,#1d3a6e)',border:'none',
-              color:'#fff',borderRadius:14,padding:'13px',fontSize:14,fontWeight:700,cursor:'pointer',fontFamily:'inherit',
-              boxShadow:'0 4px 20px rgba(29,58,110,.4)',opacity:saving?.7:1
-            }}>
-              {saving ? 'Salvando...' : contract ? 'Salvar' : 'Cadastrar'}
+            <button type="button" onClick={onClose} style={{background:'rgba(255,255,255,.05)',border:'1px solid rgba(255,255,255,.07)',color:'#6b7280',borderRadius:14,padding:'14px',fontSize:14,fontWeight:700,cursor:'pointer',fontFamily:'inherit'}}>
+              Cancelar
+            </button>
+            <button type="submit" disabled={saving} style={{background:'linear-gradient(135deg,#4a6fa5,#1d3a6e)',border:'none',color:'#fff',borderRadius:14,padding:'14px',fontSize:14,fontWeight:700,cursor:'pointer',fontFamily:'inherit',boxShadow:'0 4px 24px rgba(29,58,110,.5)',opacity:saving?0.65:1}}>
+              {saving ? '⏳ Salvando...' : contract ? '✅ Salvar' : '💸 Cadastrar'}
             </button>
           </div>
         </form>
@@ -449,152 +468,192 @@ const ContractModal = ({ contract, onSave, onClose }) => {
   );
 };
 
-/* ── Delete Modal ───────────────────────────────────────────────────────────── */
+/* ── Delete Modal ── */
 const DeleteModal = ({ name, onConfirm, onClose }) => (
-  <div style={{position:'fixed',inset:0,background:'rgba(0,0,0,.8)',backdropFilter:'blur(6px)',zIndex:50,display:'flex',alignItems:'center',justifyContent:'center',padding:20}} onClick={e=>e.target===e.currentTarget&&onClose()}>
-    <div className="modal-in" style={{background:'#1a1d26',border:'1px solid #22263a',borderRadius:20,padding:24,width:'100%',maxWidth:340}}>
-      <div style={{width:44,height:44,background:'rgba(239,68,68,.1)',borderRadius:12,display:'flex',alignItems:'center',justifyContent:'center',marginBottom:16}}>
-        <Icon d={ICONS.trash} size={20} stroke="#ef4444"/>
-      </div>
-      <div style={{fontWeight:800,fontSize:16,color:'#f1f5f9',marginBottom:6}}>Excluir contrato</div>
-      <div style={{fontSize:13,color:'#6b7280',lineHeight:1.6,marginBottom:20}}>
-        Tem certeza que deseja excluir o contrato de <strong style={{color:'#f1f5f9'}}>{name}</strong>?<br/>
-        <span style={{fontSize:11,color:'#4b5563'}}>Esta acao nao pode ser desfeita.</span>
+  <div style={{position:'fixed',inset:0,background:'rgba(0,0,0,.85)',backdropFilter:'blur(10px)',zIndex:50,display:'flex',alignItems:'center',justifyContent:'center',padding:20}} onClick={e=>e.target===e.currentTarget&&onClose()}>
+    <div className="modal-in" style={{background:'#0c0e16',border:'1px solid rgba(239,68,68,.2)',borderRadius:26,padding:28,width:'100%',maxWidth:340,textAlign:'center'}}>
+      <div style={{fontSize:42,marginBottom:10}}>🗑️</div>
+      <div style={{fontWeight:900,fontSize:17,color:'#f1f5f9',marginBottom:8}}>Excluir contrato</div>
+      <div style={{fontSize:13,color:'#6b7280',lineHeight:1.6,marginBottom:24}}>
+        Tem certeza que deseja excluir o contrato de <strong style={{color:'#f1f5f9'}}>{name}</strong>?
+        <br/><span style={{fontSize:11,color:'#4b5563'}}>Esta ação não pode ser desfeita.</span>
       </div>
       <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:10}}>
-        <button onClick={onClose} style={{background:'rgba(255,255,255,.06)',border:'1px solid rgba(255,255,255,.08)',color:'#9ca3af',borderRadius:12,padding:'12px',fontSize:13,fontWeight:600,cursor:'pointer',fontFamily:'inherit'}}>Cancelar</button>
-        <button onClick={onConfirm} style={{background:'#dc2626',border:'none',color:'#fff',borderRadius:12,padding:'12px',fontSize:13,fontWeight:700,cursor:'pointer',fontFamily:'inherit'}}>Excluir</button>
+        <button onClick={onClose} style={{background:'rgba(255,255,255,.06)',border:'1px solid rgba(255,255,255,.08)',color:'#9ca3af',borderRadius:14,padding:'13px',fontSize:14,fontWeight:700,cursor:'pointer',fontFamily:'inherit'}}>Cancelar</button>
+        <button onClick={onConfirm} style={{background:'linear-gradient(135deg,#dc2626,#991b1b)',border:'none',color:'#fff',borderRadius:14,padding:'13px',fontSize:14,fontWeight:700,cursor:'pointer',fontFamily:'inherit',boxShadow:'0 4px 20px rgba(220,38,38,.35)'}}>🗑️ Excluir</button>
       </div>
     </div>
   </div>
 );
 
-/* ── Contract Card (mobile) ─────────────────────────────────────────────────── */
-const ContractCard = ({ c, onEdit, onDelete }) => {
+/* ── Meta Modal ── */
+const MetaModal = ({ current, onSave, onClose }) => {
+  const [val, setVal] = useState(current > 0 ? String(current) : '');
+  return (
+    <div style={{position:'fixed',inset:0,background:'rgba(0,0,0,.85)',backdropFilter:'blur(10px)',zIndex:50,display:'flex',alignItems:'center',justifyContent:'center',padding:20}} onClick={e=>e.target===e.currentTarget&&onClose()}>
+      <div className="modal-in" style={{background:'#0c0e16',border:'1px solid rgba(74,111,165,.25)',borderRadius:26,padding:28,width:'100%',maxWidth:340,textAlign:'center'}}>
+        <div style={{fontSize:42,marginBottom:8}}>🎯</div>
+        <div style={{fontWeight:900,fontSize:18,color:'#f1f5f9',marginBottom:4}}>Meta do Mês</div>
+        <div style={{fontSize:12,color:'#4b5563',marginBottom:22}}>Quanto quer lucrar esse mês?</div>
+        <FieldWrap label="💰 Meta de Lucro Líquido (R$)">
+          <input type="number" min="0" step="0.01" style={{...iStyle(false),textAlign:'center',fontSize:20,fontWeight:700}} value={val} onChange={e=>setVal(e.target.value)} placeholder="5000,00" autoFocus/>
+        </FieldWrap>
+        <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:10,marginTop:8}}>
+          <button onClick={onClose} style={{background:'rgba(255,255,255,.06)',border:'1px solid rgba(255,255,255,.08)',color:'#9ca3af',borderRadius:14,padding:'13px',fontSize:14,fontWeight:700,cursor:'pointer',fontFamily:'inherit'}}>Cancelar</button>
+          <button onClick={()=>onSave(parseFloat(val)||0)} style={{background:'linear-gradient(135deg,#4a6fa5,#1d3a6e)',border:'none',color:'#fff',borderRadius:14,padding:'13px',fontSize:14,fontWeight:700,cursor:'pointer',fontFamily:'inherit',boxShadow:'0 4px 20px rgba(29,58,110,.45)'}}>🎯 Definir</button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+/* ── Contract Card ── */
+const ContractCard = ({ c, onEdit, onDelete, onTogglePago, index }) => {
   const [open, setOpen] = useState(false);
   const fin    = calcFin(c);
-  const status = getStatus(c.dataVencimento);
+  const isPago = !!c.pago;
   const days   = daysLeft(c.dataVencimento);
-  const isLate = days < 0;
+  const isLate   = !isPago && days < 0;
+  const isToday  = !isPago && days === 0;
+  const isUrgent = !isPago && days > 0 && days <= 5;
 
   const initials = c.nome.trim().split(' ').filter(Boolean).slice(0,2).map(w=>w[0].toUpperCase()).join('');
 
-  const statusColor = isLate ? '#ef4444' : days===0 ? '#f59e0b' : days<=5 ? '#f97316' : '#4a6fa5';
-  const statusBg    = isLate ? 'rgba(239,68,68,.1)' : days===0 ? 'rgba(245,158,11,.1)' : days<=5 ? 'rgba(249,115,22,.1)' : 'rgba(74,111,165,.1)';
-  const statusRing  = isLate ? 'rgba(239,68,68,.25)' : days===0 ? 'rgba(245,158,11,.25)' : days<=5 ? 'rgba(249,115,22,.25)' : 'rgba(74,111,165,.25)';
+  const accentColor = isPago ? '#10b981' : isLate ? '#ef4444' : isToday ? '#f59e0b' : isUrgent ? '#f97316' : '#4a6fa5';
+  const statusEmoji = isPago ? '✅' : isLate ? '🔴' : isToday ? '🟡' : isUrgent ? '🟠' : '🟢';
+  const statusText  = isPago ? 'Pago' : isLate ? 'Atrasado' : isToday ? 'Vence Hoje' : 'No Prazo';
+  const statusBg    = isPago ? 'rgba(16,185,129,.1)' : isLate ? 'rgba(239,68,68,.1)' : isToday ? 'rgba(245,158,11,.1)' : isUrgent ? 'rgba(249,115,22,.1)' : 'rgba(74,111,165,.08)';
 
   const openWA = () => {
     if(!c.telefone) return;
     const d = c.telefone.replace(/\D/g,'');
     const br = d.startsWith('55') ? d : '55'+d;
-    window.open(`https://wa.me/${br}?text=${encodeURIComponent(`Ola ${c.nome.split(' ')[0]}, tudo bem? Passando para lembrar sobre o contrato.`)}`, '_blank');
+    window.open(`https://wa.me/${br}?text=${encodeURIComponent(`Olá ${c.nome.split(' ')[0]}, tudo bem? Passando para lembrar sobre o contrato.`)}`, '_blank');
   };
 
   return (
-    <div className="fade-up" style={{
-      background:'#1a1d26',border:`1px solid ${isLate?'rgba(239,68,68,.2)':'#22263a'}`,
-      borderRadius:18,overflow:'hidden',marginBottom:10,
-      boxShadow: isLate ? '0 0 0 1px rgba(239,68,68,.1)' : 'none',
+    <div className="contract-card fade-up" style={{
+      animationDelay:`${index * 0.06}s`,
+      background:'#0c0e16',
+      border:`1px solid rgba(${isPago?'16,185,129':isLate?'239,68,68':isToday?'245,158,11':isUrgent?'249,115,22':'74,111,165'},.15)`,
+      borderRadius:20,overflow:'hidden',marginBottom:12,
+      borderLeft:`3px solid ${accentColor}`,
+      boxShadow:`0 4px 28px rgba(0,0,0,.35), 0 0 0 0 ${accentColor}`,
     }}>
-      {/* top row */}
-      <div style={{padding:'14px 16px',display:'flex',alignItems:'center',gap:12}}>
-        {/* avatar */}
+      {/* header row */}
+      <div style={{padding:'14px 16px 10px',display:'flex',alignItems:'center',gap:12}}>
         <div style={{
-          width:42,height:42,borderRadius:13,
-          background:'linear-gradient(135deg,#1d3a6e,#4a6fa5)',
+          width:46,height:46,borderRadius:14,flexShrink:0,
+          background: isPago ? 'linear-gradient(135deg,#064e3b,#10b981)' : isLate ? 'linear-gradient(135deg,#7f1d1d,#ef4444)' : 'linear-gradient(135deg,#1d3a6e,#4a6fa5)',
           display:'flex',alignItems:'center',justifyContent:'center',
-          fontSize:14,fontWeight:800,color:'#fff',flexShrink:0,
-          boxShadow:'0 4px 12px rgba(29,58,110,.3)'
+          fontSize:15,fontWeight:900,color:'#fff',
+          boxShadow:`0 4px 16px rgba(${isPago?'16,185,129':isLate?'239,68,68':'29,58,110'},.3)`,
         }}>{initials}</div>
 
-        {/* name + pix */}
         <div style={{flex:1,minWidth:0}}>
-          <div style={{fontWeight:700,fontSize:15,color:'#f1f5f9',overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap'}}>{c.nome}</div>
-          <div style={{fontSize:11,color:'#4b5563',overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap',marginTop:1}}>{c.chavePix}</div>
+          <div style={{fontWeight:800,fontSize:15,color:'#f1f5f9',overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap'}}>{c.nome}</div>
+          <div style={{fontSize:11,color:'#374151',overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap',marginTop:1}}>🔑 {c.chavePix}</div>
         </div>
 
-        {/* status pill */}
-        <div style={{
-          background:statusBg,border:`1px solid ${statusRing}`,color:statusColor,
-          borderRadius:99,padding:'4px 10px',fontSize:11,fontWeight:700,flexShrink:0,
-          ...(isLate?{boxShadow:`0 0 0 0 ${statusColor}`}:{})
-        }} className={isLate?'pulse':''}>
-          {status}
+        <div style={{display:'flex',alignItems:'center',gap:4,background:statusBg,border:`1px solid ${accentColor}22`,color:accentColor,borderRadius:99,padding:'5px 11px',fontSize:11,fontWeight:700,flexShrink:0}} className={isLate?'pulse':''}>
+          <span style={{fontSize:10}}>{statusEmoji}</span>{statusText}
         </div>
       </div>
 
-      {/* countdown */}
+      {/* countdown / paid */}
       <div style={{padding:'0 16px 12px'}}>
-        <Countdown dataInicio={c.dataInicio} dataVencimento={c.dataVencimento}/>
-        <ProgressBar dataInicio={c.dataInicio} dataVencimento={c.dataVencimento}/>
+        {isPago ? (
+          <div style={{display:'flex',alignItems:'center',gap:10,padding:'10px 14px',background:'rgba(16,185,129,.07)',borderRadius:14,border:'1px solid rgba(16,185,129,.15)'}}>
+            <span style={{fontSize:26}}>✅</span>
+            <div>
+              <div style={{fontSize:13,fontWeight:800,color:'#10b981'}}>Pagamento Recebido! 🎉</div>
+              <div style={{fontSize:10,color:'#4b5563',marginTop:2}}>Lucro líquido: <span style={{color:'#10b981',fontWeight:700}}>{R$(fin.liquido)}</span></div>
+            </div>
+          </div>
+        ) : (
+          <>
+            <Countdown dataInicio={c.dataInicio} dataVencimento={c.dataVencimento}/>
+            <ProgressBar dataInicio={c.dataInicio} dataVencimento={c.dataVencimento}/>
+          </>
+        )}
       </div>
 
-      {/* values row */}
-      <div style={{
-        display:'grid',gridTemplateColumns:'1fr 1fr 1fr',gap:1,
-        background:'rgba(255,255,255,.04)',borderTop:'1px solid #22263a',borderBottom:'1px solid #22263a',
-      }}>
+      {/* values */}
+      <div style={{display:'grid',gridTemplateColumns:'1fr 1fr 1fr',borderTop:'1px solid #1a1d2a',borderBottom:'1px solid #1a1d2a'}}>
         {[
-          {l:'Emprestado', v:R$(c.valorEmprestado), c:'#9ca3af'},
-          {l:'Retorno',    v:R$(c.valorRetorno),    c:'#4a6fa5'},
-          {l:'Seu Lucro',  v:R$(fin.liquido),       c:'#34d399'},
-        ].map(({l,v,c:col},i)=>(
-          <div key={i} style={{padding:'10px 12px',textAlign:'center',background:'#1a1d26',...(i===1?{borderLeft:'1px solid #22263a',borderRight:'1px solid #22263a'}:{})}}>
-            <div style={{fontSize:9,color:'#374151',textTransform:'uppercase',letterSpacing:'.06em',marginBottom:3}}>{l}</div>
+          {l:'💵 Emprestado', v:R$(c.valorEmprestado), col:'#6b7280'},
+          {l:'📈 Retorno',    v:R$(c.valorRetorno),    col:'#4a6fa5'},
+          {l:'🏆 Seu Lucro',  v:R$(fin.liquido),       col:'#10b981'},
+        ].map(({l,v,col},i) => (
+          <div key={i} style={{padding:'10px 8px',textAlign:'center',background:i===1?'rgba(74,111,165,.03)':'transparent',borderLeft:i>0?'1px solid #1a1d2a':'none'}}>
+            <div style={{fontSize:8,color:'#374151',textTransform:'uppercase',letterSpacing:'.05em',marginBottom:3}}>{l}</div>
             <div style={{fontSize:13,fontWeight:800,color:col}}>{v}</div>
           </div>
         ))}
       </div>
 
-      {/* expandable: partner split */}
-      <button onClick={()=>setOpen(o=>!o)} style={{
-        width:'100%',background:'none',border:'none',cursor:'pointer',
-        display:'flex',alignItems:'center',justifyContent:'space-between',
-        padding:'10px 16px',color:'#4b5563',fontFamily:'inherit',
-      }}>
-        <span style={{fontSize:11,fontWeight:600,letterSpacing:'.04em'}}>VER DIVISAO DE LUCROS</span>
-        <Icon d={open?ICONS.chevup:ICONS.chevdown} size={14}/>
+      {/* profit split toggle */}
+      <button onClick={()=>setOpen(o=>!o)} style={{width:'100%',background:'none',border:'none',cursor:'pointer',display:'flex',alignItems:'center',justifyContent:'space-between',padding:'10px 16px',color:'#4b5563',fontFamily:'inherit'}}>
+        <span style={{fontSize:11,fontWeight:700,letterSpacing:'.04em'}}>💼 VER DIVISÃO DE LUCROS</span>
+        <Icon d={open?ICONS.chevup:ICONS.chevdown} size={13}/>
       </button>
 
       {open && (
         <div className="slide-down" style={{padding:'0 14px 14px',display:'grid',gridTemplateColumns:'1fr 1fr 1fr',gap:8}}>
-          <ProfitRow label="Lucro Bruto" value={R$(fin.lucro)} color="#9ca3af" sub={`${c.taxaServico}% da op.`}/>
-          <ProfitRow label={`${SOCIO_NOME} (30%)`} value={R$(fin.socio)} color="#a78bfa" sub="30% do lucro"/>
-          <ProfitRow label="Seu Liquido" value={R$(fin.liquido)} color="#34d399" sub="70% do lucro"/>
+          {[
+            {l:'Lucro Bruto', v:R$(fin.lucro),   col:'#6b7280', emoji:'💰'},
+            {l:SOCIO_NOME,    v:R$(fin.socio),   col:'#a78bfa', emoji:'🤝'},
+            {l:'Seu Lucro',   v:R$(fin.liquido), col:'#10b981', emoji:'🏆'},
+          ].map(({l,v,col,emoji},i) => (
+            <div key={i} style={{background:'rgba(255,255,255,.02)',border:'1px solid rgba(255,255,255,.05)',borderRadius:13,padding:'10px 8px',textAlign:'center'}}>
+              <div style={{fontSize:16,marginBottom:4}}>{emoji}</div>
+              <div style={{fontSize:9,color:'#4b5563',textTransform:'uppercase',letterSpacing:'.05em',marginBottom:4}}>{l}</div>
+              <div style={{fontSize:13,fontWeight:800,color:col}}>{v}</div>
+            </div>
+          ))}
         </div>
       )}
 
       {/* actions */}
-      <div style={{display:'flex',borderTop:'1px solid #22263a',gap:1}}>
+      <div style={{display:'flex',borderTop:'1px solid #1a1d2a'}}>
+        <button onClick={()=>onTogglePago(c)} style={{
+          flex:1.3,background:isPago?'rgba(16,185,129,.08)':'none',border:'none',cursor:'pointer',
+          padding:'12px 6px',display:'flex',alignItems:'center',justifyContent:'center',gap:5,
+          color:isPago?'#10b981':'#4b5563',fontFamily:'inherit',fontSize:11,fontWeight:700,transition:'all .2s',
+        }}>
+          {isPago ? '✅' : '⬜'} {isPago ? 'Pago' : 'Marcar Pago'}
+        </button>
         {c.telefone && (
-          <button onClick={openWA} style={{flex:1,background:'none',border:'none',cursor:'pointer',padding:'11px',display:'flex',alignItems:'center',justifyContent:'center',gap:6,color:'#22c55e',fontFamily:'inherit',fontSize:12,fontWeight:600}}>
-            <WA size={14}/>WhatsApp
+          <button onClick={openWA} style={{flex:1,background:'none',border:'none',borderLeft:'1px solid #1a1d2a',cursor:'pointer',padding:'12px 6px',display:'flex',alignItems:'center',justifyContent:'center',gap:5,color:'#22c55e',fontFamily:'inherit',fontSize:11,fontWeight:600}}>
+            <WA size={13}/>WA
           </button>
         )}
-        <button onClick={()=>onEdit(c)} style={{flex:1,background:'none',border:'none',cursor:'pointer',padding:'11px',display:'flex',alignItems:'center',justifyContent:'center',gap:6,color:'#4a6fa5',fontFamily:'inherit',fontSize:12,fontWeight:600,borderLeft:'1px solid #22263a'}}>
-          <Icon d={ICONS.edit} size={13}/>Editar
+        <button onClick={()=>onEdit(c)} style={{flex:1,background:'none',border:'none',borderLeft:'1px solid #1a1d2a',cursor:'pointer',padding:'12px 6px',display:'flex',alignItems:'center',justifyContent:'center',gap:5,color:'#4a6fa5',fontFamily:'inherit',fontSize:11,fontWeight:600}}>
+          ✏️ Editar
         </button>
-        <button onClick={()=>onDelete(c)} style={{flex:1,background:'none',border:'none',cursor:'pointer',padding:'11px',display:'flex',alignItems:'center',justifyContent:'center',gap:6,color:'#ef4444',fontFamily:'inherit',fontSize:12,fontWeight:600,borderLeft:'1px solid #22263a'}}>
-          <Icon d={ICONS.trash} size={13}/>Excluir
+        <button onClick={()=>onDelete(c)} style={{flex:1,background:'none',border:'none',borderLeft:'1px solid #1a1d2a',cursor:'pointer',padding:'12px 6px',display:'flex',alignItems:'center',justifyContent:'center',gap:5,color:'#ef4444',fontFamily:'inherit',fontSize:11,fontWeight:600}}>
+          🗑️
         </button>
       </div>
     </div>
   );
 };
 
-/* ── Main App ───────────────────────────────────────────────────────────────── */
+/* ── App ── */
 const App = () => {
-  const [user,      setUser]     = useState(null);
-  const [contracts, setContracts]= useState([]);
-  const [loading,   setLoading]  = useState(true);
-  const [search,    setSearch]   = useState('');
-  const [modal,     setModal]    = useState(null);
-  const [delTgt,    setDelTgt]   = useState(null);
-  const [filter,    setFilter]   = useState('all');
-  const [toast,     setToast]    = useState(null);
-  const [tab,       setTab]      = useState('contratos'); // 'contratos' | 'financeiro'
+  const [user,      setUser]      = useState(null);
+  const [contracts, setContracts] = useState([]);
+  const [loading,   setLoading]   = useState(true);
+  const [search,    setSearch]    = useState('');
+  const [modal,     setModal]     = useState(null);
+  const [delTgt,    setDelTgt]    = useState(null);
+  const [filter,    setFilter]    = useState('all');
+  const [toast,     setToast]     = useState(null);
+  const [tab,       setTab]       = useState('contratos');
+  const [meta,      setMeta]      = useState(() => parseFloat(localStorage.getItem('bobopix_meta')||'0'));
+  const [metaModal, setMetaModal] = useState(false);
 
-  const showToast = (msg, type='success') => { setToast({msg,type}); setTimeout(()=>setToast(null),3000); };
+  const showToast = (msg, type='success') => { setToast({msg,type}); setTimeout(()=>setToast(null),3200); };
 
   const load = useCallback(async () => {
     const data = await api.get('/api/contratos');
@@ -612,261 +671,311 @@ const App = () => {
   },[]);
 
   const handleSave = async data => {
-    const exists = contracts.find(c=>c.id===data.id);
-    if(exists) await api.put(`/api/contratos/${data.id}`,data);
-    else        await api.post('/api/contratos',data);
+    const exists = contracts.find(c => c.id === data.id);
+    if(exists) await api.put(`/api/contratos/${data.id}`, data);
+    else       await api.post('/api/contratos', data);
     await load();
     setModal(null);
-    showToast(exists?'Contrato atualizado!':'Contrato cadastrado!');
+    showToast(exists ? 'Contrato atualizado! ✅' : 'Contrato cadastrado! 💸');
   };
 
   const handleDelete = async () => {
     await api.delete(`/api/contratos/${delTgt.id}`);
     await load();
     setDelTgt(null);
-    showToast('Contrato excluido.','info');
+    showToast('Contrato excluído.', 'info');
+  };
+
+  const handleTogglePago = async c => {
+    const updated = { ...c, pago: !c.pago };
+    await api.put(`/api/contratos/${c.id}`, updated);
+    await load();
+    showToast(updated.pago ? '💰 Pagamento recebido!' : 'Marcado como não pago.', updated.pago ? 'success' : 'info');
+  };
+
+  const handleSetMeta = val => {
+    setMeta(val);
+    localStorage.setItem('bobopix_meta', String(val));
+    setMetaModal(false);
+    showToast('🎯 Meta definida!');
   };
 
   const logout = async () => { await api.post('/api/logout',{}); window.location='/login'; };
 
-  const filtered = useMemo(()=>{
-    const q=search.toLowerCase().replace(/\D/g,''), qr=search.toLowerCase();
-    return contracts
-      .filter(c=>{
-        if(filter==='Atrasado'&&getStatus(c.dataVencimento)!=='Atrasado') return false;
-        if(filter==='Hoje'&&getStatus(c.dataVencimento)!=='Vence Hoje') return false;
-        if(filter==='Prazo'&&getStatus(c.dataVencimento)!=='No Prazo') return false;
-        if(!search) return true;
-        return c.nome.toLowerCase().includes(qr)||c.cpf.replace(/\D/g,'').includes(q);
-      })
-      .sort((a,b)=>daysLeft(a.dataVencimento)-daysLeft(b.dataVencimento));
-  },[contracts,search,filter]);
-
   const summary = useMemo(()=>{
-    const inv   = contracts.reduce((s,c)=>s+c.valorEmprestado,0);
-    const rec   = contracts.reduce((s,c)=>s+c.valorRetorno,0);
-    const lucro = contracts.reduce((s,c)=>s+calcFin(c).lucro,0);
-    const socio = contracts.reduce((s,c)=>s+calcFin(c).socio,0);
-    const liq   = contracts.reduce((s,c)=>s+calcFin(c).liquido,0);
-    const late  = contracts.filter(c=>getStatus(c.dataVencimento)==='Atrasado').length;
-    const hoje  = contracts.filter(c=>getStatus(c.dataVencimento)==='Vence Hoje').length;
-    return {inv,rec,lucro,socio,liq,late,hoje,count:contracts.length};
+    const pagos    = contracts.filter(c => c.pago);
+    const inv      = contracts.reduce((s,c) => s+c.valorEmprestado, 0);
+    const rec      = contracts.reduce((s,c) => s+c.valorRetorno, 0);
+    const lucro    = contracts.reduce((s,c) => s+calcFin(c).lucro, 0);
+    const socio    = contracts.reduce((s,c) => s+calcFin(c).socio, 0);
+    const liq      = contracts.reduce((s,c) => s+calcFin(c).liquido, 0);
+    const liqPago  = pagos.reduce((s,c) => s+calcFin(c).liquido, 0);
+    const late     = contracts.filter(c => !c.pago && daysLeft(c.dataVencimento) < 0).length;
+    const hoje     = contracts.filter(c => !c.pago && daysLeft(c.dataVencimento) === 0).length;
+    return { inv, rec, lucro, socio, liq, liqPago, late, hoje, count:contracts.length, pagoCount:pagos.length };
   },[contracts]);
 
+  const filtered = useMemo(()=>{
+    const q  = search.toLowerCase().replace(/\D/g,'');
+    const qr = search.toLowerCase();
+    return contracts
+      .filter(c => {
+        if(filter==='Pago'     && !c.pago) return false;
+        if(filter==='Atrasado' && (c.pago || daysLeft(c.dataVencimento) >= 0)) return false;
+        if(filter==='Hoje'     && (c.pago || daysLeft(c.dataVencimento) !== 0)) return false;
+        if(filter==='Prazo'    && (c.pago || daysLeft(c.dataVencimento) <= 0))  return false;
+        if(!search) return true;
+        return c.nome.toLowerCase().includes(qr) || c.cpf.replace(/\D/g,'').includes(q);
+      })
+      .sort((a,b) => {
+        if(a.pago && !b.pago) return 1;
+        if(!a.pago && b.pago) return -1;
+        return daysLeft(a.dataVencimento) - daysLeft(b.dataVencimento);
+      });
+  },[contracts, search, filter]);
+
   if(loading) return (
-    <div style={{minHeight:'100vh',background:'#13151c',display:'flex',alignItems:'center',justifyContent:'center',flexDirection:'column',gap:12}}>
-      <svg className="spin" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#4a6fa5" strokeWidth="2.5"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83" strokeLinecap="round"/></svg>
-      <div style={{fontSize:13,color:'#4b5563'}}>Carregando...</div>
+    <div style={{minHeight:'100vh',display:'flex',alignItems:'center',justifyContent:'center',flexDirection:'column',gap:16}}>
+      <div style={{fontSize:52}} className="float-anim">💰</div>
+      <svg className="spin" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#4a6fa5" strokeWidth="2.5"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83" strokeLinecap="round"/></svg>
+      <div style={{fontSize:13,color:'#4b5563',fontWeight:600,letterSpacing:'.05em'}}>Carregando...</div>
     </div>
   );
 
-  const filters = [['all','Todos'],['Prazo','No Prazo'],['Hoje','Hoje'],['Atrasado','Atrasados']];
+  const filterOptions = [
+    {v:'all',     l:'Todos',      emoji:'📋'},
+    {v:'Prazo',   l:'No Prazo',   emoji:'🟢'},
+    {v:'Hoje',    l:'Hoje',       emoji:'🟡'},
+    {v:'Atrasado',l:'Atrasados',  emoji:'🔴'},
+    {v:'Pago',    l:'Pagos',      emoji:'✅'},
+  ];
 
   return (
-    <div style={{minHeight:'100vh',background:'#13151c',maxWidth:480,margin:'0 auto',position:'relative'}}>
+    <div style={{minHeight:'100vh',maxWidth:480,margin:'0 auto'}}>
 
-      {/* ── Header ── */}
-      <div style={{
-        position:'sticky',top:0,zIndex:30,
-        background:'rgba(19,21,28,.95)',backdropFilter:'blur(16px)',
-        borderBottom:'1px solid #1a1d26',
-        padding:'14px 16px',
-        display:'flex',alignItems:'center',justifyContent:'space-between',
-      }}>
+      {/* Header */}
+      <div style={{position:'sticky',top:0,zIndex:30,background:'rgba(8,10,16,.92)',backdropFilter:'blur(22px)',borderBottom:'1px solid rgba(255,255,255,.04)',padding:'12px 16px',display:'flex',alignItems:'center',justifyContent:'space-between'}}>
         <div style={{display:'flex',alignItems:'center',gap:10}}>
-          <img src="/logo.png" alt="logo" style={{height:34,filter:'drop-shadow(0 2px 8px rgba(74,111,165,.4))'}}/>
+          <img src="/logo.png" alt="logo" style={{height:36,filter:'drop-shadow(0 2px 14px rgba(74,111,165,.55))'}} className="float-anim"/>
           <div>
-            <div style={{fontWeight:800,fontSize:15,color:'#f1f5f9',letterSpacing:'-.01em'}}>Bobo do Pix</div>
+            <div style={{fontWeight:900,fontSize:16,color:'#f1f5f9',letterSpacing:'-.02em'}}>Bobo do Pix 💰</div>
             <div style={{fontSize:10,color:'#374151',marginTop:1}}>
-              {summary.count} contrato{summary.count!==1?'s':''} &bull; {new Date().toLocaleDateString('pt-BR',{day:'2-digit',month:'short'})}
+              {summary.count} contrato{summary.count!==1?'s':''} &bull; {summary.pagoCount} pago{summary.pagoCount!==1?'s':''}
             </div>
           </div>
         </div>
         <div style={{display:'flex',alignItems:'center',gap:8}}>
-          {summary.late>0 && (
-            <div className="pulse" style={{background:'rgba(239,68,68,.1)',border:'1px solid rgba(239,68,68,.25)',borderRadius:99,padding:'4px 10px',fontSize:11,fontWeight:700,color:'#ef4444'}}>
-              {summary.late} atrasado{summary.late>1?'s':''}
+          {summary.late > 0 && (
+            <div className="pulse" style={{background:'rgba(239,68,68,.1)',border:'1px solid rgba(239,68,68,.3)',borderRadius:99,padding:'4px 10px',fontSize:11,fontWeight:700,color:'#ef4444'}}>
+              🔴 {summary.late}
             </div>
           )}
-          <button onClick={logout} style={{background:'rgba(255,255,255,.05)',border:'1px solid #1a1d26',borderRadius:10,width:34,height:34,display:'flex',alignItems:'center',justifyContent:'center',cursor:'pointer',color:'#6b7280'}}>
+          <button onClick={logout} style={{background:'rgba(255,255,255,.04)',border:'1px solid rgba(255,255,255,.06)',borderRadius:12,width:36,height:36,display:'flex',alignItems:'center',justifyContent:'center',cursor:'pointer',color:'#4b5563'}}>
             <Icon d={ICONS.logout} size={15}/>
           </button>
         </div>
       </div>
 
-      {/* ── Tabs ── */}
-      <div style={{display:'flex',gap:4,padding:'12px 16px 0',borderBottom:'1px solid #1a1d26'}}>
-        {[['contratos','Contratos'],['financeiro','Financeiro']].map(([k,l])=>(
+      {/* Tabs */}
+      <div style={{display:'flex',padding:'12px 16px 0',gap:4,borderBottom:'1px solid rgba(255,255,255,.04)',background:'rgba(8,10,16,.7)'}}>
+        {[['contratos','💳 Contratos'],['financeiro','📊 Financeiro']].map(([k,l]) => (
           <button key={k} onClick={()=>setTab(k)} style={{
-            flex:1,padding:'9px',borderRadius:12,border:'none',cursor:'pointer',
-            fontFamily:'inherit',fontSize:13,fontWeight:700,
-            background: tab===k ? 'rgba(74,111,165,.15)' : 'transparent',
-            color: tab===k ? '#4a6fa5' : '#4b5563',
-            borderBottom: tab===k ? '2px solid #4a6fa5' : '2px solid transparent',
-            transition:'all .15s',
+            flex:1,padding:'10px',borderRadius:14,border:'none',cursor:'pointer',fontFamily:'inherit',fontSize:13,fontWeight:700,
+            background:tab===k?'rgba(74,111,165,.15)':'transparent',
+            color:tab===k?'#7aa7d4':'#4b5563',
+            borderBottom:tab===k?'2px solid #4a6fa5':'2px solid transparent',
+            transition:'all .2s',
           }}>{l}</button>
         ))}
       </div>
 
-      {/* ══════════ TAB: CONTRATOS ══════════ */}
+      {/* ═══ TAB CONTRATOS ═══ */}
       {tab==='contratos' && (
         <div style={{padding:'14px 14px 120px'}}>
 
-          {/* summary cards */}
-          <div style={{display:'flex',gap:8,overflowX:'auto',paddingBottom:4,marginBottom:14,scrollbarWidth:'none'}}>
-            <SumCard label="Capital Investido" value={R$(summary.inv)}  icon={ICONS.coin}  accent="rgba(74,111,165,.15)"  sub={`${summary.count} contratos`}/>
-            <SumCard label="Total a Receber"   value={R$(summary.rec)}  icon={ICONS.trend} accent="rgba(74,111,165,.15)"  sub="Soma retornos"/>
-            <SumCard label="Seu Lucro Liq."    value={R$(summary.liq)}  icon={ICONS.chart} accent="rgba(52,211,153,.1)"   sub="Descontado socio"/>
+          {/* Meta */}
+          <div className="fade-up" style={{marginBottom:14}}>
+            <MetaRing current={summary.liqPago} meta={meta} onClick={()=>setMetaModal(true)}/>
           </div>
 
-          {/* search */}
+          {/* Stats */}
+          <div style={{display:'grid',gridTemplateColumns:'1fr 1fr 1fr',gap:8,marginBottom:14}}>
+            {[
+              {emoji:'💰', l:'Em Giro',   v:summary.inv, col:'#4a6fa5', delay:'0s'},
+              {emoji:'📈', l:'A Receber', v:summary.rec, col:'#a78bfa', delay:'.05s'},
+              {emoji:'🏆', l:'Seu Lucro', v:summary.liq, col:'#10b981', delay:'.1s'},
+            ].map(({emoji,l,v,col,delay},i) => (
+              <div key={i} className="fade-up" style={{animationDelay:delay,background:'#0c0e16',border:'1px solid #1a1d2a',borderRadius:16,padding:'14px 10px',textAlign:'center'}}>
+                <div style={{fontSize:22,marginBottom:5}}>{emoji}</div>
+                <div style={{fontSize:9,color:'#4b5563',textTransform:'uppercase',letterSpacing:'.06em',marginBottom:4,fontWeight:700}}>{l}</div>
+                <div style={{fontSize:12,fontWeight:900,color:col,letterSpacing:'-.01em',lineHeight:1.2}}>
+                  <AnimVal value={v}/>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Search */}
           <div style={{position:'relative',marginBottom:10}}>
-            <div style={{position:'absolute',left:12,top:'50%',transform:'translateY(-50%)',color:'#2e3550',pointerEvents:'none'}}>
+            <div style={{position:'absolute',left:13,top:'50%',transform:'translateY(-50%)',color:'#2e3550',pointerEvents:'none'}}>
               <Icon d={ICONS.search} size={15}/>
             </div>
-            <input value={search} onChange={e=>setSearch(e.target.value)} placeholder="Buscar por nome ou CPF..."
-              style={{width:'100%',background:'#1a1d26',border:'1px solid #22263a',borderRadius:12,padding:'11px 36px 11px 38px',fontSize:14,color:'#f1f5f9',outline:'none',fontFamily:'inherit',WebkitAppearance:'none'}}
-            />
+            <input value={search} onChange={e=>setSearch(e.target.value)} placeholder="🔍 Buscar por nome ou CPF..."
+              style={{width:'100%',background:'#0c0e16',border:'1px solid #1a1d2a',borderRadius:14,padding:'12px 38px 12px 40px',fontSize:14,color:'#f1f5f9',outline:'none',fontFamily:'inherit',WebkitAppearance:'none'}}/>
             {search && (
-              <button onClick={()=>setSearch('')} style={{position:'absolute',right:10,top:'50%',transform:'translateY(-50%)',background:'none',border:'none',cursor:'pointer',color:'#4b5563'}}>
+              <button onClick={()=>setSearch('')} style={{position:'absolute',right:12,top:'50%',transform:'translateY(-50%)',background:'none',border:'none',cursor:'pointer',color:'#4b5563'}}>
                 <Icon d={ICONS.x} size={14}/>
               </button>
             )}
           </div>
 
-          {/* filter pills */}
-          <div style={{display:'flex',gap:6,marginBottom:14,overflowX:'auto',scrollbarWidth:'none'}}>
-            {filters.map(([v,l])=>(
+          {/* Filters */}
+          <div style={{display:'flex',gap:6,marginBottom:14,overflowX:'auto',scrollbarWidth:'none',paddingBottom:2}}>
+            {filterOptions.map(({v,l,emoji}) => (
               <button key={v} onClick={()=>setFilter(v)} style={{
-                flexShrink:0,padding:'7px 14px',borderRadius:99,border:'none',cursor:'pointer',
-                fontFamily:'inherit',fontSize:12,fontWeight:700,
-                background: filter===v ? '#4a6fa5' : '#1a1d26',
-                color:      filter===v ? '#fff'    : '#4b5563',
-                boxShadow:  filter===v ? '0 2px 10px rgba(74,111,165,.3)' : 'none',
-                transition:'all .15s',
-              }}>{l}</button>
+                flexShrink:0,padding:'7px 14px',borderRadius:99,
+                border:`1px solid ${filter===v?'#4a6fa5':'#1a1d2a'}`,cursor:'pointer',fontFamily:'inherit',fontSize:12,fontWeight:700,
+                background:filter===v?'rgba(74,111,165,.18)':'#0c0e16',
+                color:filter===v?'#7aa7d4':'#4b5563',
+                transition:'all .2s',display:'flex',alignItems:'center',gap:4,
+              }}>
+                <span style={{fontSize:10}}>{emoji}</span>{l}
+              </button>
             ))}
             <button onClick={()=>exportCSV(filtered)} style={{
-              flexShrink:0,padding:'7px 14px',borderRadius:99,border:'1px solid #22263a',
-              background:'#1a1d26',color:'#4b5563',cursor:'pointer',fontFamily:'inherit',
+              flexShrink:0,padding:'7px 14px',borderRadius:99,border:'1px solid #1a1d2a',
+              background:'#0c0e16',color:'#4b5563',cursor:'pointer',fontFamily:'inherit',
               fontSize:12,fontWeight:700,display:'flex',alignItems:'center',gap:5,marginLeft:'auto',
-            }}>
-              <Icon d={ICONS.download} size={12}/>CSV
-            </button>
+            }}>📥 CSV</button>
           </div>
 
-          {/* list */}
-          {filtered.length===0 ? (
-            <div style={{textAlign:'center',padding:'60px 20px'}}>
-              <div style={{width:56,height:56,background:'rgba(255,255,255,.03)',borderRadius:16,display:'flex',alignItems:'center',justifyContent:'center',margin:'0 auto 12px',border:'1px solid #22263a'}}>
-                <Icon d={ICONS.search} size={22} stroke="#2e3550"/>
+          {/* List */}
+          {filtered.length === 0 ? (
+            <div className="fade-in" style={{textAlign:'center',padding:'60px 20px'}}>
+              <div style={{fontSize:52,marginBottom:12}}>🔍</div>
+              <div style={{color:'#4b5563',fontSize:14,fontWeight:700,marginBottom:4}}>
+                {search||filter!=='all' ? 'Nenhum resultado' : 'Nenhum contrato ainda 📭'}
               </div>
-              <div style={{color:'#4b5563',fontSize:14,fontWeight:600,marginBottom:4}}>
-                {search||filter!=='all'?'Nenhum resultado':'Nenhum contrato cadastrado'}
+              <div style={{color:'#2e3550',fontSize:12}}>
+                {search||filter!=='all' ? 'Ajuste o filtro ou a busca' : 'Toque em + para começar a lucrar! 💸'}
               </div>
-              <div style={{color:'#2e3550',fontSize:12}}>{search||filter!=='all'?'Ajuste o filtro ou busca':'Toque em + para comecar'}</div>
             </div>
-          ) : filtered.map(c => (
-            <ContractCard key={c.id} c={c} onEdit={c=>setModal({contract:c})} onDelete={c=>setDelTgt(c)}/>
+          ) : filtered.map((c,i) => (
+            <ContractCard key={c.id} c={c} index={i} onEdit={c=>setModal({contract:c})} onDelete={c=>setDelTgt(c)} onTogglePago={handleTogglePago}/>
           ))}
         </div>
       )}
 
-      {/* ══════════ TAB: FINANCEIRO ══════════ */}
+      {/* ═══ TAB FINANCEIRO ═══ */}
       {tab==='financeiro' && (
         <div style={{padding:'16px 14px 120px'}}>
 
-          {/* big summary */}
-          <div style={{
-            background:'linear-gradient(135deg,rgba(74,111,165,.15),rgba(29,58,110,.1))',
-            border:'1px solid rgba(74,111,165,.2)',borderRadius:20,padding:20,marginBottom:14,
-          }}>
-            <div style={{fontSize:11,color:'#4a6fa5',fontWeight:700,letterSpacing:'.08em',textTransform:'uppercase',marginBottom:14}}>Resumo Geral</div>
-            <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:12,marginBottom:12}}>
+          {/* Big Summary */}
+          <div className="fade-up" style={{background:'linear-gradient(135deg,rgba(74,111,165,.12),rgba(29,58,110,.07))',border:'1px solid rgba(74,111,165,.2)',borderRadius:24,padding:22,marginBottom:14,position:'relative',overflow:'hidden'}}>
+            <div style={{position:'absolute',top:-24,right:-16,fontSize:88,opacity:.04,pointerEvents:'none',userSelect:'none'}}>💰</div>
+            <div style={{fontSize:11,color:'#4a6fa5',fontWeight:700,letterSpacing:'.08em',textTransform:'uppercase',marginBottom:16}}>📊 Resumo Geral</div>
+            <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:16,marginBottom:16}}>
               <div>
-                <div style={{fontSize:10,color:'#4b5563',textTransform:'uppercase',letterSpacing:'.05em',marginBottom:4}}>Capital em Giro</div>
-                <div style={{fontSize:22,fontWeight:900,color:'#f1f5f9',letterSpacing:'-.02em'}}>{R$(summary.inv)}</div>
+                <div style={{fontSize:9,color:'#4b5563',textTransform:'uppercase',letterSpacing:'.06em',marginBottom:4}}>💰 Capital em Giro</div>
+                <div style={{fontSize:23,fontWeight:900,color:'#f1f5f9',letterSpacing:'-.03em',lineHeight:1}}><AnimVal value={summary.inv}/></div>
               </div>
               <div>
-                <div style={{fontSize:10,color:'#4b5563',textTransform:'uppercase',letterSpacing:'.05em',marginBottom:4}}>Total a Receber</div>
-                <div style={{fontSize:22,fontWeight:900,color:'#4a6fa5',letterSpacing:'-.02em'}}>{R$(summary.rec)}</div>
+                <div style={{fontSize:9,color:'#4b5563',textTransform:'uppercase',letterSpacing:'.06em',marginBottom:4}}>📈 Total a Receber</div>
+                <div style={{fontSize:23,fontWeight:900,color:'#4a6fa5',letterSpacing:'-.03em',lineHeight:1}}><AnimVal value={summary.rec}/></div>
               </div>
             </div>
-            <div style={{height:1,background:'rgba(74,111,165,.15)',marginBottom:12}}/>
+            <div style={{height:1,background:'rgba(74,111,165,.12)',marginBottom:16}}/>
             <div style={{display:'grid',gridTemplateColumns:'1fr 1fr 1fr',gap:10}}>
               {[
-                {l:'Lucro Bruto', v:R$(summary.lucro), c:'#9ca3af'},
-                {l:`${SOCIO_NOME} (30%)`, v:R$(summary.socio), c:'#a78bfa'},
-                {l:'Seu Liquido', v:R$(summary.liq), c:'#34d399'},
-              ].map(({l,v,c},i)=>(
+                {l:'💰 Lucro Bruto',  v:summary.lucro, col:'#6b7280'},
+                {l:`🤝 ${SOCIO_NOME}`, v:summary.socio, col:'#a78bfa'},
+                {l:'🏆 Seu Lucro',    v:summary.liq,   col:'#10b981'},
+              ].map(({l,v,col},i) => (
                 <div key={i}>
-                  <div style={{fontSize:9,color:'#4b5563',textTransform:'uppercase',letterSpacing:'.05em',marginBottom:4}}>{l}</div>
-                  <div style={{fontSize:16,fontWeight:800,color:c}}>{v}</div>
+                  <div style={{fontSize:9,color:'#4b5563',textTransform:'uppercase',letterSpacing:'.05em',marginBottom:5}}>{l}</div>
+                  <div style={{fontSize:15,fontWeight:900,color:col}}><AnimVal value={v}/></div>
                 </div>
               ))}
             </div>
           </div>
 
-          {/* partner card */}
-          <div style={{background:'rgba(167,139,250,.06)',border:'1px solid rgba(167,139,250,.2)',borderRadius:20,padding:20,marginBottom:14}}>
-            <div style={{display:'flex',alignItems:'center',gap:10,marginBottom:16}}>
-              <div style={{width:40,height:40,background:'rgba(167,139,250,.15)',borderRadius:12,display:'flex',alignItems:'center',justifyContent:'center'}}>
-                <Icon d={ICONS.person} size={18} stroke="#a78bfa"/>
-              </div>
+          {/* Meta */}
+          <div className="fade-up" style={{animationDelay:'.06s',marginBottom:14}}>
+            <MetaRing current={summary.liqPago} meta={meta} onClick={()=>setMetaModal(true)}/>
+          </div>
+
+          {/* Partner */}
+          <div className="fade-up" style={{animationDelay:'.1s',background:'rgba(167,139,250,.06)',border:'1px solid rgba(167,139,250,.2)',borderRadius:24,padding:20,marginBottom:14}}>
+            <div style={{display:'flex',alignItems:'center',gap:12,marginBottom:16}}>
+              <div style={{width:46,height:46,background:'rgba(167,139,250,.15)',borderRadius:14,display:'flex',alignItems:'center',justifyContent:'center',fontSize:22}}>🤝</div>
               <div>
-                <div style={{fontWeight:800,fontSize:15,color:'#f1f5f9'}}>Socio: {SOCIO_NOME}</div>
-                <div style={{fontSize:11,color:'#6b7280'}}>30% do lucro liquido de cada operacao</div>
+                <div style={{fontWeight:900,fontSize:15,color:'#f1f5f9'}}>Sócio: {SOCIO_NOME}</div>
+                <div style={{fontSize:11,color:'#6b7280'}}>30% do lucro líquido de cada operação</div>
               </div>
             </div>
-            <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:10,marginBottom:14}}>
-              <div style={{background:'rgba(167,139,250,.08)',borderRadius:14,padding:'14px'}}>
-                <div style={{fontSize:10,color:'#6b7280',textTransform:'uppercase',letterSpacing:'.06em',marginBottom:6}}>Total a Receber</div>
-                <div style={{fontSize:24,fontWeight:900,color:'#a78bfa'}}>{R$(summary.socio)}</div>
-                <div style={{fontSize:10,color:'#4b5563',marginTop:4}}>Sobre {R$(summary.lucro)} de lucro bruto</div>
+            <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:10}}>
+              <div style={{background:'rgba(167,139,250,.08)',borderRadius:16,padding:'16px'}}>
+                <div style={{fontSize:9,color:'#6b7280',textTransform:'uppercase',letterSpacing:'.07em',marginBottom:6}}>🤝 Parte do Sócio</div>
+                <div style={{fontSize:22,fontWeight:900,color:'#a78bfa',letterSpacing:'-.02em'}}><AnimVal value={summary.socio}/></div>
+                <div style={{fontSize:10,color:'#4b5563',marginTop:4}}>30% de {R$(summary.lucro)}</div>
               </div>
-              <div style={{background:'rgba(52,211,153,.05)',borderRadius:14,padding:'14px'}}>
-                <div style={{fontSize:10,color:'#6b7280',textTransform:'uppercase',letterSpacing:'.06em',marginBottom:6}}>Seu Liquido</div>
-                <div style={{fontSize:24,fontWeight:900,color:'#34d399'}}>{R$(summary.liq)}</div>
-                <div style={{fontSize:10,color:'#4b5563',marginTop:4}}>Apos participacao do socio</div>
+              <div style={{background:'rgba(16,185,129,.05)',borderRadius:16,padding:'16px'}}>
+                <div style={{fontSize:9,color:'#6b7280',textTransform:'uppercase',letterSpacing:'.07em',marginBottom:6}}>🏆 Seu Líquido</div>
+                <div style={{fontSize:22,fontWeight:900,color:'#10b981',letterSpacing:'-.02em'}}><AnimVal value={summary.liq}/></div>
+                <div style={{fontSize:10,color:'#4b5563',marginTop:4}}>Após participação do sócio</div>
               </div>
             </div>
           </div>
 
-          {/* per contract breakdown */}
-          <div style={{fontSize:11,color:'#4b5563',fontWeight:700,letterSpacing:'.07em',textTransform:'uppercase',marginBottom:10}}>Por Contrato</div>
-          {contracts.length===0 && <div style={{color:'#2e3550',fontSize:13,textAlign:'center',padding:'30px 0'}}>Nenhum contrato ainda.</div>}
-          {contracts
-            .sort((a,b)=>daysLeft(a.dataVencimento)-daysLeft(b.dataVencimento))
-            .map(c=>{
-              const fin=calcFin(c), days=daysLeft(c.dataVencimento), isLate=days<0;
-              const initials=c.nome.trim().split(' ').filter(Boolean).slice(0,2).map(w=>w[0].toUpperCase()).join('');
+          {/* Per contract */}
+          <div style={{fontSize:11,color:'#4b5563',fontWeight:700,letterSpacing:'.07em',textTransform:'uppercase',marginBottom:10}}>📋 Por Contrato</div>
+          {contracts.length === 0 && (
+            <div style={{color:'#2e3550',fontSize:13,textAlign:'center',padding:'30px 0'}}>
+              <div style={{fontSize:42,marginBottom:8}}>📭</div>Nenhum contrato ainda.
+            </div>
+          )}
+          {[...contracts]
+            .sort((a,b) => {
+              if(a.pago && !b.pago) return 1;
+              if(!a.pago && b.pago) return -1;
+              return daysLeft(a.dataVencimento) - daysLeft(b.dataVencimento);
+            })
+            .map((c,i) => {
+              const fin    = calcFin(c);
+              const isPago = !!c.pago;
+              const days   = daysLeft(c.dataVencimento);
+              const isLate = !isPago && days < 0;
+              const initials = c.nome.trim().split(' ').filter(Boolean).slice(0,2).map(w=>w[0].toUpperCase()).join('');
               return (
-                <div key={c.id} style={{
-                  background:'#1a1d26',border:`1px solid ${isLate?'rgba(239,68,68,.2)':'#22263a'}`,
-                  borderRadius:16,marginBottom:10,overflow:'hidden',
+                <div key={c.id} className="fade-up" style={{
+                  animationDelay:`${i*.04}s`,
+                  background:'#0c0e16',
+                  border:`1px solid ${isPago?'rgba(16,185,129,.18)':isLate?'rgba(239,68,68,.12)':'#1a1d2a'}`,
+                  borderRadius:18,marginBottom:10,overflow:'hidden',
+                  borderLeft:`3px solid ${isPago?'#10b981':isLate?'#ef4444':'#4a6fa5'}`,
                 }}>
-                  <div style={{padding:'14px 16px',display:'flex',alignItems:'center',gap:10}}>
-                    <div style={{width:36,height:36,borderRadius:10,background:'linear-gradient(135deg,#1d3a6e,#4a6fa5)',display:'flex',alignItems:'center',justifyContent:'center',fontSize:12,fontWeight:800,color:'#fff',flexShrink:0}}>{initials}</div>
+                  <div style={{padding:'13px 16px',display:'flex',alignItems:'center',gap:10}}>
+                    <div style={{width:38,height:38,borderRadius:12,background:isPago?'linear-gradient(135deg,#064e3b,#10b981)':'linear-gradient(135deg,#1d3a6e,#4a6fa5)',display:'flex',alignItems:'center',justifyContent:'center',fontSize:12,fontWeight:900,color:'#fff',flexShrink:0}}>{initials}</div>
                     <div style={{flex:1,minWidth:0}}>
-                      <div style={{fontWeight:700,fontSize:14,color:'#f1f5f9',overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap'}}>{c.nome}</div>
+                      <div style={{fontWeight:800,fontSize:14,color:'#f1f5f9',overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap'}}>{c.nome}</div>
                       <div style={{fontSize:10,color:'#4b5563',marginTop:1}}>
-                        {isLate ? `${Math.abs(days)}d em atraso` : days===0 ? 'Vence hoje' : `${days}d restantes`}
-                        &nbsp;&bull;&nbsp;Venc. {new Date(c.dataVencimento+'T00:00:00').toLocaleDateString('pt-BR')}
+                        {isPago ? '✅ Pago' : isLate ? `🔴 ${Math.abs(days)}d em atraso` : days===0 ? '🟡 Vence hoje' : `🟢 ${days}d restantes`}
+                        &nbsp;&bull;&nbsp;{new Date(c.dataVencimento+'T00:00:00').toLocaleDateString('pt-BR')}
                       </div>
                     </div>
                     <div style={{textAlign:'right',flexShrink:0}}>
-                      <div style={{fontSize:10,color:'#4b5563'}}>Emprestado</div>
-                      <div style={{fontSize:14,fontWeight:800,color:'#9ca3af'}}>{R$(c.valorEmprestado)}</div>
+                      <div style={{fontSize:9,color:'#4b5563',marginBottom:2}}>Emprestado</div>
+                      <div style={{fontSize:13,fontWeight:800,color:'#6b7280'}}>{R$(c.valorEmprestado)}</div>
                     </div>
                   </div>
-                  <div style={{display:'grid',gridTemplateColumns:'1fr 1fr 1fr',borderTop:'1px solid #22263a'}}>
+                  <div style={{display:'grid',gridTemplateColumns:'1fr 1fr 1fr',borderTop:'1px solid #1a1d2a'}}>
                     {[
-                      {l:'Lucro Bruto',     v:R$(fin.lucro),   c:'#9ca3af', bg:'rgba(255,255,255,.02)'},
-                      {l:`${SOCIO_NOME}`,   v:R$(fin.socio),   c:'#a78bfa', bg:'rgba(167,139,250,.05)'},
-                      {l:'Seu Liquido',     v:R$(fin.liquido), c:'#34d399', bg:'rgba(52,211,153,.04)'},
-                    ].map(({l,v,c:col,bg},i)=>(
-                      <div key={i} style={{padding:'10px 12px',textAlign:'center',background:bg,...(i>0?{borderLeft:'1px solid #22263a'}:{})}}>
-                        <div style={{fontSize:9,color:'#374151',textTransform:'uppercase',letterSpacing:'.05em',marginBottom:4}}>{l}</div>
+                      {l:'💰 Bruto',       v:R$(fin.lucro),   col:'#6b7280', bg:'transparent'},
+                      {l:`🤝 ${SOCIO_NOME}`,v:R$(fin.socio),  col:'#a78bfa', bg:'rgba(167,139,250,.04)'},
+                      {l:'🏆 Líquido',     v:R$(fin.liquido), col:'#10b981', bg:'rgba(16,185,129,.04)'},
+                    ].map(({l,v,col,bg},j) => (
+                      <div key={j} style={{padding:'10px 8px',textAlign:'center',background:bg,borderLeft:j>0?'1px solid #1a1d2a':'none'}}>
+                        <div style={{fontSize:8,color:'#374151',textTransform:'uppercase',letterSpacing:'.05em',marginBottom:3}}>{l}</div>
                         <div style={{fontSize:13,fontWeight:800,color:col}}>{v}</div>
                       </div>
                     ))}
@@ -877,27 +986,25 @@ const App = () => {
         </div>
       )}
 
-      {/* ── FAB ── */}
+      {/* FAB */}
       <button onClick={()=>setModal('add')} style={{
-        position:'fixed',bottom:24,right:20,
-        width:56,height:56,borderRadius:'50%',
+        position:'fixed',bottom:28,right:20,
+        width:62,height:62,borderRadius:'50%',
         background:'linear-gradient(135deg,#4a6fa5,#1d3a6e)',
         border:'none',cursor:'pointer',
         display:'flex',alignItems:'center',justifyContent:'center',
-        boxShadow:'0 8px 32px rgba(29,58,110,.55), 0 2px 0 rgba(255,255,255,.08) inset',
-        color:'#fff',zIndex:40,
-        transition:'transform .15s,box-shadow .15s',
-      }}>
-        <Icon d={ICONS.plus} size={22} sw={2.5}/>
+        boxShadow:'0 8px 40px rgba(29,58,110,.65), 0 2px 0 rgba(255,255,255,.12) inset',
+        color:'#fff',zIndex:40,fontSize:26,
+      }} className="glow-anim">
+        <Icon d={ICONS.plus} size={24} sw={2.5}/>
       </button>
 
-      {/* ── Modals ── */}
-      {(modal==='add'||modal?.contract) && (
+      {/* Modals */}
+      {(modal==='add' || modal?.contract) && (
         <ContractModal contract={modal?.contract||null} onSave={handleSave} onClose={()=>setModal(null)}/>
       )}
-      {delTgt && (
-        <DeleteModal name={delTgt.nome} onConfirm={handleDelete} onClose={()=>setDelTgt(null)}/>
-      )}
+      {delTgt && <DeleteModal name={delTgt.nome} onConfirm={handleDelete} onClose={()=>setDelTgt(null)}/>}
+      {metaModal && <MetaModal current={meta} onSave={handleSetMeta} onClose={()=>setMetaModal(false)}/>}
       {toast && <Toast msg={toast.msg} type={toast.type}/>}
     </div>
   );
