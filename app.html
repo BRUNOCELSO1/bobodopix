@@ -3,67 +3,68 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"/>
-  <title>Bobo do Pix 💰</title>
+  <title>Bobo do Pix</title>
   <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
   <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
   <style>
     *,*::before,*::after{box-sizing:border-box;font-family:'Inter',sans-serif;-webkit-tap-highlight-color:transparent}
-    html,body{background:#080a10;color:#f1f5f9;margin:0;min-height:100%}
+    html,body{background:#07090f;color:#e8eaf0;margin:0;min-height:100%}
 
-    .bg-orbs{position:fixed;inset:0;overflow:hidden;pointer-events:none;z-index:0}
-    .orb{position:absolute;border-radius:50%;filter:blur(90px);opacity:.12}
-    .orb1{width:550px;height:550px;background:radial-gradient(circle,#4a6fa5,transparent);top:-180px;left:-120px;animation:orb1 14s ease-in-out infinite}
-    .orb2{width:420px;height:420px;background:radial-gradient(circle,#7c3aed,transparent);bottom:-120px;right:-120px;animation:orb2 17s ease-in-out infinite}
-    .orb3{width:320px;height:320px;background:radial-gradient(circle,#059669,transparent);top:45%;left:40%;animation:orb3 11s ease-in-out infinite}
-
-    @keyframes orb1{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(70px,-50px) scale(1.1)}66%{transform:translate(-40px,60px) scale(.9)}}
-    @keyframes orb2{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(-60px,40px) scale(1.15)}66%{transform:translate(50px,-70px) scale(.92)}}
-    @keyframes orb3{0%,100%{transform:translate(-50%,-50%) scale(1)}50%{transform:translate(-50%,-50%) scale(1.35)}}
+    .bg-canvas{position:fixed;inset:0;overflow:hidden;pointer-events:none;z-index:0}
+    .orb{position:absolute;border-radius:50%;filter:blur(100px);opacity:.1}
+    .o1{width:600px;height:600px;background:#3b5fa0;top:-200px;left:-150px;animation:o1 16s ease-in-out infinite}
+    .o2{width:450px;height:450px;background:#6d28d9;bottom:-150px;right:-150px;animation:o2 19s ease-in-out infinite}
+    .o3{width:350px;height:350px;background:#047857;top:40%;left:35%;animation:o3 12s ease-in-out infinite}
+    @keyframes o1{0%,100%{transform:translate(0,0)}40%{transform:translate(80px,-60px)}70%{transform:translate(-40px,70px)}}
+    @keyframes o2{0%,100%{transform:translate(0,0)}40%{transform:translate(-70px,50px)}70%{transform:translate(60px,-80px)}}
+    @keyframes o3{0%,100%{transform:translate(-50%,-50%) scale(1)}50%{transform:translate(-50%,-50%) scale(1.4)}}
 
     ::-webkit-scrollbar{width:3px;height:3px}
     ::-webkit-scrollbar-track{background:transparent}
-    ::-webkit-scrollbar-thumb{background:#2e3550;border-radius:99px}
+    ::-webkit-scrollbar-thumb{background:#252840;border-radius:99px}
 
-    @keyframes fadeUp{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}
+    @keyframes up{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
     @keyframes fadeIn{from{opacity:0}to{opacity:1}}
-    @keyframes slideDown{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:translateY(0)}}
-    @keyframes modalIn{from{opacity:0;transform:scale(.95) translateY(20px)}to{opacity:1;transform:scale(1) translateY(0)}}
+    @keyframes down{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:translateY(0)}}
+    @keyframes popIn{from{opacity:0;transform:scale(.92) translateY(18px)}to{opacity:1;transform:scale(1) translateY(0)}}
     @keyframes spin{to{transform:rotate(360deg)}}
-    @keyframes pulseRing{0%{box-shadow:0 0 0 0 rgba(239,68,68,.5)}70%{box-shadow:0 0 0 10px rgba(239,68,68,0)}100%{box-shadow:0 0 0 0 rgba(239,68,68,0)}}
-    @keyframes toast{from{opacity:0;transform:translateY(22px) scale(.93)}to{opacity:1;transform:translateY(0) scale(1)}}
-    @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
-    @keyframes glow{0%,100%{box-shadow:0 0 24px rgba(74,111,165,.2)}50%{box-shadow:0 0 48px rgba(74,111,165,.45)}}
+    @keyframes pr{0%{box-shadow:0 0 0 0 rgba(239,68,68,.5)}70%{box-shadow:0 0 0 12px rgba(239,68,68,0)}100%{box-shadow:0 0 0 0 rgba(239,68,68,0)}}
+    @keyframes toastIn{from{opacity:0;transform:translateY(24px) scale(.92)}to{opacity:1;transform:translateY(0) scale(1)}}
+    @keyframes floatY{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+    @keyframes glow{0%,100%{box-shadow:0 0 28px rgba(59,95,160,.25)}50%{box-shadow:0 0 52px rgba(59,95,160,.5)}}
+    @keyframes celebIn{from{opacity:0;transform:scale(.85)}to{opacity:1;transform:scale(1)}}
     @keyframes shimmer{0%{background-position:-200% 0}100%{background-position:200% 0}}
+    @keyframes numberPop{0%{transform:scale(.7);opacity:0}70%{transform:scale(1.08)}100%{transform:scale(1);opacity:1}}
 
-    .fade-up{animation:fadeUp .4s ease-out both}
-    .fade-in{animation:fadeIn .35s ease-out both}
-    .slide-down{animation:slideDown .22s ease-out both}
-    .modal-in{animation:modalIn .26s cubic-bezier(.34,1.56,.64,1) both}
+    .fu{animation:up .38s ease-out both}
+    .fi{animation:fadeIn .3s ease-out both}
+    .fd{animation:down .2s ease-out both}
+    .pop{animation:popIn .28s cubic-bezier(.34,1.56,.64,1) both}
     .spin{animation:spin .8s linear infinite}
-    .pulse{animation:pulseRing 2s ease-in-out infinite}
-    .float-anim{animation:float 3.5s ease-in-out infinite}
-    .glow-anim{animation:glow 3s ease-in-out infinite}
+    .pulse{animation:pr 2s ease-in-out infinite}
+    .float{animation:floatY 3.5s ease-in-out infinite}
+    .glow{animation:glow 3s ease-in-out infinite}
+    .celeb{animation:celebIn .4s cubic-bezier(.34,1.56,.64,1) both}
+    .npop{animation:numberPop .5s cubic-bezier(.34,1.56,.64,1) both}
 
-    .contract-card{transition:transform .2s ease,box-shadow .2s ease}
-    .contract-card:active{transform:scale(.99)}
+    .card-hover{transition:transform .18s ease,box-shadow .18s ease}
+    .card-hover:active{transform:scale(.988)}
+    input[type=date]::-webkit-calendar-picker-indicator{filter:invert(.4);cursor:pointer}
 
-    input[type="date"]::-webkit-calendar-picker-indicator{filter:invert(.4);cursor:pointer}
+    /* professional input focus */
+    .inp:focus{border-color:rgba(74,111,165,.7)!important;box-shadow:0 0 0 3px rgba(74,111,165,.12)!important;outline:none}
   </style>
 </head>
 <body>
-<div class="bg-orbs">
-  <div class="orb orb1"></div>
-  <div class="orb orb2"></div>
-  <div class="orb orb3"></div>
-</div>
+<div class="bg-canvas"><div class="orb o1"></div><div class="orb o2"></div><div class="orb o3"></div></div>
 <div id="root" style="position:relative;z-index:1"></div>
 
 <script type="text/babel">
 const { useState, useEffect, useMemo, useCallback, useRef } = React;
 
-/* ── API ── */
+/* ─── API ─────────────────────────────────────────────────────────────────── */
 const api = {
   get:    p     => fetch(p).then(r=>r.json()),
   post:   (p,b) => fetch(p,{method:'POST',  headers:{'Content-Type':'application/json'},body:JSON.stringify(b)}).then(r=>r.json()),
@@ -71,162 +72,166 @@ const api = {
   delete: p     => fetch(p,{method:'DELETE'}).then(r=>r.json()),
 };
 
-/* ── Config ── */
+/* ─── Config ──────────────────────────────────────────────────────────────── */
 const SOCIO_NOME = 'Vinicius';
 const SOCIO_PCT  = 0.30;
-
-const calcFin = c => {
+const calcFin    = c => {
   const lucro   = c.valorRetorno - c.valorEmprestado;
   const socio   = lucro * SOCIO_PCT;
   const liquido = lucro * (1 - SOCIO_PCT);
   return { lucro, socio, liquido };
 };
 
-/* ── Date helpers ── */
+/* ─── Date ────────────────────────────────────────────────────────────────── */
 const today     = () => { const d = new Date(); d.setHours(0,0,0,0); return d; };
 const parseDate = s  => new Date(s + 'T00:00:00');
 const daysLeft  = v  => Math.round((parseDate(v) - today()) / 86400000);
 const daysDiff  = (a,b) => Math.round((parseDate(b) - parseDate(a)) / 86400000);
-const getStatus = (venc, pago) => {
-  if (pago) return 'Pago';
-  const d = daysLeft(venc);
-  if (d < 0)  return 'Atrasado';
-  if (d === 0) return 'Vence Hoje';
-  return 'No Prazo';
-};
 
-/* ── Formatters ── */
+/* ─── Formatters ──────────────────────────────────────────────────────────── */
 const R$     = v => new Intl.NumberFormat('pt-BR',{style:'currency',currency:'BRL'}).format(v||0);
-const uid    = () => Math.random().toString(36).slice(2,9) + Date.now().toString(36);
+const uid    = () => Math.random().toString(36).slice(2,9)+Date.now().toString(36);
 const fmtCPF = v => {
-  const d = v.replace(/\D/g,'').slice(0,11);
-  if(d.length<=3) return d;
-  if(d.length<=6) return `${d.slice(0,3)}.${d.slice(3)}`;
-  if(d.length<=9) return `${d.slice(0,3)}.${d.slice(3,6)}.${d.slice(6)}`;
-  return `${d.slice(0,3)}.${d.slice(3,6)}.${d.slice(6,9)}-${d.slice(9)}`;
+  const d=v.replace(/\D/g,'').slice(0,11);
+  if(d.length<=3)return d; if(d.length<=6)return`${d.slice(0,3)}.${d.slice(3)}`;
+  if(d.length<=9)return`${d.slice(0,3)}.${d.slice(3,6)}.${d.slice(6)}`;
+  return`${d.slice(0,3)}.${d.slice(3,6)}.${d.slice(6,9)}-${d.slice(9)}`;
 };
 const fmtPhone = v => {
-  const d = v.replace(/\D/g,'').slice(0,11);
-  if(!d.length) return '';
-  if(d.length<=2)  return `(${d}`;
-  if(d.length<=6)  return `(${d.slice(0,2)}) ${d.slice(2)}`;
-  if(d.length<=10) return `(${d.slice(0,2)}) ${d.slice(2,6)}-${d.slice(6)}`;
-  return `(${d.slice(0,2)}) ${d.slice(2,7)}-${d.slice(7)}`;
+  const d=v.replace(/\D/g,'').slice(0,11);
+  if(!d.length)return''; if(d.length<=2)return`(${d}`;
+  if(d.length<=6)return`(${d.slice(0,2)}) ${d.slice(2)}`;
+  if(d.length<=10)return`(${d.slice(0,2)}) ${d.slice(2,6)}-${d.slice(6)}`;
+  return`(${d.slice(0,2)}) ${d.slice(2,7)}-${d.slice(7)}`;
 };
 const validateCPF = cpf => {
-  const d = cpf.replace(/\D/g,'');
-  if(d.length!==11||/^(\d)\1+$/.test(d)) return false;
-  let s=0; for(let i=0;i<9;i++) s+=+d[i]*(10-i);
-  let r=(s*10)%11; if(r>=10)r=0; if(r!==+d[9]) return false;
-  s=0; for(let i=0;i<10;i++) s+=+d[i]*(11-i);
-  r=(s*10)%11; if(r>=10)r=0; return r===+d[10];
+  const d=cpf.replace(/\D/g,'');
+  if(d.length!==11||/^(\d)\1+$/.test(d))return false;
+  let s=0;for(let i=0;i<9;i++)s+=+d[i]*(10-i);
+  let r=(s*10)%11;if(r>=10)r=0;if(r!==+d[9])return false;
+  s=0;for(let i=0;i<10;i++)s+=+d[i]*(11-i);
+  r=(s*10)%11;if(r>=10)r=0;return r===+d[10];
 };
 
-/* ── Count-up hook ── */
-const useCountUp = (end, duration=1300) => {
-  const [val, setVal] = useState(0);
-  const raf = useRef(null);
-  useEffect(() => {
-    if (raf.current) cancelAnimationFrame(raf.current);
-    if (!end) { setVal(0); return; }
-    let startTime = null;
-    const step = ts => {
-      if (!startTime) startTime = ts;
-      const prog = Math.min((ts - startTime) / duration, 1);
-      const ease = 1 - Math.pow(1 - prog, 4);
-      setVal(end * ease);
-      if (prog < 1) raf.current = requestAnimationFrame(step);
+/* ─── Sound ───────────────────────────────────────────────────────────────── */
+const playSuccess = () => {
+  try {
+    const ctx = new (window.AudioContext||window.webkitAudioContext)();
+    const play = (freq,start,dur,vol=0.28,type='sine') => {
+      const o=ctx.createOscillator(), g=ctx.createGain();
+      o.connect(g); g.connect(ctx.destination);
+      o.type=type; o.frequency.value=freq;
+      g.gain.setValueAtTime(vol,ctx.currentTime+start);
+      g.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+start+dur);
+      o.start(ctx.currentTime+start); o.stop(ctx.currentTime+start+dur);
     };
-    raf.current = requestAnimationFrame(step);
-    return () => { if (raf.current) cancelAnimationFrame(raf.current); };
-  }, [end]);
-  return val;
+    play(523,0,.12); play(659,.1,.12); play(784,.2,.15); play(1047,.32,.45,.35);
+    play(1319,.38,.35,.15,'triangle');
+  } catch(e) {}
 };
 
-const AnimVal = ({ value }) => {
-  const v = useCountUp(value);
-  return <span>{new Intl.NumberFormat('pt-BR',{style:'currency',currency:'BRL'}).format(v)}</span>;
+/* ─── Confetti ────────────────────────────────────────────────────────────── */
+const launchConfetti = canvas => {
+  const ctx=canvas.getContext('2d');
+  canvas.width=window.innerWidth; canvas.height=window.innerHeight;
+  const cols=['#4a6fa5','#10b981','#f59e0b','#a78bfa','#ef4444','#fff','#fbbf24','#34d399'];
+  const pts=Array.from({length:90},()=>({
+    x:Math.random()*canvas.width, y:-16,
+    w:Math.random()*11+4, h:Math.random()*7+3,
+    col:cols[Math.floor(Math.random()*cols.length)],
+    vx:(Math.random()-.5)*5, vy:Math.random()*4+2,
+    rot:Math.random()*Math.PI*2, vr:(Math.random()-.5)*.22, op:1,
+  }));
+  let raf;
+  const draw=()=>{
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    pts.forEach(p=>{
+      p.x+=p.vx; p.y+=p.vy; p.vy+=0.09; p.rot+=p.vr; p.op-=0.007;
+      if(p.op<=0)return;
+      ctx.save(); ctx.globalAlpha=Math.max(0,p.op);
+      ctx.translate(p.x,p.y); ctx.rotate(p.rot);
+      ctx.fillStyle=p.col; ctx.fillRect(-p.w/2,-p.h/2,p.w,p.h);
+      ctx.restore();
+    });
+    if(pts.some(p=>p.op>0)) raf=requestAnimationFrame(draw);
+  };
+  raf=requestAnimationFrame(draw);
+  return ()=>cancelAnimationFrame(raf);
 };
 
-/* ── Export CSV ── */
-const exportCSV = rows => {
-  const hdr = ['Nome','CPF','Chave Pix','Emprestado','Taxa%','Retorno','Lucro Bruto','Vinicius','Seu Liquido','Inicio','Vencimento','Dias Restantes','Status','Pago'];
-  const body = rows.map(c => {
-    const f = calcFin(c);
-    return [c.nome,c.cpf,c.chavePix,c.valorEmprestado.toFixed(2),c.taxaServico,
-      c.valorRetorno.toFixed(2),f.lucro.toFixed(2),f.socio.toFixed(2),f.liquido.toFixed(2),
-      c.dataInicio,c.dataVencimento,daysLeft(c.dataVencimento),getStatus(c.dataVencimento,c.pago),c.pago?'Sim':'Não'];
-  });
-  const csv = '\uFEFF'+[hdr,...body].map(r=>r.map(v=>`"${v}"`).join(',')).join('\r\n');
-  const url = URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8;'}));
-  Object.assign(document.createElement('a'),{href:url,download:`bobo_pix_${new Date().toISOString().slice(0,10)}.csv`}).click();
-  URL.revokeObjectURL(url);
+/* ─── Count-up ────────────────────────────────────────────────────────────── */
+const useCountUp = (end, ms=1200) => {
+  const [v,setV]=useState(0);
+  const r=useRef(null);
+  useEffect(()=>{
+    if(r.current)cancelAnimationFrame(r.current);
+    if(!end){setV(0);return;}
+    let t0=null;
+    const s=ts=>{if(!t0)t0=ts;const p=Math.min((ts-t0)/ms,1),e=1-Math.pow(1-p,4);setV(end*e);if(p<1)r.current=requestAnimationFrame(s);};
+    r.current=requestAnimationFrame(s);
+    return()=>{if(r.current)cancelAnimationFrame(r.current);};
+  },[end]);
+  return v;
+};
+const AV=({value})=>{
+  const v=useCountUp(value);
+  return<span>{new Intl.NumberFormat('pt-BR',{style:'currency',currency:'BRL'}).format(v)}</span>;
 };
 
-/* ── Icons ── */
-const Icon = ({ d, size=20, stroke='currentColor', sw=1.8, fill='none' }) => (
+/* ─── Icons ───────────────────────────────────────────────────────────────── */
+const Ic=({d,size=20,stroke='currentColor',sw=1.8,fill='none'})=>(
   <svg width={size} height={size} viewBox="0 0 24 24" fill={fill} stroke={stroke} strokeWidth={sw} strokeLinecap="round" strokeLinejoin="round">
-    {typeof d === 'string' ? <path d={d}/> : d}
+    {typeof d==='string'?<path d={d}/>:d}
   </svg>
 );
-const ICONS = {
-  plus:     'M12 5v14M5 12h14',
-  search:   <><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></>,
-  edit:     'M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z',
-  trash:    <><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6m3 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></>,
-  download: <><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></>,
-  logout:   <><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></>,
-  check:    <><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></>,
-  x:        'M18 6 6 18M6 6l12 12',
-  alert:    <><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><circle cx="12" cy="16" r=".5" fill="currentColor" stroke="none"/></>,
-  chevdown: 'M6 9l6 6 6-6',
-  chevup:   'M18 15l-6-6-6 6',
-  person:   <><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></>,
+const IC={
+  plus:'M12 5v14M5 12h14',
+  search:<><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></>,
+  edit:'M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z',
+  trash:<><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6m3 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></>,
+  down:<><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></>,
+  out:<><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></>,
+  check:<><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></>,
+  x:'M18 6 6 18M6 6l12 12',
+  alert:<><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><circle cx="12" cy="16" r=".5" fill="currentColor" stroke="none"/></>,
+  cd:'M6 9l6 6 6-6', cu:'M18 15l-6-6-6 6',
+  copy:'M8 4H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2v-2M8 4h8l4 4v8a2 2 0 0 0-2 2M8 4v2a2 2 0 0 0 2 2h4',
 };
-
-const WA = ({ size=16 }) => (
+const WA=({size=15})=>(
   <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor">
     <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
   </svg>
 );
 
-/* ── Countdown ── */
-const Countdown = ({ dataInicio, dataVencimento }) => {
-  const days   = daysLeft(dataVencimento);
-  const total  = daysDiff(dataInicio, dataVencimento);
-  const passed = Math.max(0, total - Math.max(0, days));
-  const pct    = total > 0 ? Math.min(100, (passed / total) * 100) : 0;
-  const isLate   = days < 0;
-  const isToday  = days === 0;
-  const isUrgent = days > 0 && days <= 5;
-
-  const color = isLate ? '#ef4444' : isToday ? '#f59e0b' : isUrgent ? '#f97316' : '#4a6fa5';
-  const bg    = isLate ? 'rgba(239,68,68,.1)' : isToday ? 'rgba(245,158,11,.1)' : isUrgent ? 'rgba(249,115,22,.1)' : 'rgba(74,111,165,.08)';
-  const ring  = isLate ? 'rgba(239,68,68,.3)' : isToday ? 'rgba(245,158,11,.3)' : isUrgent ? 'rgba(249,115,22,.3)' : 'rgba(74,111,165,.2)';
-  const emoji = isLate ? '🔴' : isToday ? '🟡' : isUrgent ? '🟠' : '🟢';
-  const label = isLate ? `${Math.abs(days)}d atrasado` : isToday ? 'Vence hoje!' : `${days}d restantes`;
-
-  const r = 18, circ = 2 * Math.PI * r;
-  const dash = circ - (pct / 100) * circ;
-
-  return (
-    <div style={{display:'flex',alignItems:'center',gap:10}}>
+/* ─── Countdown ring ──────────────────────────────────────────────────────── */
+const Countdown=({dataInicio,dataVencimento})=>{
+  const days=daysLeft(dataVencimento),total=daysDiff(dataInicio,dataVencimento);
+  const passed=Math.max(0,total-Math.max(0,days)),pct=total>0?Math.min(100,(passed/total)*100):0;
+  const late=days<0,tod=days===0,urg=days>0&&days<=5;
+  const col=late?'#ef4444':tod?'#f59e0b':urg?'#f97316':'#4a6fa5';
+  const bg=late?'rgba(239,68,68,.1)':tod?'rgba(245,158,11,.1)':urg?'rgba(249,115,22,.1)':'rgba(74,111,165,.08)';
+  const brd=late?'rgba(239,68,68,.3)':tod?'rgba(245,158,11,.3)':urg?'rgba(249,115,22,.3)':'rgba(74,111,165,.18)';
+  const em=late?'🔴':tod?'🟡':urg?'🟠':'🟢';
+  const lbl=late?`${Math.abs(days)}d atrasado`:tod?'Vence hoje!!':`${days}d restantes`;
+  const r=18,c=2*Math.PI*r,dash=c-(pct/100)*c;
+  return(
+    <div style={{display:'flex',alignItems:'center',gap:12}}>
       <div style={{position:'relative',width:52,height:52,flexShrink:0}}>
         <svg width="52" height="52" viewBox="0 0 52 52" style={{transform:'rotate(-90deg)'}}>
           <circle cx="26" cy="26" r={r} fill="none" stroke="rgba(255,255,255,.04)" strokeWidth="3"/>
-          <circle cx="26" cy="26" r={r} fill="none" stroke={color} strokeWidth="3"
-            strokeDasharray={circ} strokeDashoffset={isLate ? 0 : dash}
-            strokeLinecap="round" style={{transition:'stroke-dashoffset .6s ease'}}/>
+          <circle cx="26" cy="26" r={r} fill="none" stroke={col} strokeWidth="3"
+            strokeDasharray={c} strokeDashoffset={late?0:dash} strokeLinecap="round"
+            style={{transition:'stroke-dashoffset .7s ease'}}/>
         </svg>
-        <div style={{position:'absolute',inset:0,display:'flex',alignItems:'center',justifyContent:'center',fontSize:isLate||isToday?'9px':'11px',fontWeight:900,color,lineHeight:1,textAlign:'center'}}>
-          {isLate ? `+${Math.abs(days)}` : isToday ? '!!!' : days}
+        <div style={{position:'absolute',inset:0,display:'flex',alignItems:'center',justifyContent:'center',fontSize:late||tod?'9px':'11px',fontWeight:900,color:col,lineHeight:1,textAlign:'center'}}>
+          {late?`+${Math.abs(days)}`:tod?'!!!':days}
         </div>
       </div>
       <div>
-        <div style={{display:'inline-flex',alignItems:'center',gap:5,background:bg,border:`1px solid ${ring}`,borderRadius:'999px',padding:'4px 12px',fontSize:'12px',fontWeight:700,color}} className={isLate?'pulse':''}>
-          <span style={{fontSize:10}}>{emoji}</span>{label}
+        <div style={{display:'inline-flex',alignItems:'center',gap:5,background:bg,border:`1px solid ${brd}`,borderRadius:99,padding:'4px 12px',fontSize:12,fontWeight:700,color:col}} className={late?'pulse':''}>
+          <span style={{fontSize:10}}>{em}</span>{lbl}
         </div>
-        <div style={{fontSize:'10px',color:'#374151',marginTop:'3px',paddingLeft:'2px'}}>
+        <div style={{fontSize:10,color:'#374151',marginTop:3,paddingLeft:2}}>
           {new Date(dataVencimento+'T00:00:00').toLocaleDateString('pt-BR')} &bull; {passed}/{total} dias
         </div>
       </div>
@@ -234,232 +239,234 @@ const Countdown = ({ dataInicio, dataVencimento }) => {
   );
 };
 
-/* ── Progress Bar ── */
-const ProgressBar = ({ dataInicio, dataVencimento }) => {
-  const days   = daysLeft(dataVencimento);
-  const total  = daysDiff(dataInicio, dataVencimento);
-  const passed = Math.max(0, total - Math.max(0, days));
-  const pct    = total > 0 ? Math.min(100, (passed / total) * 100) : 0;
-  const isLate = days < 0;
-  const color  = isLate ? '#ef4444' : pct > 80 ? '#f97316' : pct > 60 ? '#f59e0b' : '#4a6fa5';
-  return (
-    <div style={{width:'100%',height:3,background:'rgba(255,255,255,.04)',borderRadius:99,overflow:'hidden',marginTop:6}}>
-      <div style={{height:'100%',width:`${isLate?100:pct}%`,background:`linear-gradient(90deg,${color},${color}88)`,borderRadius:99,transition:'width .7s ease'}}/>
+/* ─── Progress bar ────────────────────────────────────────────────────────── */
+const PBar=({dataInicio,dataVencimento})=>{
+  const days=daysLeft(dataVencimento),total=daysDiff(dataInicio,dataVencimento);
+  const passed=Math.max(0,total-Math.max(0,days)),pct=total>0?Math.min(100,(passed/total)*100):0;
+  const late=days<0,col=late?'#ef4444':pct>80?'#f97316':pct>60?'#f59e0b':'#4a6fa5';
+  return(
+    <div style={{width:'100%',height:3,background:'rgba(255,255,255,.04)',borderRadius:99,overflow:'hidden',marginTop:7}}>
+      <div style={{height:'100%',width:`${late?100:pct}%`,background:col,borderRadius:99,transition:'width .7s ease'}}/>
     </div>
   );
 };
 
-/* ── Meta Ring ── */
-const MetaRing = ({ current, meta, onClick }) => {
-  const pct        = meta > 0 ? Math.min(100, (current / meta) * 100) : 0;
-  const isAchieved = pct >= 100;
-  const color      = isAchieved ? '#10b981' : pct >= 70 ? '#f59e0b' : pct >= 40 ? '#4a6fa5' : '#4b5563';
-  const r = 44, circ = 2 * Math.PI * r;
-  const dash = circ - (pct / 100) * circ;
-  const motivation = isAchieved ? '🏆 Meta atingida! Parabéns!' : pct >= 70 ? '🔥 Quase lá, vai!' : pct >= 40 ? '💪 No caminho certo!' : pct > 0 ? '🚀 Começando bem!' : '🎯 Toque para definir sua meta';
-
-  return (
+/* ─── Meta Ring ───────────────────────────────────────────────────────────── */
+const MetaRing=({current,meta,onClick})=>{
+  const pct=meta>0?Math.min(100,(current/meta)*100):0;
+  const done=pct>=100;
+  const col=done?'#10b981':pct>=70?'#f59e0b':pct>=40?'#4a6fa5':'#374151';
+  const r=44,circ=2*Math.PI*r,dash=circ-(pct/100)*circ;
+  const msg=done?'🏆 Meta atingida!':pct>=70?'🔥 Quase lá!':pct>=40?'💪 No caminho!':pct>0?'🚀 Arrancando!':'🎯 Definir meta';
+  return(
     <div onClick={onClick} style={{
-      background:'linear-gradient(135deg,rgba(74,111,165,.1),rgba(29,58,110,.06))',
-      border:`1px solid ${isAchieved?'rgba(16,185,129,.35)':'rgba(74,111,165,.18)'}`,
-      borderRadius:22,padding:'16px 18px',cursor:'pointer',
-      display:'flex',alignItems:'center',gap:16,
-      boxShadow: isAchieved ? '0 0 40px rgba(16,185,129,.12)' : 'none',
-      transition:'all .25s ease',
-    }} className={isAchieved?'glow-anim':''}>
+      background:'linear-gradient(135deg,rgba(59,95,160,.1),rgba(29,58,110,.06))',
+      border:`1px solid ${done?'rgba(16,185,129,.3)':'rgba(59,95,160,.16)'}`,
+      borderRadius:22,padding:'16px 20px',cursor:'pointer',
+      display:'flex',alignItems:'center',gap:18,
+      transition:'all .2s',
+    }} className={done?'glow':''}>
       <div style={{position:'relative',flexShrink:0}}>
-        <svg width="100" height="100" viewBox="0 0 100 100" style={{transform:'rotate(-90deg)'}}>
-          <circle cx="50" cy="50" r={r} fill="none" stroke="rgba(255,255,255,.04)" strokeWidth="7"/>
-          <circle cx="50" cy="50" r={r} fill="none" stroke={color} strokeWidth="7"
-            strokeDasharray={circ} strokeDashoffset={meta === 0 ? circ : dash}
-            strokeLinecap="round" style={{transition:'stroke-dashoffset .9s ease, stroke .4s'}}/>
+        <svg width="96" height="96" viewBox="0 0 96 96" style={{transform:'rotate(-90deg)'}}>
+          <circle cx="48" cy="48" r={r} fill="none" stroke="rgba(255,255,255,.04)" strokeWidth="6"/>
+          <circle cx="48" cy="48" r={r} fill="none" stroke={col} strokeWidth="6"
+            strokeDasharray={circ} strokeDashoffset={meta===0?circ:dash}
+            strokeLinecap="round" style={{transition:'stroke-dashoffset 1s ease,stroke .4s'}}/>
         </svg>
         <div style={{position:'absolute',inset:0,display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center'}}>
-          <div style={{fontSize:20,fontWeight:900,color,lineHeight:1}}>{Math.round(pct)}%</div>
-          <div style={{fontSize:8,color:'#4b5563',marginTop:2,fontWeight:700,letterSpacing:'.05em'}}>DA META</div>
+          <div style={{fontSize:19,fontWeight:900,color:col,lineHeight:1}}>{Math.round(pct)}%</div>
+          <div style={{fontSize:8,color:'#374151',marginTop:2,fontWeight:700,letterSpacing:'.06em'}}>META</div>
         </div>
       </div>
       <div style={{flex:1,minWidth:0}}>
-        <div style={{fontSize:10,color:'#4b5563',fontWeight:700,textTransform:'uppercase',letterSpacing:'.08em',marginBottom:5}}>🎯 Meta do Mês</div>
-        <div style={{fontSize:22,fontWeight:900,color:'#f1f5f9',letterSpacing:'-.02em',lineHeight:1,marginBottom:4}}>
-          <AnimVal value={current}/>
+        <div style={{fontSize:10,color:'#374151',fontWeight:700,textTransform:'uppercase',letterSpacing:'.1em',marginBottom:5}}>Meta do Mês 🎯</div>
+        <div style={{fontSize:22,fontWeight:900,color:'#e8eaf0',letterSpacing:'-.03em',lineHeight:1,marginBottom:4}}>
+          <AV value={current}/>
         </div>
         <div style={{fontSize:11,color:'#374151',marginBottom:8}}>
-          de {meta > 0 ? R$(meta) : '—'} &bull; falta {meta > 0 ? R$(Math.max(0, meta - current)) : '—'}
+          de {meta>0?R$(meta):'—'} &bull; falta {meta>0?R$(Math.max(0,meta-current)):'—'}
         </div>
-        <div style={{display:'inline-flex',alignItems:'center',gap:4,background:'rgba(255,255,255,.04)',borderRadius:99,padding:'4px 10px',fontSize:11,fontWeight:700,color,border:'1px solid rgba(255,255,255,.06)'}}>
-          {motivation}
-        </div>
+        <span style={{display:'inline-flex',alignItems:'center',background:'rgba(255,255,255,.04)',borderRadius:99,padding:'3px 10px',fontSize:11,fontWeight:700,color:col,border:'1px solid rgba(255,255,255,.06)'}}>
+          {msg}
+        </span>
       </div>
     </div>
   );
 };
 
-/* ── Toast ── */
-const Toast = ({ msg, type }) => {
-  const cfg = {
-    success: { bg:'linear-gradient(135deg,#059669,#047857)', emoji:'✅' },
-    error:   { bg:'linear-gradient(135deg,#dc2626,#b91c1c)', emoji:'❌' },
-    info:    { bg:'linear-gradient(135deg,#1e3a5f,#1d3a6e)', emoji:'ℹ️' },
-  };
-  const c = cfg[type] || cfg.info;
-  return (
-    <div className="toast" style={{
-      position:'fixed',bottom:96,left:'50%',transform:'translateX(-50%)',
-      background:c.bg,color:'#fff',borderRadius:16,padding:'12px 22px',
-      display:'flex',alignItems:'center',gap:10,
-      boxShadow:'0 10px 40px rgba(0,0,0,.65)',zIndex:999,
-      fontSize:14,fontWeight:700,whiteSpace:'nowrap',
-      border:'1px solid rgba(255,255,255,.1)',
-    }}>
-      <span>{c.emoji}</span>{msg}
+/* ─── Toast ───────────────────────────────────────────────────────────────── */
+const Toast=({msg,type})=>{
+  const map={success:{g:'linear-gradient(135deg,#065f46,#059669)',e:'✅'},error:{g:'linear-gradient(135deg,#7f1d1d,#dc2626)',e:'❌'},info:{g:'linear-gradient(135deg,#1e3a5f,#1d3a6e)',e:'ℹ️'}};
+  const c=map[type]||map.info;
+  return(
+    <div className="toastIn" style={{position:'fixed',bottom:96,left:'50%',transform:'translateX(-50%)',background:c.g,color:'#fff',borderRadius:16,padding:'12px 22px',display:'flex',alignItems:'center',gap:10,boxShadow:'0 12px 48px rgba(0,0,0,.7)',zIndex:999,fontSize:14,fontWeight:700,whiteSpace:'nowrap',border:'1px solid rgba(255,255,255,.1)'}}>
+      <span>{c.e}</span>{msg}
     </div>
   );
 };
 
-/* ── Input styles ── */
-const iStyle = err => ({
-  width:'100%',background:'rgba(8,10,16,.85)',
-  border:`1.5px solid ${err?'rgba(239,68,68,.5)':'rgba(74,111,165,.2)'}`,
-  borderRadius:12,padding:'11px 14px',fontSize:15,color:'#e8eaf0',
+/* ─── Celebration Modal ───────────────────────────────────────────────────── */
+const CelebrationModal=({contract,onClose})=>{
+  const canvasRef=useRef(null);
+  const fin=calcFin(contract);
+  useEffect(()=>{
+    playSuccess();
+    const cleanup=launchConfetti(canvasRef.current);
+    const t=setTimeout(onClose,5000);
+    return()=>{cleanup&&cleanup();clearTimeout(t);};
+  },[]);
+  return(
+    <div style={{position:'fixed',inset:0,background:'rgba(0,0,0,.88)',backdropFilter:'blur(12px)',zIndex:60,display:'flex',alignItems:'center',justifyContent:'center',padding:24}} onClick={onClose}>
+      <canvas ref={canvasRef} style={{position:'absolute',inset:0,pointerEvents:'none'}}/>
+      <div className="celeb" style={{background:'linear-gradient(145deg,#0e1120,#131728)',border:'1px solid rgba(74,111,165,.3)',borderRadius:28,padding:32,width:'100%',maxWidth:360,textAlign:'center',position:'relative',zIndex:1,boxShadow:'0 24px 80px rgba(0,0,0,.7)'}}>
+        <div style={{fontSize:56,marginBottom:8,lineHeight:1}}>🎉</div>
+        <div style={{fontSize:24,fontWeight:900,color:'#f1f5f9',letterSpacing:'-.03em',marginBottom:4}}>Novo Contrato!</div>
+        <div style={{fontSize:13,color:'#4b5563',marginBottom:24}}>Parabéns pela nova operação 💸</div>
+
+        <div style={{background:'rgba(74,111,165,.08)',border:'1px solid rgba(74,111,165,.18)',borderRadius:18,padding:20,marginBottom:20}}>
+          <div style={{fontSize:16,fontWeight:800,color:'#e8eaf0',marginBottom:14}}>{contract.nome}</div>
+          <div style={{display:'grid',gridTemplateColumns:'1fr 1fr 1fr',gap:10,textAlign:'center'}}>
+            {[
+              {l:'Emprestado',v:R$(contract.valorEmprestado),col:'#9ca3af',e:'💵'},
+              {l:'Retorno',   v:R$(contract.valorRetorno),   col:'#4a6fa5',e:'📈'},
+              {l:'Seu Lucro', v:R$(fin.liquido),             col:'#10b981',e:'🏆'},
+            ].map(({l,v,col,e},i)=>(
+              <div key={i}>
+                <div style={{fontSize:16,marginBottom:4}}>{e}</div>
+                <div style={{fontSize:9,color:'#374151',textTransform:'uppercase',letterSpacing:'.06em',marginBottom:3}}>{l}</div>
+                <div style={{fontSize:14,fontWeight:900,color:col}} className="npop">{v}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div style={{fontSize:13,color:'#374151',marginBottom:18}}>
+          Vence em <strong style={{color:'#f1f5f9'}}>{new Date(contract.dataVencimento+'T00:00:00').toLocaleDateString('pt-BR',{day:'2-digit',month:'long'})}</strong>
+        </div>
+
+        <button onClick={onClose} style={{background:'linear-gradient(135deg,#4a6fa5,#1d3a6e)',border:'none',color:'#fff',borderRadius:14,padding:'13px 28px',fontSize:14,fontWeight:700,cursor:'pointer',fontFamily:'inherit',boxShadow:'0 4px 24px rgba(29,58,110,.5)',width:'100%'}}>
+          Continuar 🚀
+        </button>
+      </div>
+    </div>
+  );
+};
+
+/* ─── Field ───────────────────────────────────────────────────────────────── */
+const iStyle=err=>({
+  width:'100%',background:'rgba(7,9,15,.9)',
+  border:`1.5px solid ${err?'rgba(239,68,68,.45)':'rgba(59,95,160,.2)'}`,
+  borderRadius:12,padding:'12px 14px',fontSize:15,color:'#e8eaf0',
   outline:'none',fontFamily:'inherit',WebkitAppearance:'none',
   transition:'border-color .2s,box-shadow .2s',
 });
-
-const FieldWrap = ({ label, err, required, children }) => (
+const Fw=({label,err,required,children})=>(
   <div style={{marginBottom:14}}>
-    <label style={{display:'block',fontSize:11,fontWeight:700,color:'#4a6fa5',letterSpacing:'.06em',textTransform:'uppercase',marginBottom:6}}>
-      {label}{required && <span style={{color:'#ef4444',marginLeft:3}}>*</span>}
+    <label style={{display:'block',fontSize:11,fontWeight:700,color:'#4a6fa5',letterSpacing:'.07em',textTransform:'uppercase',marginBottom:6}}>
+      {label}{required&&<span style={{color:'#ef4444',marginLeft:3}}>*</span>}
     </label>
     {children}
-    {err && <div style={{color:'#f87171',fontSize:11,marginTop:4,display:'flex',alignItems:'center',gap:4}}><Icon d={ICONS.alert} size={11}/>{err}</div>}
+    {err&&<div style={{color:'#f87171',fontSize:11,marginTop:4,display:'flex',alignItems:'center',gap:4}}><Ic d={IC.alert} size={11}/>{err}</div>}
   </div>
 );
 
-/* ── Contract Modal ── */
-const EMPTY = { nome:'', cpf:'', telefone:'', chavePix:'', valorEmprestado:'', taxaServico:'30', dataInicio:'', dataVencimento:'', observacoes:'' };
-
-const ContractModal = ({ contract, onSave, onClose }) => {
-  const todayStr = new Date().toISOString().slice(0,10);
-  const [form, setForm] = useState(() =>
-    contract
-      ? { ...contract, valorEmprestado:String(contract.valorEmprestado), taxaServico:String(contract.taxaServico) }
-      : { ...EMPTY, dataInicio:todayStr }
-  );
-  const [errs, setErrs]   = useState({});
-  const [saving, setSaving] = useState(false);
-
-  const set = (k,v) => setForm(f => ({ ...f, [k]: v }));
-
-  const retorno = useMemo(() => (parseFloat(form.valorEmprestado)||0)*(1+(parseFloat(form.taxaServico)||0)/100), [form.valorEmprestado, form.taxaServico]);
-  const lucro   = retorno - (parseFloat(form.valorEmprestado)||0);
-  const socio   = lucro * SOCIO_PCT;
-  const liquido = lucro * (1 - SOCIO_PCT);
-
-  const validate = () => {
-    const e = {};
-    if(!form.nome.trim())                                          e.nome = 'Obrigatorio';
-    if(form.cpf.replace(/\D/g,'').length!==11)                    e.cpf  = 'CPF incompleto';
-    else if(!validateCPF(form.cpf))                               e.cpf  = 'CPF invalido';
-    if(!form.chavePix.trim())                                     e.chavePix = 'Obrigatorio';
-    if(!form.valorEmprestado||parseFloat(form.valorEmprestado)<=0) e.valorEmprestado = 'Informe um valor';
-    if(!form.dataInicio)                                          e.dataInicio = 'Obrigatorio';
-    if(!form.dataVencimento)                                      e.dataVencimento = 'Obrigatorio';
-    else if(form.dataVencimento <= form.dataInicio)                e.dataVencimento = 'Deve ser apos inicio';
-    setErrs(e);
-    return !Object.keys(e).length;
+/* ─── Contract Modal ──────────────────────────────────────────────────────── */
+const EMPTY={nome:'',cpf:'',telefone:'',chavePix:'',valorEmprestado:'',taxaServico:'30',dataInicio:'',dataVencimento:'',observacoes:''};
+const ContractModal=({contract,onSave,onClose})=>{
+  const td=new Date().toISOString().slice(0,10);
+  const [form,setForm]=useState(()=>contract?{...contract,valorEmprestado:String(contract.valorEmprestado),taxaServico:String(contract.taxaServico)}:{...EMPTY,dataInicio:td});
+  const [errs,setErrs]=useState({});
+  const [saving,setSaving]=useState(false);
+  const set=(k,v)=>setForm(f=>({...f,[k]:v}));
+  const ret=useMemo(()=>(parseFloat(form.valorEmprestado)||0)*(1+(parseFloat(form.taxaServico)||0)/100),[form.valorEmprestado,form.taxaServico]);
+  const lucro=ret-(parseFloat(form.valorEmprestado)||0),socio=lucro*SOCIO_PCT,liq=lucro*(1-SOCIO_PCT);
+  const validate=()=>{
+    const e={};
+    if(!form.nome.trim())e.nome='Obrigatório';
+    if(form.cpf.replace(/\D/g,'').length!==11)e.cpf='CPF incompleto';
+    else if(!validateCPF(form.cpf))e.cpf='CPF inválido';
+    if(!form.chavePix.trim())e.chavePix='Obrigatório';
+    if(!form.valorEmprestado||parseFloat(form.valorEmprestado)<=0)e.valorEmprestado='Informe um valor';
+    if(!form.dataInicio)e.dataInicio='Obrigatório';
+    if(!form.dataVencimento)e.dataVencimento='Obrigatório';
+    else if(form.dataVencimento<=form.dataInicio)e.dataVencimento='Deve ser após início';
+    setErrs(e);return!Object.keys(e).length;
   };
-
-  const submit = async e => {
-    e.preventDefault();
-    if(!validate()) return;
-    setSaving(true);
+  const submit=async e=>{
+    e.preventDefault();if(!validate())return;setSaving(true);
     await onSave({
-      ...(contract || { id:uid(), createdAt:new Date().toISOString() }),
+      ...(contract||{id:uid(),createdAt:new Date().toISOString()}),
       ...form,
-      valorEmprestado: parseFloat(form.valorEmprestado),
-      taxaServico:     parseFloat(form.taxaServico)||30,
-      valorRetorno:    retorno,
+      valorEmprestado:parseFloat(form.valorEmprestado),
+      taxaServico:parseFloat(form.taxaServico)||30,
+      valorRetorno:ret,
     });
     setSaving(false);
   };
-
-  return (
-    <div style={{position:'fixed',inset:0,background:'rgba(0,0,0,.82)',backdropFilter:'blur(10px)',zIndex:50,display:'flex',alignItems:'flex-end',justifyContent:'center'}} onClick={e=>e.target===e.currentTarget&&onClose()}>
-      <div className="modal-in" style={{background:'#0c0e16',border:'1px solid #1e2235',borderRadius:'28px 28px 0 0',width:'100%',maxWidth:480,maxHeight:'93vh',overflowY:'auto',paddingBottom:36}}>
-        <div style={{width:36,height:4,background:'#2e3550',borderRadius:99,margin:'14px auto 0'}}/>
+  return(
+    <div style={{position:'fixed',inset:0,background:'rgba(0,0,0,.84)',backdropFilter:'blur(10px)',zIndex:50,display:'flex',alignItems:'flex-end',justifyContent:'center'}} onClick={e=>e.target===e.currentTarget&&onClose()}>
+      <div className="pop" style={{background:'#0b0d16',border:'1px solid rgba(255,255,255,.07)',borderRadius:'28px 28px 0 0',width:'100%',maxWidth:480,maxHeight:'93vh',overflowY:'auto',paddingBottom:36}}>
+        <div style={{width:36,height:4,background:'#252840',borderRadius:99,margin:'14px auto 0'}}/>
         <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',padding:'16px 20px 0'}}>
           <div>
-            <div style={{fontWeight:900,fontSize:18,color:'#f1f5f9'}}>{contract ? '✏️ Editar Contrato' : '💸 Novo Contrato'}</div>
-            <div style={{fontSize:11,color:'#4b5563',marginTop:2}}>Campos com * são obrigatórios</div>
+            <div style={{fontWeight:900,fontSize:20,color:'#f1f5f9',letterSpacing:'-.03em'}}>{contract?'Editar Contrato':'Novo Contrato 💸'}</div>
+            <div style={{fontSize:11,color:'#374151',marginTop:3}}>Campos marcados com * são obrigatórios</div>
           </div>
-          <button onClick={onClose} style={{background:'rgba(255,255,255,.05)',border:'1px solid rgba(255,255,255,.07)',borderRadius:12,width:36,height:36,display:'flex',alignItems:'center',justifyContent:'center',cursor:'pointer',color:'#6b7280'}}>
-            <Icon d={ICONS.x} size={16}/>
+          <button onClick={onClose} style={{background:'rgba(255,255,255,.05)',border:'1px solid rgba(255,255,255,.07)',borderRadius:12,width:38,height:38,display:'flex',alignItems:'center',justifyContent:'center',cursor:'pointer',color:'#6b7280'}}>
+            <Ic d={IC.x} size={16}/>
           </button>
         </div>
-
         <form onSubmit={submit} style={{padding:'20px 20px 0'}}>
-          <FieldWrap label="👤 Nome Completo" err={errs.nome} required>
-            <input style={iStyle(errs.nome)} value={form.nome} onChange={e=>set('nome',e.target.value)} placeholder="Ex: Bruno Neves"/>
-          </FieldWrap>
+          <Fw label="👤 Nome Completo" err={errs.nome} required>
+            <input className="inp" style={iStyle(errs.nome)} value={form.nome} onChange={e=>set('nome',e.target.value)} placeholder="Ex: Bruno Neves"/>
+          </Fw>
           <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:12}}>
-            <FieldWrap label="CPF" err={errs.cpf} required>
-              <input style={iStyle(errs.cpf)} value={form.cpf} onChange={e=>set('cpf',fmtCPF(e.target.value))} placeholder="000.000.000-00" maxLength={14}/>
-            </FieldWrap>
-            <FieldWrap label="📱 WhatsApp">
-              <input style={iStyle(false)} value={form.telefone} onChange={e=>set('telefone',fmtPhone(e.target.value))} placeholder="(00) 00000-0000" maxLength={15}/>
-            </FieldWrap>
+            <Fw label="CPF" err={errs.cpf} required>
+              <input className="inp" style={iStyle(errs.cpf)} value={form.cpf} onChange={e=>set('cpf',fmtCPF(e.target.value))} placeholder="000.000.000-00" maxLength={14}/>
+            </Fw>
+            <Fw label="📱 WhatsApp">
+              <input className="inp" style={iStyle(false)} value={form.telefone} onChange={e=>set('telefone',fmtPhone(e.target.value))} placeholder="(00) 00000-0000" maxLength={15}/>
+            </Fw>
           </div>
-          <FieldWrap label="🔑 Chave Pix" err={errs.chavePix} required>
-            <input style={iStyle(errs.chavePix)} value={form.chavePix} onChange={e=>set('chavePix',e.target.value)} placeholder="CPF, e-mail, telefone ou aleatória"/>
-          </FieldWrap>
+          <Fw label="🔑 Chave Pix" err={errs.chavePix} required>
+            <input className="inp" style={iStyle(errs.chavePix)} value={form.chavePix} onChange={e=>set('chavePix',e.target.value)} placeholder="CPF, e-mail, telefone ou aleatória"/>
+          </Fw>
           <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:12}}>
-            <FieldWrap label="💰 Valor Emprestado" err={errs.valorEmprestado} required>
-              <input type="number" min="0.01" step="0.01" style={iStyle(errs.valorEmprestado)} value={form.valorEmprestado} onChange={e=>set('valorEmprestado',e.target.value)} placeholder="0,00"/>
-            </FieldWrap>
-            <FieldWrap label="📈 Taxa (%)">
-              <input type="number" min="0" max="9999" step="0.1" style={iStyle(false)} value={form.taxaServico} onChange={e=>set('taxaServico',e.target.value)} placeholder="30"/>
-            </FieldWrap>
+            <Fw label="💰 Valor (R$)" err={errs.valorEmprestado} required>
+              <input type="number" min="0.01" step="0.01" className="inp" style={iStyle(errs.valorEmprestado)} value={form.valorEmprestado} onChange={e=>set('valorEmprestado',e.target.value)} placeholder="0,00"/>
+            </Fw>
+            <Fw label="📈 Taxa (%)">
+              <input type="number" min="0" max="9999" step="0.1" className="inp" style={iStyle(false)} value={form.taxaServico} onChange={e=>set('taxaServico',e.target.value)} placeholder="30"/>
+            </Fw>
           </div>
-
-          {retorno > 0 && (
-            <div style={{background:'linear-gradient(135deg,rgba(74,111,165,.1),rgba(29,58,110,.05))',border:'1px solid rgba(74,111,165,.2)',borderRadius:18,padding:16,marginBottom:14}}>
-              <div style={{fontSize:10,color:'#4a6fa5',fontWeight:700,letterSpacing:'.07em',textTransform:'uppercase',marginBottom:12}}>💡 Previsão Financeira</div>
+          {ret>0&&(
+            <div style={{background:'linear-gradient(135deg,rgba(59,95,160,.1),rgba(29,58,110,.05))',border:'1px solid rgba(59,95,160,.18)',borderRadius:16,padding:16,marginBottom:14}}>
+              <div style={{fontSize:10,color:'#4a6fa5',fontWeight:700,letterSpacing:'.08em',textTransform:'uppercase',marginBottom:12}}>Previsão Financeira</div>
               <div style={{display:'grid',gridTemplateColumns:'1fr 1fr 1fr',gap:8,textAlign:'center'}}>
-                <div>
-                  <div style={{fontSize:9,color:'#4b5563',textTransform:'uppercase',letterSpacing:'.05em',marginBottom:4}}>Retorno Total</div>
-                  <div style={{fontSize:16,fontWeight:900,color:'#4a6fa5'}}>{R$(retorno)}</div>
-                </div>
-                <div>
-                  <div style={{fontSize:9,color:'#4b5563',textTransform:'uppercase',letterSpacing:'.05em',marginBottom:4}}>{SOCIO_NOME} 🤝</div>
-                  <div style={{fontSize:16,fontWeight:900,color:'#a78bfa'}}>{R$(socio)}</div>
-                </div>
-                <div>
-                  <div style={{fontSize:9,color:'#4b5563',textTransform:'uppercase',letterSpacing:'.05em',marginBottom:4}}>Seu Lucro 🏆</div>
-                  <div style={{fontSize:16,fontWeight:900,color:'#10b981'}}>{R$(liquido)}</div>
-                </div>
+                {[{l:'Retorno',v:R$(ret),c:'#4a6fa5'},{l:SOCIO_NOME,v:R$(socio),c:'#a78bfa'},{l:'Seu Lucro',v:R$(liq),c:'#10b981'}].map(({l,v,c},i)=>(
+                  <div key={i}>
+                    <div style={{fontSize:9,color:'#374151',textTransform:'uppercase',letterSpacing:'.05em',marginBottom:3}}>{l}</div>
+                    <div style={{fontSize:16,fontWeight:900,color:c}}>{v}</div>
+                  </div>
+                ))}
               </div>
             </div>
           )}
-
           <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:12}}>
-            <FieldWrap label="📅 Data Início" err={errs.dataInicio} required>
-              <input type="date" style={{...iStyle(errs.dataInicio),colorScheme:'dark'}} value={form.dataInicio} onChange={e=>set('dataInicio',e.target.value)}/>
-            </FieldWrap>
-            <FieldWrap label="🏁 Vencimento" err={errs.dataVencimento} required>
-              <input type="date" style={{...iStyle(errs.dataVencimento),colorScheme:'dark'}} value={form.dataVencimento} onChange={e=>set('dataVencimento',e.target.value)}/>
-            </FieldWrap>
+            <Fw label="📅 Início" err={errs.dataInicio} required>
+              <input type="date" className="inp" style={{...iStyle(errs.dataInicio),colorScheme:'dark'}} value={form.dataInicio} onChange={e=>set('dataInicio',e.target.value)}/>
+            </Fw>
+            <Fw label="🏁 Vencimento" err={errs.dataVencimento} required>
+              <input type="date" className="inp" style={{...iStyle(errs.dataVencimento),colorScheme:'dark'}} value={form.dataVencimento} onChange={e=>set('dataVencimento',e.target.value)}/>
+            </Fw>
           </div>
-          <FieldWrap label="📝 Observações">
-            <textarea rows={2} style={{...iStyle(false),resize:'none'}} value={form.observacoes} onChange={e=>set('observacoes',e.target.value)} placeholder="Garantias, referências, etc."/>
-          </FieldWrap>
-
+          <Fw label="📝 Observações">
+            <textarea rows={2} className="inp" style={{...iStyle(false),resize:'none'}} value={form.observacoes} onChange={e=>set('observacoes',e.target.value)} placeholder="Garantias, referências, etc."/>
+          </Fw>
           <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:12,marginTop:4}}>
-            <button type="button" onClick={onClose} style={{background:'rgba(255,255,255,.05)',border:'1px solid rgba(255,255,255,.07)',color:'#6b7280',borderRadius:14,padding:'14px',fontSize:14,fontWeight:700,cursor:'pointer',fontFamily:'inherit'}}>
-              Cancelar
-            </button>
-            <button type="submit" disabled={saving} style={{background:'linear-gradient(135deg,#4a6fa5,#1d3a6e)',border:'none',color:'#fff',borderRadius:14,padding:'14px',fontSize:14,fontWeight:700,cursor:'pointer',fontFamily:'inherit',boxShadow:'0 4px 24px rgba(29,58,110,.5)',opacity:saving?0.65:1}}>
-              {saving ? '⏳ Salvando...' : contract ? '✅ Salvar' : '💸 Cadastrar'}
+            <button type="button" onClick={onClose} style={{background:'rgba(255,255,255,.05)',border:'1px solid rgba(255,255,255,.07)',color:'#6b7280',borderRadius:14,padding:'14px',fontSize:14,fontWeight:700,cursor:'pointer',fontFamily:'inherit'}}>Cancelar</button>
+            <button type="submit" disabled={saving} style={{background:'linear-gradient(135deg,#4a6fa5,#1d3a6e)',border:'none',color:'#fff',borderRadius:14,padding:'14px',fontSize:14,fontWeight:700,cursor:'pointer',fontFamily:'inherit',boxShadow:'0 4px 24px rgba(29,58,110,.5)',opacity:saving?.65:1}}>
+              {saving?'Salvando…':contract?'✅ Salvar':'💸 Cadastrar'}
             </button>
           </div>
         </form>
@@ -468,36 +475,36 @@ const ContractModal = ({ contract, onSave, onClose }) => {
   );
 };
 
-/* ── Delete Modal ── */
-const DeleteModal = ({ name, onConfirm, onClose }) => (
-  <div style={{position:'fixed',inset:0,background:'rgba(0,0,0,.85)',backdropFilter:'blur(10px)',zIndex:50,display:'flex',alignItems:'center',justifyContent:'center',padding:20}} onClick={e=>e.target===e.currentTarget&&onClose()}>
-    <div className="modal-in" style={{background:'#0c0e16',border:'1px solid rgba(239,68,68,.2)',borderRadius:26,padding:28,width:'100%',maxWidth:340,textAlign:'center'}}>
-      <div style={{fontSize:42,marginBottom:10}}>🗑️</div>
-      <div style={{fontWeight:900,fontSize:17,color:'#f1f5f9',marginBottom:8}}>Excluir contrato</div>
-      <div style={{fontSize:13,color:'#6b7280',lineHeight:1.6,marginBottom:24}}>
-        Tem certeza que deseja excluir o contrato de <strong style={{color:'#f1f5f9'}}>{name}</strong>?
-        <br/><span style={{fontSize:11,color:'#4b5563'}}>Esta ação não pode ser desfeita.</span>
+/* ─── Delete Modal ────────────────────────────────────────────────────────── */
+const DelModal=({name,onConfirm,onClose})=>(
+  <div style={{position:'fixed',inset:0,background:'rgba(0,0,0,.86)',backdropFilter:'blur(10px)',zIndex:50,display:'flex',alignItems:'center',justifyContent:'center',padding:20}} onClick={e=>e.target===e.currentTarget&&onClose()}>
+    <div className="pop" style={{background:'#0b0d16',border:'1px solid rgba(239,68,68,.18)',borderRadius:26,padding:30,width:'100%',maxWidth:340,textAlign:'center'}}>
+      <div style={{fontSize:44,marginBottom:10}}>🗑️</div>
+      <div style={{fontWeight:900,fontSize:18,color:'#f1f5f9',marginBottom:8,letterSpacing:'-.02em'}}>Excluir contrato</div>
+      <div style={{fontSize:13,color:'#6b7280',lineHeight:1.65,marginBottom:24}}>
+        Tem certeza que deseja excluir o contrato de <strong style={{color:'#e8eaf0'}}>{name}</strong>?<br/>
+        <span style={{fontSize:11,color:'#374151'}}>Esta ação não pode ser desfeita.</span>
       </div>
       <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:10}}>
         <button onClick={onClose} style={{background:'rgba(255,255,255,.06)',border:'1px solid rgba(255,255,255,.08)',color:'#9ca3af',borderRadius:14,padding:'13px',fontSize:14,fontWeight:700,cursor:'pointer',fontFamily:'inherit'}}>Cancelar</button>
-        <button onClick={onConfirm} style={{background:'linear-gradient(135deg,#dc2626,#991b1b)',border:'none',color:'#fff',borderRadius:14,padding:'13px',fontSize:14,fontWeight:700,cursor:'pointer',fontFamily:'inherit',boxShadow:'0 4px 20px rgba(220,38,38,.35)'}}>🗑️ Excluir</button>
+        <button onClick={onConfirm} style={{background:'linear-gradient(135deg,#dc2626,#991b1b)',border:'none',color:'#fff',borderRadius:14,padding:'13px',fontSize:14,fontWeight:700,cursor:'pointer',fontFamily:'inherit',boxShadow:'0 4px 20px rgba(220,38,38,.35)'}}>Excluir</button>
       </div>
     </div>
   </div>
 );
 
-/* ── Meta Modal ── */
-const MetaModal = ({ current, onSave, onClose }) => {
-  const [val, setVal] = useState(current > 0 ? String(current) : '');
-  return (
-    <div style={{position:'fixed',inset:0,background:'rgba(0,0,0,.85)',backdropFilter:'blur(10px)',zIndex:50,display:'flex',alignItems:'center',justifyContent:'center',padding:20}} onClick={e=>e.target===e.currentTarget&&onClose()}>
-      <div className="modal-in" style={{background:'#0c0e16',border:'1px solid rgba(74,111,165,.25)',borderRadius:26,padding:28,width:'100%',maxWidth:340,textAlign:'center'}}>
-        <div style={{fontSize:42,marginBottom:8}}>🎯</div>
-        <div style={{fontWeight:900,fontSize:18,color:'#f1f5f9',marginBottom:4}}>Meta do Mês</div>
+/* ─── Meta Modal ──────────────────────────────────────────────────────────── */
+const MetaModal=({current,onSave,onClose})=>{
+  const [val,setVal]=useState(current>0?String(current):'');
+  return(
+    <div style={{position:'fixed',inset:0,background:'rgba(0,0,0,.86)',backdropFilter:'blur(10px)',zIndex:50,display:'flex',alignItems:'center',justifyContent:'center',padding:20}} onClick={e=>e.target===e.currentTarget&&onClose()}>
+      <div className="pop" style={{background:'#0b0d16',border:'1px solid rgba(59,95,160,.25)',borderRadius:26,padding:30,width:'100%',maxWidth:340,textAlign:'center'}}>
+        <div style={{fontSize:44,marginBottom:8}}>🎯</div>
+        <div style={{fontWeight:900,fontSize:20,color:'#f1f5f9',marginBottom:4,letterSpacing:'-.03em'}}>Meta do Mês</div>
         <div style={{fontSize:12,color:'#4b5563',marginBottom:22}}>Quanto quer lucrar esse mês?</div>
-        <FieldWrap label="💰 Meta de Lucro Líquido (R$)">
-          <input type="number" min="0" step="0.01" style={{...iStyle(false),textAlign:'center',fontSize:20,fontWeight:700}} value={val} onChange={e=>setVal(e.target.value)} placeholder="5000,00" autoFocus/>
-        </FieldWrap>
+        <Fw label="💰 Lucro Líquido Alvo (R$)">
+          <input type="number" min="0" step="0.01" className="inp" style={{...iStyle(false),textAlign:'center',fontSize:22,fontWeight:800,letterSpacing:'-.02em'}} value={val} onChange={e=>setVal(e.target.value)} placeholder="5.000,00" autoFocus/>
+        </Fw>
         <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:10,marginTop:8}}>
           <button onClick={onClose} style={{background:'rgba(255,255,255,.06)',border:'1px solid rgba(255,255,255,.08)',color:'#9ca3af',borderRadius:14,padding:'13px',fontSize:14,fontWeight:700,cursor:'pointer',fontFamily:'inherit'}}>Cancelar</button>
           <button onClick={()=>onSave(parseFloat(val)||0)} style={{background:'linear-gradient(135deg,#4a6fa5,#1d3a6e)',border:'none',color:'#fff',borderRadius:14,padding:'13px',fontSize:14,fontWeight:700,cursor:'pointer',fontFamily:'inherit',boxShadow:'0 4px 20px rgba(29,58,110,.45)'}}>🎯 Definir</button>
@@ -507,107 +514,97 @@ const MetaModal = ({ current, onSave, onClose }) => {
   );
 };
 
-/* ── Contract Card ── */
-const ContractCard = ({ c, onEdit, onDelete, onTogglePago, index }) => {
-  const [open, setOpen] = useState(false);
-  const fin    = calcFin(c);
-  const isPago = !!c.pago;
-  const days   = daysLeft(c.dataVencimento);
-  const isLate   = !isPago && days < 0;
-  const isToday  = !isPago && days === 0;
-  const isUrgent = !isPago && days > 0 && days <= 5;
-
-  const initials = c.nome.trim().split(' ').filter(Boolean).slice(0,2).map(w=>w[0].toUpperCase()).join('');
-
-  const accentColor = isPago ? '#10b981' : isLate ? '#ef4444' : isToday ? '#f59e0b' : isUrgent ? '#f97316' : '#4a6fa5';
-  const statusEmoji = isPago ? '✅' : isLate ? '🔴' : isToday ? '🟡' : isUrgent ? '🟠' : '🟢';
-  const statusText  = isPago ? 'Pago' : isLate ? 'Atrasado' : isToday ? 'Vence Hoje' : 'No Prazo';
-  const statusBg    = isPago ? 'rgba(16,185,129,.1)' : isLate ? 'rgba(239,68,68,.1)' : isToday ? 'rgba(245,158,11,.1)' : isUrgent ? 'rgba(249,115,22,.1)' : 'rgba(74,111,165,.08)';
-
-  const openWA = () => {
-    if(!c.telefone) return;
-    const d = c.telefone.replace(/\D/g,'');
-    const br = d.startsWith('55') ? d : '55'+d;
-    window.open(`https://wa.me/${br}?text=${encodeURIComponent(`Olá ${c.nome.split(' ')[0]}, tudo bem? Passando para lembrar sobre o contrato.`)}`, '_blank');
+/* ─── Contract Card ───────────────────────────────────────────────────────── */
+const ContractCard=({c,onEdit,onDelete,onTogglePago,index})=>{
+  const [open,setOpen]=useState(false);
+  const [copied,setCopied]=useState(false);
+  const fin=calcFin(c),isPago=!!c.pago,days=daysLeft(c.dataVencimento);
+  const late=!isPago&&days<0,tod=!isPago&&days===0,urg=!isPago&&days>0&&days<=5;
+  const initials=c.nome.trim().split(' ').filter(Boolean).slice(0,2).map(w=>w[0].toUpperCase()).join('');
+  const ac=isPago?'#10b981':late?'#ef4444':tod?'#f59e0b':urg?'#f97316':'#4a6fa5';
+  const sEmoji=isPago?'✅':late?'🔴':tod?'🟡':urg?'🟠':'🟢';
+  const sTxt=isPago?'Pago':late?'Atrasado':tod?'Vence Hoje':'No Prazo';
+  const sBg=isPago?'rgba(16,185,129,.1)':late?'rgba(239,68,68,.1)':tod?'rgba(245,158,11,.1)':urg?'rgba(249,115,22,.1)':'rgba(74,111,165,.07)';
+  const copyPix=()=>{navigator.clipboard.writeText(c.chavePix).catch(()=>{});setCopied(true);setTimeout(()=>setCopied(false),2000);};
+  const openWA=()=>{
+    if(!c.telefone)return;
+    const d=c.telefone.replace(/\D/g,''),br=d.startsWith('55')?d:'55'+d;
+    window.open(`https://wa.me/${br}?text=${encodeURIComponent(`Olá ${c.nome.split(' ')[0]}, tudo bem? Passando para lembrar sobre o contrato.`)}`,'_blank');
   };
-
-  return (
-    <div className="contract-card fade-up" style={{
-      animationDelay:`${index * 0.06}s`,
-      background:'#0c0e16',
-      border:`1px solid rgba(${isPago?'16,185,129':isLate?'239,68,68':isToday?'245,158,11':isUrgent?'249,115,22':'74,111,165'},.15)`,
+  return(
+    <div className="card-hover fu" style={{
+      animationDelay:`${index*.06}s`,
+      background:'linear-gradient(160deg,#0e1020 0%,#0b0d16 100%)',
+      border:`1px solid rgba(${isPago?'16,185,129':late?'239,68,68':tod?'245,158,11':urg?'249,115,22':'74,111,165'},.14)`,
       borderRadius:20,overflow:'hidden',marginBottom:12,
-      borderLeft:`3px solid ${accentColor}`,
-      boxShadow:`0 4px 28px rgba(0,0,0,.35), 0 0 0 0 ${accentColor}`,
+      borderLeft:`3px solid ${ac}`,
     }}>
-      {/* header row */}
-      <div style={{padding:'14px 16px 10px',display:'flex',alignItems:'center',gap:12}}>
+      {/* top */}
+      <div style={{padding:'15px 16px 11px',display:'flex',alignItems:'center',gap:12}}>
         <div style={{
           width:46,height:46,borderRadius:14,flexShrink:0,
-          background: isPago ? 'linear-gradient(135deg,#064e3b,#10b981)' : isLate ? 'linear-gradient(135deg,#7f1d1d,#ef4444)' : 'linear-gradient(135deg,#1d3a6e,#4a6fa5)',
+          background:isPago?'linear-gradient(135deg,#064e3b,#0d9488)':late?'linear-gradient(135deg,#7f1d1d,#b91c1c)':'linear-gradient(135deg,#1e3a70,#3b5fa0)',
           display:'flex',alignItems:'center',justifyContent:'center',
           fontSize:15,fontWeight:900,color:'#fff',
-          boxShadow:`0 4px 16px rgba(${isPago?'16,185,129':isLate?'239,68,68':'29,58,110'},.3)`,
+          boxShadow:`0 4px 16px rgba(${isPago?'16,185,129':late?'220,38,38':'29,58,110'},.28)`,
         }}>{initials}</div>
-
         <div style={{flex:1,minWidth:0}}>
-          <div style={{fontWeight:800,fontSize:15,color:'#f1f5f9',overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap'}}>{c.nome}</div>
-          <div style={{fontSize:11,color:'#374151',overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap',marginTop:1}}>🔑 {c.chavePix}</div>
+          <div style={{fontWeight:800,fontSize:16,color:'#f1f5f9',letterSpacing:'-.02em',overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap'}}>{c.nome}</div>
+          <button onClick={copyPix} style={{display:'flex',alignItems:'center',gap:4,background:'none',border:'none',cursor:'pointer',padding:0,marginTop:2}}>
+            <span style={{fontSize:11,color:'#374151',overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap',maxWidth:160}}>{c.chavePix}</span>
+            <Ic d={IC.copy} size={11} stroke={copied?'#10b981':'#374151'}/>
+            {copied&&<span style={{fontSize:9,color:'#10b981',fontWeight:700}}>copiado!</span>}
+          </button>
         </div>
-
-        <div style={{display:'flex',alignItems:'center',gap:4,background:statusBg,border:`1px solid ${accentColor}22`,color:accentColor,borderRadius:99,padding:'5px 11px',fontSize:11,fontWeight:700,flexShrink:0}} className={isLate?'pulse':''}>
-          <span style={{fontSize:10}}>{statusEmoji}</span>{statusText}
+        <div style={{display:'inline-flex',alignItems:'center',gap:4,background:sBg,border:`1px solid ${ac}20`,color:ac,borderRadius:99,padding:'5px 11px',fontSize:11,fontWeight:700,flexShrink:0}} className={late?'pulse':''}>
+          <span style={{fontSize:10}}>{sEmoji}</span>{sTxt}
         </div>
       </div>
 
       {/* countdown / paid */}
-      <div style={{padding:'0 16px 12px'}}>
-        {isPago ? (
-          <div style={{display:'flex',alignItems:'center',gap:10,padding:'10px 14px',background:'rgba(16,185,129,.07)',borderRadius:14,border:'1px solid rgba(16,185,129,.15)'}}>
-            <span style={{fontSize:26}}>✅</span>
+      <div style={{padding:'0 16px 13px'}}>
+        {isPago?(
+          <div style={{display:'flex',alignItems:'center',gap:12,padding:'11px 14px',background:'rgba(16,185,129,.06)',borderRadius:14,border:'1px solid rgba(16,185,129,.14)'}}>
+            <span style={{fontSize:28}}>✅</span>
             <div>
-              <div style={{fontSize:13,fontWeight:800,color:'#10b981'}}>Pagamento Recebido! 🎉</div>
-              <div style={{fontSize:10,color:'#4b5563',marginTop:2}}>Lucro líquido: <span style={{color:'#10b981',fontWeight:700}}>{R$(fin.liquido)}</span></div>
+              <div style={{fontSize:14,fontWeight:800,color:'#10b981',letterSpacing:'-.01em'}}>Pagamento Recebido!</div>
+              <div style={{fontSize:10,color:'#4b5563',marginTop:2}}>Lucro líquido: <span style={{color:'#10b981',fontWeight:800}}>{R$(fin.liquido)}</span></div>
             </div>
           </div>
-        ) : (
-          <>
-            <Countdown dataInicio={c.dataInicio} dataVencimento={c.dataVencimento}/>
-            <ProgressBar dataInicio={c.dataInicio} dataVencimento={c.dataVencimento}/>
-          </>
+        ):(
+          <><Countdown dataInicio={c.dataInicio} dataVencimento={c.dataVencimento}/><PBar dataInicio={c.dataInicio} dataVencimento={c.dataVencimento}/></>
         )}
       </div>
 
       {/* values */}
-      <div style={{display:'grid',gridTemplateColumns:'1fr 1fr 1fr',borderTop:'1px solid #1a1d2a',borderBottom:'1px solid #1a1d2a'}}>
+      <div style={{display:'grid',gridTemplateColumns:'1fr 1fr 1fr',borderTop:'1px solid rgba(255,255,255,.04)',borderBottom:'1px solid rgba(255,255,255,.04)'}}>
         {[
-          {l:'💵 Emprestado', v:R$(c.valorEmprestado), col:'#6b7280'},
-          {l:'📈 Retorno',    v:R$(c.valorRetorno),    col:'#4a6fa5'},
-          {l:'🏆 Seu Lucro',  v:R$(fin.liquido),       col:'#10b981'},
-        ].map(({l,v,col},i) => (
-          <div key={i} style={{padding:'10px 8px',textAlign:'center',background:i===1?'rgba(74,111,165,.03)':'transparent',borderLeft:i>0?'1px solid #1a1d2a':'none'}}>
-            <div style={{fontSize:8,color:'#374151',textTransform:'uppercase',letterSpacing:'.05em',marginBottom:3}}>{l}</div>
+          {l:'💵 Emprestado',v:R$(c.valorEmprestado),col:'#6b7280'},
+          {l:'📈 Retorno',   v:R$(c.valorRetorno),   col:'#4a6fa5'},
+          {l:'🏆 Seu Lucro', v:R$(fin.liquido),      col:'#10b981'},
+        ].map(({l,v,col},i)=>(
+          <div key={i} style={{padding:'11px 8px',textAlign:'center',borderLeft:i>0?'1px solid rgba(255,255,255,.04)':'none',background:i===1?'rgba(59,95,160,.03)':'transparent'}}>
+            <div style={{fontSize:8,color:'#374151',textTransform:'uppercase',letterSpacing:'.06em',marginBottom:4,fontWeight:600}}>{l}</div>
             <div style={{fontSize:13,fontWeight:800,color:col}}>{v}</div>
           </div>
         ))}
       </div>
 
-      {/* profit split toggle */}
-      <button onClick={()=>setOpen(o=>!o)} style={{width:'100%',background:'none',border:'none',cursor:'pointer',display:'flex',alignItems:'center',justifyContent:'space-between',padding:'10px 16px',color:'#4b5563',fontFamily:'inherit'}}>
-        <span style={{fontSize:11,fontWeight:700,letterSpacing:'.04em'}}>💼 VER DIVISÃO DE LUCROS</span>
-        <Icon d={open?ICONS.chevup:ICONS.chevdown} size={13}/>
+      {/* profit split */}
+      <button onClick={()=>setOpen(o=>!o)} style={{width:'100%',background:'none',border:'none',cursor:'pointer',display:'flex',alignItems:'center',justifyContent:'space-between',padding:'10px 16px',color:'#374151',fontFamily:'inherit'}}>
+        <span style={{fontSize:10,fontWeight:700,letterSpacing:'.07em',textTransform:'uppercase'}}>💼 Divisão de Lucros</span>
+        <Ic d={open?IC.cu:IC.cd} size={13}/>
       </button>
-
-      {open && (
-        <div className="slide-down" style={{padding:'0 14px 14px',display:'grid',gridTemplateColumns:'1fr 1fr 1fr',gap:8}}>
+      {open&&(
+        <div className="fd" style={{padding:'0 14px 14px',display:'grid',gridTemplateColumns:'1fr 1fr 1fr',gap:8}}>
           {[
-            {l:'Lucro Bruto', v:R$(fin.lucro),   col:'#6b7280', emoji:'💰'},
-            {l:SOCIO_NOME,    v:R$(fin.socio),   col:'#a78bfa', emoji:'🤝'},
-            {l:'Seu Lucro',   v:R$(fin.liquido), col:'#10b981', emoji:'🏆'},
-          ].map(({l,v,col,emoji},i) => (
+            {l:'Lucro Bruto',v:R$(fin.lucro),  col:'#6b7280',e:'💰'},
+            {l:SOCIO_NOME,   v:R$(fin.socio),  col:'#a78bfa',e:'🤝'},
+            {l:'Seu Lucro',  v:R$(fin.liquido),col:'#10b981',e:'🏆'},
+          ].map(({l,v,col,e},i)=>(
             <div key={i} style={{background:'rgba(255,255,255,.02)',border:'1px solid rgba(255,255,255,.05)',borderRadius:13,padding:'10px 8px',textAlign:'center'}}>
-              <div style={{fontSize:16,marginBottom:4}}>{emoji}</div>
-              <div style={{fontSize:9,color:'#4b5563',textTransform:'uppercase',letterSpacing:'.05em',marginBottom:4}}>{l}</div>
+              <div style={{fontSize:16,marginBottom:4}}>{e}</div>
+              <div style={{fontSize:9,color:'#374151',textTransform:'uppercase',letterSpacing:'.05em',marginBottom:4}}>{l}</div>
               <div style={{fontSize:13,fontWeight:800,color:col}}>{v}</div>
             </div>
           ))}
@@ -615,32 +612,28 @@ const ContractCard = ({ c, onEdit, onDelete, onTogglePago, index }) => {
       )}
 
       {/* actions */}
-      <div style={{display:'flex',borderTop:'1px solid #1a1d2a'}}>
-        <button onClick={()=>onTogglePago(c)} style={{
-          flex:1.3,background:isPago?'rgba(16,185,129,.08)':'none',border:'none',cursor:'pointer',
-          padding:'12px 6px',display:'flex',alignItems:'center',justifyContent:'center',gap:5,
-          color:isPago?'#10b981':'#4b5563',fontFamily:'inherit',fontSize:11,fontWeight:700,transition:'all .2s',
-        }}>
-          {isPago ? '✅' : '⬜'} {isPago ? 'Pago' : 'Marcar Pago'}
+      <div style={{display:'flex',borderTop:'1px solid rgba(255,255,255,.04)'}}>
+        <button onClick={()=>onTogglePago(c)} style={{flex:1.4,background:isPago?'rgba(16,185,129,.07)':'none',border:'none',cursor:'pointer',padding:'12px 6px',display:'flex',alignItems:'center',justifyContent:'center',gap:5,color:isPago?'#10b981':'#4b5563',fontFamily:'inherit',fontSize:11,fontWeight:700,transition:'all .2s'}}>
+          {isPago?'✅':'⬜'} {isPago?'Pago':'Marcar Pago'}
         </button>
-        {c.telefone && (
-          <button onClick={openWA} style={{flex:1,background:'none',border:'none',borderLeft:'1px solid #1a1d2a',cursor:'pointer',padding:'12px 6px',display:'flex',alignItems:'center',justifyContent:'center',gap:5,color:'#22c55e',fontFamily:'inherit',fontSize:11,fontWeight:600}}>
+        {c.telefone&&(
+          <button onClick={openWA} style={{flex:1,background:'none',border:'none',borderLeft:'1px solid rgba(255,255,255,.04)',cursor:'pointer',padding:'12px 6px',display:'flex',alignItems:'center',justifyContent:'center',gap:5,color:'#22c55e',fontFamily:'inherit',fontSize:11,fontWeight:600}}>
             <WA size={13}/>WA
           </button>
         )}
-        <button onClick={()=>onEdit(c)} style={{flex:1,background:'none',border:'none',borderLeft:'1px solid #1a1d2a',cursor:'pointer',padding:'12px 6px',display:'flex',alignItems:'center',justifyContent:'center',gap:5,color:'#4a6fa5',fontFamily:'inherit',fontSize:11,fontWeight:600}}>
-          ✏️ Editar
+        <button onClick={()=>onEdit(c)} style={{flex:1,background:'none',border:'none',borderLeft:'1px solid rgba(255,255,255,.04)',cursor:'pointer',padding:'12px 6px',display:'flex',alignItems:'center',justifyContent:'center',gap:5,color:'#4a6fa5',fontFamily:'inherit',fontSize:11,fontWeight:600}}>
+          <Ic d={IC.edit} size={13}/>Editar
         </button>
-        <button onClick={()=>onDelete(c)} style={{flex:1,background:'none',border:'none',borderLeft:'1px solid #1a1d2a',cursor:'pointer',padding:'12px 6px',display:'flex',alignItems:'center',justifyContent:'center',gap:5,color:'#ef4444',fontFamily:'inherit',fontSize:11,fontWeight:600}}>
-          🗑️
+        <button onClick={()=>onDelete(c)} style={{flex:.7,background:'none',border:'none',borderLeft:'1px solid rgba(255,255,255,.04)',cursor:'pointer',padding:'12px 6px',display:'flex',alignItems:'center',justifyContent:'center',color:'#ef4444',fontFamily:'inherit',fontSize:11,fontWeight:600}}>
+          <Ic d={IC.trash} size={13}/>
         </button>
       </div>
     </div>
   );
 };
 
-/* ── App ── */
-const App = () => {
+/* ─── App ─────────────────────────────────────────────────────────────────── */
+const App=()=>{
   const [user,      setUser]      = useState(null);
   const [contracts, setContracts] = useState([]);
   const [loading,   setLoading]   = useState(true);
@@ -650,362 +643,390 @@ const App = () => {
   const [filter,    setFilter]    = useState('all');
   const [toast,     setToast]     = useState(null);
   const [tab,       setTab]       = useState('contratos');
-  const [meta,      setMeta]      = useState(() => parseFloat(localStorage.getItem('bobopix_meta')||'0'));
+  const [meta,      setMeta]      = useState(()=>parseFloat(localStorage.getItem('bobopix_meta')||'0'));
   const [metaModal, setMetaModal] = useState(false);
+  const [celeb,     setCeleb]     = useState(null);
 
-  const showToast = (msg, type='success') => { setToast({msg,type}); setTimeout(()=>setToast(null),3200); };
+  const showToast=(msg,type='success')=>{setToast({msg,type});setTimeout(()=>setToast(null),3200);};
 
-  const load = useCallback(async () => {
-    const data = await api.get('/api/contratos');
-    setContracts(Array.isArray(data) ? data : []);
-  }, []);
+  const load=useCallback(async()=>{
+    const d=await api.get('/api/contratos');
+    setContracts(Array.isArray(d)?d:[]);
+  },[]);
 
   useEffect(()=>{
     (async()=>{
-      const me = await api.get('/api/me');
-      if(!me.ok){ window.location='/login'; return; }
-      setUser(me.nome);
-      await load();
-      setLoading(false);
+      const me=await api.get('/api/me');
+      if(!me.ok){window.location='/login';return;}
+      setUser(me.nome);await load();setLoading(false);
     })();
   },[]);
 
-  const handleSave = async data => {
-    const exists = contracts.find(c => c.id === data.id);
-    if(exists) await api.put(`/api/contratos/${data.id}`, data);
-    else       await api.post('/api/contratos', data);
+  const handleSave=async data=>{
+    const exists=contracts.find(c=>c.id===data.id);
+    if(exists)await api.put(`/api/contratos/${data.id}`,data);
+    else await api.post('/api/contratos',data);
     await load();
     setModal(null);
-    showToast(exists ? 'Contrato atualizado! ✅' : 'Contrato cadastrado! 💸');
+    if(!exists) setCeleb(data);
+    else showToast('Contrato atualizado! ✅');
   };
 
-  const handleDelete = async () => {
+  const handleDelete=async()=>{
     await api.delete(`/api/contratos/${delTgt.id}`);
+    await load();setDelTgt(null);showToast('Contrato excluído.','info');
+  };
+
+  const handleTogglePago=async c=>{
+    const u={...c,pago:!c.pago};
+    await api.put(`/api/contratos/${c.id}`,u);
     await load();
-    setDelTgt(null);
-    showToast('Contrato excluído.', 'info');
+    showToast(u.pago?'💰 Pagamento registrado!':'Marcado como não pago.',u.pago?'success':'info');
   };
 
-  const handleTogglePago = async c => {
-    const updated = { ...c, pago: !c.pago };
-    await api.put(`/api/contratos/${c.id}`, updated);
-    await load();
-    showToast(updated.pago ? '💰 Pagamento recebido!' : 'Marcado como não pago.', updated.pago ? 'success' : 'info');
-  };
+  const handleSetMeta=val=>{setMeta(val);localStorage.setItem('bobopix_meta',String(val));setMetaModal(false);showToast('🎯 Meta definida!');};
+  const logout=async()=>{await api.post('/api/logout',{});window.location='/login';};
 
-  const handleSetMeta = val => {
-    setMeta(val);
-    localStorage.setItem('bobopix_meta', String(val));
-    setMetaModal(false);
-    showToast('🎯 Meta definida!');
-  };
-
-  const logout = async () => { await api.post('/api/logout',{}); window.location='/login'; };
-
-  const summary = useMemo(()=>{
-    const pagos    = contracts.filter(c => c.pago);
-    const inv      = contracts.reduce((s,c) => s+c.valorEmprestado, 0);
-    const rec      = contracts.reduce((s,c) => s+c.valorRetorno, 0);
-    const lucro    = contracts.reduce((s,c) => s+calcFin(c).lucro, 0);
-    const socio    = contracts.reduce((s,c) => s+calcFin(c).socio, 0);
-    const liq      = contracts.reduce((s,c) => s+calcFin(c).liquido, 0);
-    const liqPago  = pagos.reduce((s,c) => s+calcFin(c).liquido, 0);
-    const late     = contracts.filter(c => !c.pago && daysLeft(c.dataVencimento) < 0).length;
-    const hoje     = contracts.filter(c => !c.pago && daysLeft(c.dataVencimento) === 0).length;
-    return { inv, rec, lucro, socio, liq, liqPago, late, hoje, count:contracts.length, pagoCount:pagos.length };
+  const summary=useMemo(()=>{
+    const ativos = contracts.filter(c=>!c.pago);
+    const pagos  = contracts.filter(c=>c.pago);
+    // Dinheiro NA RUA (apenas contratos ativos)
+    const emGiro    = ativos.reduce((s,c)=>s+c.valorEmprestado,0);
+    const aReceber  = ativos.reduce((s,c)=>s+c.valorRetorno,0);
+    const lucroAtivo= ativos.reduce((s,c)=>s+calcFin(c).lucro,0);
+    const liqAtivo  = ativos.reduce((s,c)=>s+calcFin(c).liquido,0);
+    // Dinheiro RECOLHIDO (contratos pagos)
+    const recolhido      = pagos.reduce((s,c)=>s+c.valorRetorno,0);
+    const jurosRecolhidos= pagos.reduce((s,c)=>s+calcFin(c).lucro,0);
+    const socioRecolhido = pagos.reduce((s,c)=>s+calcFin(c).socio,0);
+    const liqRecolhido   = pagos.reduce((s,c)=>s+calcFin(c).liquido,0);
+    // Totais gerais
+    const totalInv  = contracts.reduce((s,c)=>s+c.valorEmprestado,0);
+    const totalLucro= contracts.reduce((s,c)=>s+calcFin(c).lucro,0);
+    const totalSocio= contracts.reduce((s,c)=>s+calcFin(c).socio,0);
+    const totalLiq  = contracts.reduce((s,c)=>s+calcFin(c).liquido,0);
+    const late=ativos.filter(c=>daysLeft(c.dataVencimento)<0).length;
+    return{
+      emGiro,aReceber,lucroAtivo,liqAtivo,
+      recolhido,jurosRecolhidos,socioRecolhido,liqRecolhido,
+      totalInv,totalLucro,totalSocio,totalLiq,
+      late,count:contracts.length,ativoCount:ativos.length,pagoCount:pagos.length,
+      // alias para MetaRing
+      liqPago:liqRecolhido,
+    };
   },[contracts]);
 
-  const filtered = useMemo(()=>{
-    const q  = search.toLowerCase().replace(/\D/g,'');
-    const qr = search.toLowerCase();
+  const filtered=useMemo(()=>{
+    const qr=search.toLowerCase().trim();
+    const qd=search.replace(/\D/g,'');
     return contracts
-      .filter(c => {
-        if(filter==='Pago'     && !c.pago) return false;
-        if(filter==='Atrasado' && (c.pago || daysLeft(c.dataVencimento) >= 0)) return false;
-        if(filter==='Hoje'     && (c.pago || daysLeft(c.dataVencimento) !== 0)) return false;
-        if(filter==='Prazo'    && (c.pago || daysLeft(c.dataVencimento) <= 0))  return false;
-        if(!search) return true;
-        return c.nome.toLowerCase().includes(qr) || c.cpf.replace(/\D/g,'').includes(q);
+      .filter(c=>{
+        if(filter==='Pago'     &&!c.pago)return false;
+        if(filter==='Atrasado' &&(c.pago||daysLeft(c.dataVencimento)>=0))return false;
+        if(filter==='Hoje'     &&(c.pago||daysLeft(c.dataVencimento)!==0))return false;
+        if(filter==='Prazo'    &&(c.pago||daysLeft(c.dataVencimento)<=0))return false;
+        if(!qr)return true;
+        const nameMatch=c.nome.toLowerCase().includes(qr);
+        const cpfMatch=qd.length>0&&c.cpf.replace(/\D/g,'').includes(qd);
+        return nameMatch||cpfMatch;
       })
-      .sort((a,b) => {
-        if(a.pago && !b.pago) return 1;
-        if(!a.pago && b.pago) return -1;
-        return daysLeft(a.dataVencimento) - daysLeft(b.dataVencimento);
+      .sort((a,b)=>{
+        if(a.pago&&!b.pago)return 1;if(!a.pago&&b.pago)return-1;
+        return daysLeft(a.dataVencimento)-daysLeft(b.dataVencimento);
       });
-  },[contracts, search, filter]);
+  },[contracts,search,filter]);
 
-  if(loading) return (
+  if(loading)return(
     <div style={{minHeight:'100vh',display:'flex',alignItems:'center',justifyContent:'center',flexDirection:'column',gap:16}}>
-      <div style={{fontSize:52}} className="float-anim">💰</div>
+      <div style={{fontSize:54}} className="float">💰</div>
       <svg className="spin" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#4a6fa5" strokeWidth="2.5"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83" strokeLinecap="round"/></svg>
-      <div style={{fontSize:13,color:'#4b5563',fontWeight:600,letterSpacing:'.05em'}}>Carregando...</div>
+      <div style={{fontSize:13,color:'#374151',fontWeight:600,letterSpacing:'.06em'}}>Carregando…</div>
     </div>
   );
 
-  const filterOptions = [
-    {v:'all',     l:'Todos',      emoji:'📋'},
-    {v:'Prazo',   l:'No Prazo',   emoji:'🟢'},
-    {v:'Hoje',    l:'Hoje',       emoji:'🟡'},
-    {v:'Atrasado',l:'Atrasados',  emoji:'🔴'},
-    {v:'Pago',    l:'Pagos',      emoji:'✅'},
-  ];
+  const fOpts=[{v:'all',l:'Todos',e:'📋'},{v:'Prazo',l:'No Prazo',e:'🟢'},{v:'Hoje',l:'Hoje',e:'🟡'},{v:'Atrasado',l:'Atrasados',e:'🔴'},{v:'Pago',l:'Pagos',e:'✅'}];
 
-  return (
+  return(
     <div style={{minHeight:'100vh',maxWidth:480,margin:'0 auto'}}>
 
       {/* Header */}
-      <div style={{position:'sticky',top:0,zIndex:30,background:'rgba(8,10,16,.92)',backdropFilter:'blur(22px)',borderBottom:'1px solid rgba(255,255,255,.04)',padding:'12px 16px',display:'flex',alignItems:'center',justifyContent:'space-between'}}>
+      <div style={{position:'sticky',top:0,zIndex:30,background:'rgba(7,9,15,.93)',backdropFilter:'blur(24px)',borderBottom:'1px solid rgba(255,255,255,.04)',padding:'12px 16px',display:'flex',alignItems:'center',justifyContent:'space-between'}}>
         <div style={{display:'flex',alignItems:'center',gap:10}}>
-          <img src="/logo.png" alt="logo" style={{height:36,filter:'drop-shadow(0 2px 14px rgba(74,111,165,.55))'}} className="float-anim"/>
+          <img src="/logo.png" alt="" style={{height:36,filter:'drop-shadow(0 2px 14px rgba(59,95,160,.6))'}} className="float"/>
           <div>
-            <div style={{fontWeight:900,fontSize:16,color:'#f1f5f9',letterSpacing:'-.02em'}}>Bobo do Pix 💰</div>
-            <div style={{fontSize:10,color:'#374151',marginTop:1}}>
+            <div style={{fontWeight:900,fontSize:16,color:'#f1f5f9',letterSpacing:'-.03em',lineHeight:1.1}}>Bobo do Pix <span style={{fontSize:14}}>💰</span></div>
+            <div style={{fontSize:10,color:'#374151',marginTop:2,fontWeight:500}}>
               {summary.count} contrato{summary.count!==1?'s':''} &bull; {summary.pagoCount} pago{summary.pagoCount!==1?'s':''}
             </div>
           </div>
         </div>
         <div style={{display:'flex',alignItems:'center',gap:8}}>
-          {summary.late > 0 && (
-            <div className="pulse" style={{background:'rgba(239,68,68,.1)',border:'1px solid rgba(239,68,68,.3)',borderRadius:99,padding:'4px 10px',fontSize:11,fontWeight:700,color:'#ef4444'}}>
-              🔴 {summary.late}
+          {summary.late>0&&(
+            <div className="pulse" style={{background:'rgba(239,68,68,.1)',border:'1px solid rgba(239,68,68,.28)',borderRadius:99,padding:'4px 10px',fontSize:11,fontWeight:700,color:'#ef4444'}}>
+              🔴 {summary.late} atras{summary.late>1?'ados':'ado'}
             </div>
           )}
           <button onClick={logout} style={{background:'rgba(255,255,255,.04)',border:'1px solid rgba(255,255,255,.06)',borderRadius:12,width:36,height:36,display:'flex',alignItems:'center',justifyContent:'center',cursor:'pointer',color:'#4b5563'}}>
-            <Icon d={ICONS.logout} size={15}/>
+            <Ic d={IC.out} size={15}/>
           </button>
         </div>
       </div>
 
       {/* Tabs */}
-      <div style={{display:'flex',padding:'12px 16px 0',gap:4,borderBottom:'1px solid rgba(255,255,255,.04)',background:'rgba(8,10,16,.7)'}}>
-        {[['contratos','💳 Contratos'],['financeiro','📊 Financeiro']].map(([k,l]) => (
-          <button key={k} onClick={()=>setTab(k)} style={{
-            flex:1,padding:'10px',borderRadius:14,border:'none',cursor:'pointer',fontFamily:'inherit',fontSize:13,fontWeight:700,
-            background:tab===k?'rgba(74,111,165,.15)':'transparent',
-            color:tab===k?'#7aa7d4':'#4b5563',
-            borderBottom:tab===k?'2px solid #4a6fa5':'2px solid transparent',
-            transition:'all .2s',
-          }}>{l}</button>
+      <div style={{display:'flex',padding:'12px 16px 0',gap:4,borderBottom:'1px solid rgba(255,255,255,.04)',background:'rgba(7,9,15,.7)'}}>
+        {[['contratos','💳 Contratos'],['financeiro','📊 Financeiro']].map(([k,l])=>(
+          <button key={k} onClick={()=>setTab(k)} style={{flex:1,padding:'10px',borderRadius:14,border:'none',cursor:'pointer',fontFamily:'inherit',fontSize:13,fontWeight:700,background:tab===k?'rgba(59,95,160,.15)':'transparent',color:tab===k?'#7aa7d4':'#4b5563',borderBottom:tab===k?'2px solid #4a6fa5':'2px solid transparent',transition:'all .2s'}}>{l}</button>
         ))}
       </div>
 
-      {/* ═══ TAB CONTRATOS ═══ */}
-      {tab==='contratos' && (
+      {/* ══ CONTRATOS ══ */}
+      {tab==='contratos'&&(
         <div style={{padding:'14px 14px 120px'}}>
 
           {/* Meta */}
-          <div className="fade-up" style={{marginBottom:14}}>
+          <div className="fu" style={{marginBottom:14}}>
             <MetaRing current={summary.liqPago} meta={meta} onClick={()=>setMetaModal(true)}/>
           </div>
 
-          {/* Stats */}
-          <div style={{display:'grid',gridTemplateColumns:'1fr 1fr 1fr',gap:8,marginBottom:14}}>
-            {[
-              {emoji:'💰', l:'Em Giro',   v:summary.inv, col:'#4a6fa5', delay:'0s'},
-              {emoji:'📈', l:'A Receber', v:summary.rec, col:'#a78bfa', delay:'.05s'},
-              {emoji:'🏆', l:'Seu Lucro', v:summary.liq, col:'#10b981', delay:'.1s'},
-            ].map(({emoji,l,v,col,delay},i) => (
-              <div key={i} className="fade-up" style={{animationDelay:delay,background:'#0c0e16',border:'1px solid #1a1d2a',borderRadius:16,padding:'14px 10px',textAlign:'center'}}>
-                <div style={{fontSize:22,marginBottom:5}}>{emoji}</div>
-                <div style={{fontSize:9,color:'#4b5563',textTransform:'uppercase',letterSpacing:'.06em',marginBottom:4,fontWeight:700}}>{l}</div>
-                <div style={{fontSize:12,fontWeight:900,color:col,letterSpacing:'-.01em',lineHeight:1.2}}>
-                  <AnimVal value={v}/>
-                </div>
+          {/* Stats — Em Giro vs Recolhido */}
+          <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:8,marginBottom:8}}>
+            {/* Em Giro */}
+            <div className="fu" style={{animationDelay:'0s',background:'linear-gradient(145deg,rgba(59,95,160,.12),rgba(29,58,110,.06))',border:'1px solid rgba(59,95,160,.2)',borderRadius:18,padding:'16px 14px'}}>
+              <div style={{display:'flex',alignItems:'center',gap:6,marginBottom:10}}>
+                <div style={{width:7,height:7,borderRadius:'50%',background:'#f59e0b',boxShadow:'0 0 8px #f59e0b'}}/>
+                <div style={{fontSize:9,color:'#f59e0b',fontWeight:800,textTransform:'uppercase',letterSpacing:'.09em'}}>Em Giro</div>
               </div>
-            ))}
+              <div style={{fontSize:20,fontWeight:900,color:'#f1f5f9',letterSpacing:'-.03em',lineHeight:1,marginBottom:4}}><AV value={summary.emGiro}/></div>
+              <div style={{fontSize:9,color:'#374151',fontWeight:600}}>Capital na rua · {summary.ativoCount} ativo{summary.ativoCount!==1?'s':''}</div>
+              <div style={{marginTop:8,paddingTop:8,borderTop:'1px solid rgba(255,255,255,.04)'}}>
+                <div style={{fontSize:8,color:'#374151',textTransform:'uppercase',letterSpacing:'.06em',marginBottom:2}}>A receber</div>
+                <div style={{fontSize:13,fontWeight:800,color:'#4a6fa5'}}><AV value={summary.aReceber}/></div>
+              </div>
+            </div>
+            {/* Recolhido */}
+            <div className="fu" style={{animationDelay:'.05s',background:'linear-gradient(145deg,rgba(16,185,129,.1),rgba(5,150,105,.05))',border:'1px solid rgba(16,185,129,.22)',borderRadius:18,padding:'16px 14px'}}>
+              <div style={{display:'flex',alignItems:'center',gap:6,marginBottom:10}}>
+                <div style={{width:7,height:7,borderRadius:'50%',background:'#10b981',boxShadow:'0 0 8px #10b981'}}/>
+                <div style={{fontSize:9,color:'#10b981',fontWeight:800,textTransform:'uppercase',letterSpacing:'.09em'}}>Recolhido</div>
+              </div>
+              <div style={{fontSize:20,fontWeight:900,color:'#f1f5f9',letterSpacing:'-.03em',lineHeight:1,marginBottom:4}}><AV value={summary.recolhido}/></div>
+              <div style={{fontSize:9,color:'#374151',fontWeight:600}}>Total recebido · {summary.pagoCount} pago{summary.pagoCount!==1?'s':''}</div>
+              <div style={{marginTop:8,paddingTop:8,borderTop:'1px solid rgba(255,255,255,.04)'}}>
+                <div style={{fontSize:8,color:'#374151',textTransform:'uppercase',letterSpacing:'.06em',marginBottom:2}}>Seu lucro líquido</div>
+                <div style={{fontSize:13,fontWeight:800,color:'#10b981'}}><AV value={summary.liqRecolhido}/></div>
+              </div>
+            </div>
           </div>
+          {/* Juros recolhidos banner */}
+          {summary.pagoCount>0&&(
+            <div className="fu" style={{animationDelay:'.08s',background:'linear-gradient(135deg,rgba(16,185,129,.07),rgba(5,150,105,.04))',border:'1px solid rgba(16,185,129,.16)',borderRadius:14,padding:'12px 16px',marginBottom:8,display:'flex',alignItems:'center',justifyContent:'space-between'}}>
+              <div>
+                <div style={{fontSize:9,color:'#374151',fontWeight:700,textTransform:'uppercase',letterSpacing:'.08em',marginBottom:3}}>Juros Recolhidos</div>
+                <div style={{fontSize:18,fontWeight:900,color:'#10b981',letterSpacing:'-.02em'}}><AV value={summary.jurosRecolhidos}/></div>
+              </div>
+              <div style={{textAlign:'right'}}>
+                <div style={{fontSize:9,color:'#374151',fontWeight:700,textTransform:'uppercase',letterSpacing:'.08em',marginBottom:3}}>Seu Líquido</div>
+                <div style={{fontSize:18,fontWeight:900,color:'#34d399',letterSpacing:'-.02em'}}><AV value={summary.liqRecolhido}/></div>
+              </div>
+            </div>
+          )}
 
           {/* Search */}
           <div style={{position:'relative',marginBottom:10}}>
-            <div style={{position:'absolute',left:13,top:'50%',transform:'translateY(-50%)',color:'#2e3550',pointerEvents:'none'}}>
-              <Icon d={ICONS.search} size={15}/>
+            <div style={{position:'absolute',left:13,top:'50%',transform:'translateY(-50%)',color:'#374151',pointerEvents:'none'}}>
+              <Ic d={IC.search} size={15}/>
             </div>
-            <input value={search} onChange={e=>setSearch(e.target.value)} placeholder="🔍 Buscar por nome ou CPF..."
-              style={{width:'100%',background:'#0c0e16',border:'1px solid #1a1d2a',borderRadius:14,padding:'12px 38px 12px 40px',fontSize:14,color:'#f1f5f9',outline:'none',fontFamily:'inherit',WebkitAppearance:'none'}}/>
-            {search && (
+            <input
+              value={search} onChange={e=>setSearch(e.target.value)}
+              placeholder="Buscar por nome ou CPF…"
+              className="inp"
+              style={{width:'100%',background:'#0b0d16',border:'1px solid rgba(255,255,255,.07)',borderRadius:14,padding:'12px 38px 12px 40px',fontSize:14,color:'#e8eaf0',outline:'none',fontFamily:'inherit',WebkitAppearance:'none',transition:'border-color .2s,box-shadow .2s'}}
+            />
+            {search&&(
               <button onClick={()=>setSearch('')} style={{position:'absolute',right:12,top:'50%',transform:'translateY(-50%)',background:'none',border:'none',cursor:'pointer',color:'#4b5563'}}>
-                <Icon d={ICONS.x} size={14}/>
+                <Ic d={IC.x} size={14}/>
               </button>
             )}
           </div>
 
           {/* Filters */}
           <div style={{display:'flex',gap:6,marginBottom:14,overflowX:'auto',scrollbarWidth:'none',paddingBottom:2}}>
-            {filterOptions.map(({v,l,emoji}) => (
+            {fOpts.map(({v,l,e})=>(
               <button key={v} onClick={()=>setFilter(v)} style={{
                 flexShrink:0,padding:'7px 14px',borderRadius:99,
-                border:`1px solid ${filter===v?'#4a6fa5':'#1a1d2a'}`,cursor:'pointer',fontFamily:'inherit',fontSize:12,fontWeight:700,
-                background:filter===v?'rgba(74,111,165,.18)':'#0c0e16',
+                border:`1px solid ${filter===v?'rgba(74,111,165,.5)':'rgba(255,255,255,.06)'}`,
+                cursor:'pointer',fontFamily:'inherit',fontSize:12,fontWeight:700,
+                background:filter===v?'rgba(74,111,165,.18)':'rgba(255,255,255,.02)',
                 color:filter===v?'#7aa7d4':'#4b5563',
-                transition:'all .2s',display:'flex',alignItems:'center',gap:4,
+                display:'flex',alignItems:'center',gap:4,transition:'all .18s',
               }}>
-                <span style={{fontSize:10}}>{emoji}</span>{l}
+                <span style={{fontSize:10}}>{e}</span>{l}
               </button>
             ))}
-            <button onClick={()=>exportCSV(filtered)} style={{
-              flexShrink:0,padding:'7px 14px',borderRadius:99,border:'1px solid #1a1d2a',
-              background:'#0c0e16',color:'#4b5563',cursor:'pointer',fontFamily:'inherit',
-              fontSize:12,fontWeight:700,display:'flex',alignItems:'center',gap:5,marginLeft:'auto',
-            }}>📥 CSV</button>
+            <button onClick={()=>exportCSV(filtered)} style={{flexShrink:0,padding:'7px 14px',borderRadius:99,border:'1px solid rgba(255,255,255,.06)',background:'rgba(255,255,255,.02)',color:'#4b5563',cursor:'pointer',fontFamily:'inherit',fontSize:12,fontWeight:700,display:'flex',alignItems:'center',gap:5,marginLeft:'auto'}}>
+              <Ic d={IC.down} size={12}/>CSV
+            </button>
           </div>
 
           {/* List */}
-          {filtered.length === 0 ? (
-            <div className="fade-in" style={{textAlign:'center',padding:'60px 20px'}}>
+          {filtered.length===0?(
+            <div className="fi" style={{textAlign:'center',padding:'60px 20px'}}>
               <div style={{fontSize:52,marginBottom:12}}>🔍</div>
-              <div style={{color:'#4b5563',fontSize:14,fontWeight:700,marginBottom:4}}>
-                {search||filter!=='all' ? 'Nenhum resultado' : 'Nenhum contrato ainda 📭'}
+              <div style={{color:'#4b5563',fontSize:15,fontWeight:700,marginBottom:4}}>
+                {search||filter!=='all'?'Nenhum resultado encontrado':'Nenhum contrato ainda 📭'}
               </div>
-              <div style={{color:'#2e3550',fontSize:12}}>
-                {search||filter!=='all' ? 'Ajuste o filtro ou a busca' : 'Toque em + para começar a lucrar! 💸'}
+              <div style={{color:'#252840',fontSize:12}}>
+                {search||filter!=='all'?'Tente ajustar o filtro ou a busca':'Toque em + para cadastrar o primeiro contrato!'}
               </div>
             </div>
-          ) : filtered.map((c,i) => (
+          ):filtered.map((c,i)=>(
             <ContractCard key={c.id} c={c} index={i} onEdit={c=>setModal({contract:c})} onDelete={c=>setDelTgt(c)} onTogglePago={handleTogglePago}/>
           ))}
         </div>
       )}
 
-      {/* ═══ TAB FINANCEIRO ═══ */}
-      {tab==='financeiro' && (
+      {/* ══ FINANCEIRO ══ */}
+      {tab==='financeiro'&&(
         <div style={{padding:'16px 14px 120px'}}>
 
-          {/* Big Summary */}
-          <div className="fade-up" style={{background:'linear-gradient(135deg,rgba(74,111,165,.12),rgba(29,58,110,.07))',border:'1px solid rgba(74,111,165,.2)',borderRadius:24,padding:22,marginBottom:14,position:'relative',overflow:'hidden'}}>
-            <div style={{position:'absolute',top:-24,right:-16,fontSize:88,opacity:.04,pointerEvents:'none',userSelect:'none'}}>💰</div>
-            <div style={{fontSize:11,color:'#4a6fa5',fontWeight:700,letterSpacing:'.08em',textTransform:'uppercase',marginBottom:16}}>📊 Resumo Geral</div>
-            <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:16,marginBottom:16}}>
+          {/* Bloco Em Giro */}
+          <div className="fu" style={{background:'linear-gradient(145deg,rgba(59,95,160,.12),rgba(29,58,110,.06))',border:'1px solid rgba(59,95,160,.2)',borderRadius:22,padding:20,marginBottom:10,position:'relative',overflow:'hidden'}}>
+            <div style={{position:'absolute',top:-16,right:-10,fontSize:80,opacity:.04,pointerEvents:'none',userSelect:'none',lineHeight:1}}>⚠</div>
+            <div style={{display:'flex',alignItems:'center',gap:7,marginBottom:14}}>
+              <div style={{width:8,height:8,borderRadius:'50%',background:'#f59e0b',boxShadow:'0 0 10px #f59e0b'}}/>
+              <div style={{fontSize:10,color:'#f59e0b',fontWeight:800,textTransform:'uppercase',letterSpacing:'.1em'}}>Capital em Giro — Risco Atual</div>
+            </div>
+            <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:16,marginBottom:14}}>
               <div>
-                <div style={{fontSize:9,color:'#4b5563',textTransform:'uppercase',letterSpacing:'.06em',marginBottom:4}}>💰 Capital em Giro</div>
-                <div style={{fontSize:23,fontWeight:900,color:'#f1f5f9',letterSpacing:'-.03em',lineHeight:1}}><AnimVal value={summary.inv}/></div>
+                <div style={{fontSize:9,color:'#374151',textTransform:'uppercase',letterSpacing:'.07em',marginBottom:4,fontWeight:600}}>Na Rua</div>
+                <div style={{fontSize:26,fontWeight:900,color:'#f1f5f9',letterSpacing:'-.04em',lineHeight:1}}><AV value={summary.emGiro}/></div>
+                <div style={{fontSize:9,color:'#374151',marginTop:4}}>{summary.ativoCount} operaç{summary.ativoCount!==1?'ões':'ão'} ativa{summary.ativoCount!==1?'s':''}</div>
               </div>
               <div>
-                <div style={{fontSize:9,color:'#4b5563',textTransform:'uppercase',letterSpacing:'.06em',marginBottom:4}}>📈 Total a Receber</div>
-                <div style={{fontSize:23,fontWeight:900,color:'#4a6fa5',letterSpacing:'-.03em',lineHeight:1}}><AnimVal value={summary.rec}/></div>
+                <div style={{fontSize:9,color:'#374151',textTransform:'uppercase',letterSpacing:'.07em',marginBottom:4,fontWeight:600}}>A Receber</div>
+                <div style={{fontSize:26,fontWeight:900,color:'#4a6fa5',letterSpacing:'-.04em',lineHeight:1}}><AV value={summary.aReceber}/></div>
+                <div style={{fontSize:9,color:'#374151',marginTop:4}}>Capital + juros</div>
               </div>
             </div>
-            <div style={{height:1,background:'rgba(74,111,165,.12)',marginBottom:16}}/>
-            <div style={{display:'grid',gridTemplateColumns:'1fr 1fr 1fr',gap:10}}>
-              {[
-                {l:'💰 Lucro Bruto',  v:summary.lucro, col:'#6b7280'},
-                {l:`🤝 ${SOCIO_NOME}`, v:summary.socio, col:'#a78bfa'},
-                {l:'🏆 Seu Lucro',    v:summary.liq,   col:'#10b981'},
-              ].map(({l,v,col},i) => (
-                <div key={i}>
-                  <div style={{fontSize:9,color:'#4b5563',textTransform:'uppercase',letterSpacing:'.05em',marginBottom:5}}>{l}</div>
-                  <div style={{fontSize:15,fontWeight:900,color:col}}><AnimVal value={v}/></div>
-                </div>
-              ))}
+            <div style={{height:1,background:'rgba(59,95,160,.1)',marginBottom:12}}/>
+            <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:10}}>
+              <div>
+                <div style={{fontSize:9,color:'#374151',textTransform:'uppercase',letterSpacing:'.06em',marginBottom:3,fontWeight:600}}>Juros Esperados</div>
+                <div style={{fontSize:14,fontWeight:800,color:'#6b7280'}}><AV value={summary.lucroAtivo}/></div>
+              </div>
+              <div>
+                <div style={{fontSize:9,color:'#374151',textTransform:'uppercase',letterSpacing:'.06em',marginBottom:3,fontWeight:600}}>Seu Lucro Esperado</div>
+                <div style={{fontSize:14,fontWeight:800,color:'#7aa7d4'}}><AV value={summary.liqAtivo}/></div>
+              </div>
+            </div>
+          </div>
+
+          {/* Bloco Recolhido */}
+          <div className="fu" style={{animationDelay:'.06s',background:'linear-gradient(145deg,rgba(16,185,129,.1),rgba(5,150,105,.05))',border:'1px solid rgba(16,185,129,.22)',borderRadius:22,padding:20,marginBottom:10,position:'relative',overflow:'hidden'}}>
+            <div style={{position:'absolute',top:-16,right:-10,fontSize:80,opacity:.04,pointerEvents:'none',userSelect:'none',lineHeight:1}}>✓</div>
+            <div style={{display:'flex',alignItems:'center',gap:7,marginBottom:14}}>
+              <div style={{width:8,height:8,borderRadius:'50%',background:'#10b981',boxShadow:'0 0 10px #10b981'}}/>
+              <div style={{fontSize:10,color:'#10b981',fontWeight:800,textTransform:'uppercase',letterSpacing:'.1em'}}>Recolhido — Dinheiro em Caixa</div>
+            </div>
+            <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:16,marginBottom:14}}>
+              <div>
+                <div style={{fontSize:9,color:'#374151',textTransform:'uppercase',letterSpacing:'.07em',marginBottom:4,fontWeight:600}}>Total Recebido</div>
+                <div style={{fontSize:26,fontWeight:900,color:'#f1f5f9',letterSpacing:'-.04em',lineHeight:1}}><AV value={summary.recolhido}/></div>
+                <div style={{fontSize:9,color:'#374151',marginTop:4}}>{summary.pagoCount} operaç{summary.pagoCount!==1?'ões':'ão'} liquidada{summary.pagoCount!==1?'s':''}</div>
+              </div>
+              <div>
+                <div style={{fontSize:9,color:'#374151',textTransform:'uppercase',letterSpacing:'.07em',marginBottom:4,fontWeight:600}}>Juros Recolhidos</div>
+                <div style={{fontSize:26,fontWeight:900,color:'#10b981',letterSpacing:'-.04em',lineHeight:1}}><AV value={summary.jurosRecolhidos}/></div>
+                <div style={{fontSize:9,color:'#374151',marginTop:4}}>Lucro bruto realizado</div>
+              </div>
+            </div>
+            <div style={{height:1,background:'rgba(16,185,129,.1)',marginBottom:12}}/>
+            <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:10}}>
+              <div>
+                <div style={{fontSize:9,color:'#374151',textTransform:'uppercase',letterSpacing:'.06em',marginBottom:3,fontWeight:600}}>Parte {SOCIO_NOME}</div>
+                <div style={{fontSize:14,fontWeight:800,color:'#a78bfa'}}><AV value={summary.socioRecolhido}/></div>
+              </div>
+              <div>
+                <div style={{fontSize:9,color:'#374151',textTransform:'uppercase',letterSpacing:'.06em',marginBottom:3,fontWeight:600}}>Seu Líquido Real</div>
+                <div style={{fontSize:14,fontWeight:800,color:'#34d399'}}><AV value={summary.liqRecolhido}/></div>
+              </div>
             </div>
           </div>
 
           {/* Meta */}
-          <div className="fade-up" style={{animationDelay:'.06s',marginBottom:14}}>
+          <div className="fu" style={{animationDelay:'.06s',marginBottom:14}}>
             <MetaRing current={summary.liqPago} meta={meta} onClick={()=>setMetaModal(true)}/>
           </div>
 
           {/* Partner */}
-          <div className="fade-up" style={{animationDelay:'.1s',background:'rgba(167,139,250,.06)',border:'1px solid rgba(167,139,250,.2)',borderRadius:24,padding:20,marginBottom:14}}>
+          <div className="fu" style={{animationDelay:'.1s',background:'rgba(109,40,217,.06)',border:'1px solid rgba(167,139,250,.18)',borderRadius:24,padding:20,marginBottom:14}}>
             <div style={{display:'flex',alignItems:'center',gap:12,marginBottom:16}}>
-              <div style={{width:46,height:46,background:'rgba(167,139,250,.15)',borderRadius:14,display:'flex',alignItems:'center',justifyContent:'center',fontSize:22}}>🤝</div>
+              <div style={{width:46,height:46,background:'rgba(167,139,250,.12)',borderRadius:14,display:'flex',alignItems:'center',justifyContent:'center',fontSize:22}}>🤝</div>
               <div>
-                <div style={{fontWeight:900,fontSize:15,color:'#f1f5f9'}}>Sócio: {SOCIO_NOME}</div>
-                <div style={{fontSize:11,color:'#6b7280'}}>30% do lucro líquido de cada operação</div>
+                <div style={{fontWeight:900,fontSize:15,color:'#f1f5f9',letterSpacing:'-.02em'}}>Sócio: {SOCIO_NOME}</div>
+                <div style={{fontSize:11,color:'#6b7280',marginTop:2}}>30% do lucro líquido por operação</div>
               </div>
             </div>
             <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:10}}>
               <div style={{background:'rgba(167,139,250,.08)',borderRadius:16,padding:'16px'}}>
-                <div style={{fontSize:9,color:'#6b7280',textTransform:'uppercase',letterSpacing:'.07em',marginBottom:6}}>🤝 Parte do Sócio</div>
-                <div style={{fontSize:22,fontWeight:900,color:'#a78bfa',letterSpacing:'-.02em'}}><AnimVal value={summary.socio}/></div>
-                <div style={{fontSize:10,color:'#4b5563',marginTop:4}}>30% de {R$(summary.lucro)}</div>
+                <div style={{fontSize:9,color:'#6b7280',textTransform:'uppercase',letterSpacing:'.07em',marginBottom:6,fontWeight:600}}>Recolhido p/ Sócio</div>
+                <div style={{fontSize:20,fontWeight:900,color:'#a78bfa',letterSpacing:'-.03em'}}><AV value={summary.socioRecolhido}/></div>
+                <div style={{fontSize:9,color:'#4b5563',marginTop:4}}>de {R$(summary.jurosRecolhidos)} em juros</div>
+                <div style={{fontSize:9,color:'#374151',marginTop:2}}>Previsto: {R$(summary.totalSocio)}</div>
               </div>
               <div style={{background:'rgba(16,185,129,.05)',borderRadius:16,padding:'16px'}}>
-                <div style={{fontSize:9,color:'#6b7280',textTransform:'uppercase',letterSpacing:'.07em',marginBottom:6}}>🏆 Seu Líquido</div>
-                <div style={{fontSize:22,fontWeight:900,color:'#10b981',letterSpacing:'-.02em'}}><AnimVal value={summary.liq}/></div>
-                <div style={{fontSize:10,color:'#4b5563',marginTop:4}}>Após participação do sócio</div>
+                <div style={{fontSize:9,color:'#6b7280',textTransform:'uppercase',letterSpacing:'.07em',marginBottom:6,fontWeight:600}}>Seu Líquido Real</div>
+                <div style={{fontSize:20,fontWeight:900,color:'#10b981',letterSpacing:'-.03em'}}><AV value={summary.liqRecolhido}/></div>
+                <div style={{fontSize:9,color:'#4b5563',marginTop:4}}>Já em caixa</div>
+                <div style={{fontSize:9,color:'#374151',marginTop:2}}>Previsto: {R$(summary.totalLiq)}</div>
               </div>
             </div>
           </div>
 
           {/* Per contract */}
-          <div style={{fontSize:11,color:'#4b5563',fontWeight:700,letterSpacing:'.07em',textTransform:'uppercase',marginBottom:10}}>📋 Por Contrato</div>
-          {contracts.length === 0 && (
-            <div style={{color:'#2e3550',fontSize:13,textAlign:'center',padding:'30px 0'}}>
-              <div style={{fontSize:42,marginBottom:8}}>📭</div>Nenhum contrato ainda.
-            </div>
-          )}
-          {[...contracts]
-            .sort((a,b) => {
-              if(a.pago && !b.pago) return 1;
-              if(!a.pago && b.pago) return -1;
-              return daysLeft(a.dataVencimento) - daysLeft(b.dataVencimento);
-            })
-            .map((c,i) => {
-              const fin    = calcFin(c);
-              const isPago = !!c.pago;
-              const days   = daysLeft(c.dataVencimento);
-              const isLate = !isPago && days < 0;
-              const initials = c.nome.trim().split(' ').filter(Boolean).slice(0,2).map(w=>w[0].toUpperCase()).join('');
-              return (
-                <div key={c.id} className="fade-up" style={{
-                  animationDelay:`${i*.04}s`,
-                  background:'#0c0e16',
-                  border:`1px solid ${isPago?'rgba(16,185,129,.18)':isLate?'rgba(239,68,68,.12)':'#1a1d2a'}`,
-                  borderRadius:18,marginBottom:10,overflow:'hidden',
-                  borderLeft:`3px solid ${isPago?'#10b981':isLate?'#ef4444':'#4a6fa5'}`,
-                }}>
-                  <div style={{padding:'13px 16px',display:'flex',alignItems:'center',gap:10}}>
-                    <div style={{width:38,height:38,borderRadius:12,background:isPago?'linear-gradient(135deg,#064e3b,#10b981)':'linear-gradient(135deg,#1d3a6e,#4a6fa5)',display:'flex',alignItems:'center',justifyContent:'center',fontSize:12,fontWeight:900,color:'#fff',flexShrink:0}}>{initials}</div>
-                    <div style={{flex:1,minWidth:0}}>
-                      <div style={{fontWeight:800,fontSize:14,color:'#f1f5f9',overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap'}}>{c.nome}</div>
-                      <div style={{fontSize:10,color:'#4b5563',marginTop:1}}>
-                        {isPago ? '✅ Pago' : isLate ? `🔴 ${Math.abs(days)}d em atraso` : days===0 ? '🟡 Vence hoje' : `🟢 ${days}d restantes`}
-                        &nbsp;&bull;&nbsp;{new Date(c.dataVencimento+'T00:00:00').toLocaleDateString('pt-BR')}
-                      </div>
-                    </div>
-                    <div style={{textAlign:'right',flexShrink:0}}>
-                      <div style={{fontSize:9,color:'#4b5563',marginBottom:2}}>Emprestado</div>
-                      <div style={{fontSize:13,fontWeight:800,color:'#6b7280'}}>{R$(c.valorEmprestado)}</div>
-                    </div>
+          <div style={{fontSize:10,color:'#374151',fontWeight:700,letterSpacing:'.09em',textTransform:'uppercase',marginBottom:10}}>Por Contrato 📋</div>
+          {contracts.length===0&&<div style={{color:'#252840',fontSize:13,textAlign:'center',padding:'30px 0'}}><div style={{fontSize:42,marginBottom:8}}>📭</div>Nenhum contrato.</div>}
+          {[...contracts].sort((a,b)=>{if(a.pago&&!b.pago)return 1;if(!a.pago&&b.pago)return-1;return daysLeft(a.dataVencimento)-daysLeft(b.dataVencimento);}).map((c,i)=>{
+            const fin=calcFin(c),isPago=!!c.pago,days=daysLeft(c.dataVencimento),late=!isPago&&days<0;
+            const initials=c.nome.trim().split(' ').filter(Boolean).slice(0,2).map(w=>w[0].toUpperCase()).join('');
+            return(
+              <div key={c.id} className="fu" style={{animationDelay:`${i*.04}s`,background:'linear-gradient(160deg,#0e1020,#0b0d16)',border:`1px solid ${isPago?'rgba(16,185,129,.15)':late?'rgba(239,68,68,.12)':'rgba(255,255,255,.05)'}`,borderRadius:18,marginBottom:10,overflow:'hidden',borderLeft:`3px solid ${isPago?'#10b981':late?'#ef4444':'#4a6fa5'}`}}>
+                <div style={{padding:'13px 16px',display:'flex',alignItems:'center',gap:10}}>
+                  <div style={{width:38,height:38,borderRadius:12,background:isPago?'linear-gradient(135deg,#064e3b,#0d9488)':'linear-gradient(135deg,#1e3a70,#3b5fa0)',display:'flex',alignItems:'center',justifyContent:'center',fontSize:12,fontWeight:900,color:'#fff',flexShrink:0}}>{initials}</div>
+                  <div style={{flex:1,minWidth:0}}>
+                    <div style={{fontWeight:800,fontSize:14,color:'#f1f5f9',overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap',letterSpacing:'-.01em'}}>{c.nome}</div>
+                    <div style={{fontSize:10,color:'#374151',marginTop:1}}>{isPago?'✅ Pago':late?`🔴 ${Math.abs(days)}d atraso`:days===0?'🟡 Vence hoje':`🟢 ${days}d`} &bull; {new Date(c.dataVencimento+'T00:00:00').toLocaleDateString('pt-BR')}</div>
                   </div>
-                  <div style={{display:'grid',gridTemplateColumns:'1fr 1fr 1fr',borderTop:'1px solid #1a1d2a'}}>
-                    {[
-                      {l:'💰 Bruto',       v:R$(fin.lucro),   col:'#6b7280', bg:'transparent'},
-                      {l:`🤝 ${SOCIO_NOME}`,v:R$(fin.socio),  col:'#a78bfa', bg:'rgba(167,139,250,.04)'},
-                      {l:'🏆 Líquido',     v:R$(fin.liquido), col:'#10b981', bg:'rgba(16,185,129,.04)'},
-                    ].map(({l,v,col,bg},j) => (
-                      <div key={j} style={{padding:'10px 8px',textAlign:'center',background:bg,borderLeft:j>0?'1px solid #1a1d2a':'none'}}>
-                        <div style={{fontSize:8,color:'#374151',textTransform:'uppercase',letterSpacing:'.05em',marginBottom:3}}>{l}</div>
-                        <div style={{fontSize:13,fontWeight:800,color:col}}>{v}</div>
-                      </div>
-                    ))}
+                  <div style={{textAlign:'right',flexShrink:0}}>
+                    <div style={{fontSize:9,color:'#374151',marginBottom:2}}>Emprestado</div>
+                    <div style={{fontSize:13,fontWeight:800,color:'#6b7280'}}>{R$(c.valorEmprestado)}</div>
                   </div>
                 </div>
-              );
-            })}
+                <div style={{display:'grid',gridTemplateColumns:'1fr 1fr 1fr',borderTop:'1px solid rgba(255,255,255,.04)'}}>
+                  {[{l:'💰 Bruto',v:R$(fin.lucro),c:'#6b7280',bg:'transparent'},{l:`🤝 ${SOCIO_NOME}`,v:R$(fin.socio),c:'#a78bfa',bg:'rgba(109,40,217,.04)'},{l:'🏆 Líquido',v:R$(fin.liquido),c:'#10b981',bg:'rgba(16,185,129,.04)'}].map(({l,v,c,bg},j)=>(
+                    <div key={j} style={{padding:'10px 8px',textAlign:'center',background:bg,borderLeft:j>0?'1px solid rgba(255,255,255,.04)':'none'}}>
+                      <div style={{fontSize:8,color:'#374151',textTransform:'uppercase',letterSpacing:'.05em',marginBottom:3,fontWeight:600}}>{l}</div>
+                      <div style={{fontSize:13,fontWeight:800,color:c}}>{v}</div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            );
+          })}
         </div>
       )}
 
       {/* FAB */}
-      <button onClick={()=>setModal('add')} style={{
-        position:'fixed',bottom:28,right:20,
-        width:62,height:62,borderRadius:'50%',
-        background:'linear-gradient(135deg,#4a6fa5,#1d3a6e)',
-        border:'none',cursor:'pointer',
-        display:'flex',alignItems:'center',justifyContent:'center',
-        boxShadow:'0 8px 40px rgba(29,58,110,.65), 0 2px 0 rgba(255,255,255,.12) inset',
-        color:'#fff',zIndex:40,fontSize:26,
-      }} className="glow-anim">
-        <Icon d={ICONS.plus} size={24} sw={2.5}/>
+      <button onClick={()=>setModal('add')} className="glow" style={{position:'fixed',bottom:28,right:20,width:62,height:62,borderRadius:'50%',background:'linear-gradient(135deg,#4a6fa5,#1d3a6e)',border:'none',cursor:'pointer',display:'flex',alignItems:'center',justifyContent:'center',boxShadow:'0 8px 40px rgba(29,58,110,.7),0 2px 0 rgba(255,255,255,.12) inset',color:'#fff',zIndex:40}}>
+        <Ic d={IC.plus} size={24} sw={2.5}/>
       </button>
 
       {/* Modals */}
-      {(modal==='add' || modal?.contract) && (
-        <ContractModal contract={modal?.contract||null} onSave={handleSave} onClose={()=>setModal(null)}/>
-      )}
-      {delTgt && <DeleteModal name={delTgt.nome} onConfirm={handleDelete} onClose={()=>setDelTgt(null)}/>}
-      {metaModal && <MetaModal current={meta} onSave={handleSetMeta} onClose={()=>setMetaModal(false)}/>}
-      {toast && <Toast msg={toast.msg} type={toast.type}/>}
+      {(modal==='add'||modal?.contract)&&<ContractModal contract={modal?.contract||null} onSave={handleSave} onClose={()=>setModal(null)}/>}
+      {delTgt&&<DelModal name={delTgt.nome} onConfirm={handleDelete} onClose={()=>setDelTgt(null)}/>}
+      {metaModal&&<MetaModal current={meta} onSave={handleSetMeta} onClose={()=>setMetaModal(false)}/>}
+      {celeb&&<CelebrationModal contract={celeb} onClose={()=>{setCeleb(null);showToast('Contrato cadastrado com sucesso! 💸');}}/>}
+      {toast&&<Toast msg={toast.msg} type={toast.type}/>}
     </div>
   );
 };
