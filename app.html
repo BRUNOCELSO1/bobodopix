@@ -5,29 +5,44 @@
   <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"/>
   <title>O Bobo Jurista</title>
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@700;800&display=swap" rel="stylesheet"/>
-  <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
-  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
-  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700;800&family=Playfair+Display:wght@700;800;900&family=Bodoni+Moda:ital,opsz,wght@0,6..96,700;0,6..96,900&display=swap" rel="stylesheet"/>
+  <script src="/assets/js/react.min.js"></script>
+  <script src="/assets/js/react-dom.min.js"></script>
+  <script src="/assets/js/babel.min.js"></script>
   <style>
     *,*::before,*::after{box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;-webkit-tap-highlight-color:transparent}
-    html,body{background:#060914;color:#fff;margin:0;min-height:100%}
-    .bg-canvas{position:fixed;inset:0;overflow:hidden;pointer-events:none;z-index:0}
-    .orb{position:absolute;border-radius:50%;filter:blur(150px);opacity:.18}
-    .o1{width:650px;height:650px;background:#1a3bff;top:-220px;left:-180px;animation:o1 22s ease-in-out infinite}
-    .o2{width:550px;height:550px;background:#7b2fff;bottom:-180px;right:-180px;animation:o2 28s ease-in-out infinite}
-    .o3{width:400px;height:400px;background:#0ea5e9;top:40%;left:32%;animation:o3 16s ease-in-out infinite}
+    html,body{background:#0b0a09;color:#fff;margin:0;min-height:100%;width:100%;overflow-x:hidden}
+    body::before{content:'';position:fixed;inset:0;background:
+      linear-gradient(180deg, rgba(11,10,9,.66) 0%, rgba(11,10,9,.93) 46%, rgba(11,10,9,.98) 100%),
+      url("/assets/images/O%20BOBO%20JURISTA.png");
+      background-size:cover; background-position:center 10%; background-repeat:no-repeat;
+      filter:saturate(.78) contrast(1.04) brightness(.80) blur(2.2px);
+      z-index:0;pointer-events:none}
+    .hdr{position:sticky;top:0;z-index:30;padding:10px 18px;display:flex;align-items:center;justify-content:flex-end;background:transparent;border-bottom:none;min-height:78px}
+    .hdr-center{position:absolute;left:50%;transform:translateX(-50%);font-family:'Bodoni Moda','Didot','Playfair Display',serif;font-weight:900;letter-spacing:.22em;text-transform:uppercase;font-size:clamp(14px,3.9vw,18px);color:rgba(255,255,255,.92);text-shadow:0 18px 70px rgba(0,0,0,.55)}
+    .hdr-actions{display:flex;align-items:center;gap:8px}
+    .bg-canvas{display:none}
     @keyframes o1{0%,100%{transform:translate(0,0)}40%{transform:translate(70px,-50px)}70%{transform:translate(-40px,60px)}}
     @keyframes o2{0%,100%{transform:translate(0,0)}40%{transform:translate(-60px,40px)}70%{transform:translate(50px,-70px)}}
     @keyframes o3{0%,100%{transform:translate(-50%,-50%) scale(1)}50%{transform:translate(-50%,-50%) scale(1.4)}}
     ::-webkit-scrollbar{width:2px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:rgba(255,255,255,.15);border-radius:99px}
+    .tabsbar{display:flex;background:transparent;padding:0 12px;border-bottom:1px solid rgba(255,255,255,.06);overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;scrollbar-width:thin;scrollbar-color:rgba(255,255,255,.28) transparent}
+    .tabsbar::-webkit-scrollbar{height:3px}
+    .tabsbar::-webkit-scrollbar-track{background:transparent}
+    .tabsbar::-webkit-scrollbar-thumb{background:rgba(255,255,255,.22);border-radius:99px}
+    @media (max-width: 520px){
+      .crm-kpis{grid-template-columns:1fr !important}
+      .crm-charts{grid-template-columns:1fr !important}
+    }
+    @keyframes metaPulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.04);opacity:.95}}
+    @keyframes metaSheen{0%{transform:translateX(-140%)}100%{transform:translateX(140%)}}
     @keyframes up{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
     @keyframes spin{to{transform:rotate(360deg)}}.spin{animation:spin .8s linear infinite}
     .fu{animation:up .3s cubic-bezier(.22,1,.36,1) both}.pop{animation:up .2s cubic-bezier(.22,1,.36,1) both}
-    .inp{width:100%;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:12px 14px;color:#fff;font-size:15px;outline:none;transition:border .15s,background .15s}
-    .inp:focus{border-color:#3b82f6;background:rgba(59,130,246,.08)}.inp::placeholder{color:#4b5563}
+    .inp{width:100%;background:rgba(0,0,0,.40);border:1px solid rgba(255,255,255,.14);border-radius:12px;padding:12px 14px;color:#fff;font-size:15px;outline:none;transition:border .15s,background .15s}
+    .inp:focus{border-color:#60a5fa;background:rgba(0,0,0,.46)}.inp::placeholder{color:#94a3b8}
     .card-hover{transition:transform .12s,opacity .12s}.card-hover:active{transform:scale(.982);opacity:.9}
-    .glass{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.09);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px)}
+    .glass{background:rgba(10,10,10,.82);border:1px solid rgba(255,255,255,.18);backdrop-filter:blur(30px);-webkit-backdrop-filter:blur(30px)}
     .glass-strong{background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.12)}
     .btn-primary{background:linear-gradient(135deg,#2563eb,#1d4ed8);border:none;color:#fff;font-weight:700;cursor:pointer;font-family:inherit;transition:opacity .15s,transform .12s}
     .btn-primary:active{opacity:.85;transform:scale(.97)}
@@ -40,9 +55,11 @@
 const{useState,useEffect,useCallback,useMemo,useRef}=React;
 
 /* ── Settings ──────────────────────────────────────────────────────────── */
-const DEF_CFG={temSocio:true,socioNome:'Sócio',socioPct:30,taxaAtraso:0};
+const DEF_CFG={temSocio:true,socioNome:'Sócio',socioPct:30,taxaAtraso:0,valorFixoDia:0};
 const loadCfg=()=>{try{return{...DEF_CFG,...JSON.parse(localStorage.getItem('bpx_cfg')||'{}')};}catch{return{...DEF_CFG};}};
 const saveCfg=c=>localStorage.setItem('bpx_cfg',JSON.stringify(c));
+
+const SALE_SOUND_URL='/assets/audio/Shopify%20Sales%20Sound%20Effect%20_%20NO%20COPYRIGHT%20%F0%9F%8E%A4%F0%9F%8E%B6.mp3';
 
 /* ── Helpers ────────────────────────────────────────────────────────────── */
 const R$=v=>new Intl.NumberFormat('pt-BR',{style:'currency',currency:'BRL'}).format(v||0);
@@ -63,10 +80,129 @@ const calcFin=(c,cfg)=>{
   return{lucro,socio,liquido:lucro-socio};
 };
 const calcJurosAtraso=(c,cfg)=>{
-  const taxa=(cfg?.taxaAtraso||0)/100;
-  if(!taxa)return 0;
   const dias=Math.max(0,-daysLeft(c.dataVencimento));
-  return(c.valorRetorno||0)*taxa*dias;
+  if(!dias)return 0;
+  
+  // Valor fixo por dia + taxa percentual
+  const valorFixoTotal=(cfg?.valorFixoDia||0)*dias;
+  const taxaPercentual=(cfg?.taxaAtraso||0)/100;
+  const valorTaxaPercentual=(c.valorRetorno||0)*taxaPercentual*dias;
+  
+  return valorFixoTotal+valorTaxaPercentual;
+};
+
+const downloadReciboTitulo=(contract,cfg)=>{
+  const fin=calcFin(contract,cfg);
+  const now=new Date();
+  const emitidoEm=now.toLocaleString('pt-BR');
+  const protocolo=`TIT-${String(contract.id||'').slice(0,10)}-${String(contract.createdAt||'').replaceAll('-','').replaceAll(':','').slice(0,8) || today().replaceAll('-','')}`.toUpperCase();
+  const venc=new Date(contract.dataVencimento+'T00:00:00').toLocaleDateString('pt-BR');
+  const inicio=contract.dataInicio?new Date(contract.dataInicio+'T00:00:00').toLocaleDateString('pt-BR'):'—';
+  const spreadBruto=fin.lucro;
+  const spreadLiquido=fin.liquido;
+  const socio=fin.socio;
+  const socioLine=(cfg?.temSocio&&socio>0)?`<div class="row"><div class="k">Participação (${cfg.socioNome||'Sócio'})</div><div class="v">${R$(socio)}</div></div>`:'';
+
+  const html=`<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Recibo de Formalização</title>
+  <style>
+    :root{--bg:#0b0a09;--card:#111110;--line:rgba(255,255,255,.10);--muted:rgba(255,255,255,.70);--txt:#ffffff;--petrol:#0ea5e9;--gold:#c8a24a;--emerald:#34d399;}
+    *{box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,Arial,sans-serif}
+    body{margin:0;background:var(--bg);color:var(--txt)}
+    .wrap{max-width:820px;margin:22px auto;padding:0 16px}
+    .card{background:linear-gradient(180deg,rgba(17,17,16,.96),rgba(10,10,10,.96));border:1px solid var(--line);border-radius:20px;overflow:hidden;box-shadow:0 18px 60px rgba(0,0,0,.55)}
+    .top{padding:18px 20px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;gap:14px;align-items:flex-start}
+    .ttl{font-weight:900;letter-spacing:-.02em;font-size:16px}
+    .sub{margin-top:4;color:var(--muted);font-size:12px;line-height:1.4}
+    .meta{color:var(--muted);font-size:12px;line-height:1.5;text-align:right}
+    .body{padding:18px 20px}
+    .grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    .row{border:1px solid var(--line);border-radius:14px;padding:12px 12px;background:rgba(0,0,0,.22)}
+    .k{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.10em;margin-bottom:6px}
+    .v{font-size:14px;font-weight:800;color:var(--txt);word-break:break-word}
+    .amt{font-size:18px;font-weight:900;letter-spacing:-.02em}
+    .petrol{color:var(--petrol)}
+    .emerald{color:var(--emerald)}
+    .gold{color:var(--gold)}
+    .btns{margin-top:14px;display:flex;gap:10px;flex-wrap:wrap}
+    .btn{border:1px solid var(--line);background:transparent;color:var(--txt);border-radius:12px;padding:10px 12px;font-weight:800;cursor:pointer}
+    .btnp{border:1px solid rgba(14,165,233,.35);background:rgba(14,165,233,.16)}
+    @media print{.btns{display:none}.wrap{margin:0;max-width:none}.card{box-shadow:none}}
+  </style></head><body>
+  <div class="wrap">
+    <div class="card">
+      <div class="top">
+        <div>
+          <div class="ttl">Emissão de Título Confirmada</div>
+          <div class="sub">O ativo foi devidamente registrado e integrado à sua carteira de gestão.</div>
+        </div>
+        <div class="meta"><div>Emitido em: ${emitidoEm}</div><div>Protocolo: ${protocolo}</div></div>
+      </div>
+      <div class="body">
+        <div class="grid">
+          <div class="row"><div class="k">Contraparte (Devedor Qualificado)</div><div class="v">${String(contract.nome||'—').replaceAll('<','&lt;')}</div></div>
+          <div class="row"><div class="k">ID do Título</div><div class="v">${String(contract.id||'—').replaceAll('<','&lt;')}</div></div>
+          <div class="row"><div class="k">Data de Emissão</div><div class="v">${inicio}</div></div>
+          <div class="row"><div class="k">Data de Exigibilidade</div><div class="v">${venc}</div></div>
+          <div class="row"><div class="k">Valor Nominal</div><div class="v amt">${R$(contract.valorEmprestado)}</div></div>
+          <div class="row"><div class="k">Montante de Liquidação</div><div class="v amt petrol">${R$(contract.valorRetorno)}</div></div>
+          <div class="row"><div class="k">Projeção de Spread (Bruto)</div><div class="v amt gold">${R$(spreadBruto)}</div></div>
+          <div class="row"><div class="k">Projeção de Spread (Líquido)</div><div class="v amt emerald">${R$(spreadLiquido)}</div></div>
+          ${socioLine}
+        </div>
+        <div class="btns">
+          <button class="btn btnp" onclick="window.print()">Salvar / Imprimir (PDF)</button>
+          <button class="btn" onclick="window.close()">Fechar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  </body></html>`;
+
+  const blob=new Blob([html],{type:'text/html;charset=utf-8'});
+  const url=URL.createObjectURL(blob);
+  window.open(url,'_blank','noopener,noreferrer');
+  setTimeout(()=>URL.revokeObjectURL(url),8000);
+};
+
+const normCPF=v=>(v||'').replace(/\D/g,'').slice(0,11);
+
+const buildRatingIndex=contracts=>{
+  const byCpf=new Map();
+  for(const c of contracts){
+    const cpf=normCPF(c.cpf);
+    if(!cpf)continue;
+    if(!byCpf.has(cpf))byCpf.set(cpf,[]);
+    byCpf.get(cpf).push(c);
+  }
+
+  const idx=new Map();
+  for(const [cpf,list] of byCpf.entries()){
+    let paid=0,onTime=0,minorLate=0,majorLate=0;
+    let openLateMax=0;
+    for(const c of list){
+      if(c.pago){
+        paid++;
+        const payDate=c.pagoEm||c.dataVencimento||today();
+        const d=daysDiff(c.dataVencimento,payDate);
+        if(d<=0)onTime++;
+        else if(d<=3)minorLate++;
+        else majorLate++;
+      }else{
+        openLateMax=Math.max(openLateMax,Math.max(0,-daysLeft(c.dataVencimento)));
+      }
+    }
+
+    let rating='—',risco='—';
+    if(openLateMax>=15){rating='D';risco='Alto';}
+    else if(openLateMax>=4||majorLate>0){rating='C';risco='Médio';}
+    else if(minorLate>0){rating='B';risco='Médio';}
+    else if(paid>=2&&onTime===paid){rating='A';risco='Baixo';}
+    else if(paid===1&&onTime===1){rating='B';risco='Baixo';}
+
+    idx.set(cpf,{rating,risco,paid,onTime,minorLate,majorLate,openLateMax});
+  }
+  return idx;
 };
 
 /* ── API ────────────────────────────────────────────────────────────────── */
@@ -77,8 +213,41 @@ const api={
   delete:u=>fetch(u,{method:'DELETE'}).then(r=>r.json()).catch(()=>({})),
 };
 
+const CalBar=()=>null;
+
+const InboxNotice=({item,onClose})=>{
+  return(
+    <div className="fu" style={{background:'rgba(20,20,19,.92)',border:'1px solid rgba(255,255,255,.12)',backdropFilter:'blur(18px)',WebkitBackdropFilter:'blur(18px)',borderRadius:16,padding:'12px 12px',boxShadow:'0 18px 50px rgba(0,0,0,.45)',display:'flex',gap:12,alignItems:'flex-start'}}>
+      <div style={{width:38,height:38,borderRadius:12,background:'rgba(255,255,255,.06)',display:'flex',alignItems:'center',justifyContent:'center',flexShrink:0}}>
+        <div style={{width:26,height:26,background:'url(/assets/images/logo_jurista.png) center/contain no-repeat'}}/>
+      </div>
+      <div style={{minWidth:0,flex:1}}>
+        <div style={{display:'flex',alignItems:'baseline',justifyContent:'space-between',gap:10}}>
+          <div style={{fontSize:12,fontWeight:900,color:'#fff',letterSpacing:'-.01em',whiteSpace:'nowrap',overflow:'hidden',textOverflow:'ellipsis'}}>{item.title}</div>
+          <div style={{fontSize:10,color:'#6b7280',flexShrink:0}}>{item.when}</div>
+        </div>
+        <div style={{marginTop:4,fontSize:11,color:'#9ca3af',lineHeight:1.35,overflow:'hidden',textOverflow:'ellipsis',display:'-webkit-box',WebkitLineClamp:2,WebkitBoxOrient:'vertical'}}>{item.body}</div>
+      </div>
+      <button onClick={onClose} style={{background:'transparent',border:'none',color:'#6b7280',cursor:'pointer',padding:2,flexShrink:0}}><Ic d={IC.x} size={14}/></button>
+    </div>
+  );
+};
+
 /* ── Sound & Confetti ───────────────────────────────────────────────────── */
 const playSuccess=()=>{try{const ctx=new(window.AudioContext||window.webkitAudioContext)();const play=(f,s,d,v=.28)=>{const o=ctx.createOscillator(),g=ctx.createGain();o.connect(g);g.connect(ctx.destination);o.frequency.value=f;g.gain.setValueAtTime(v,ctx.currentTime+s);g.gain.exponentialRampToValueAtTime(.001,ctx.currentTime+s+d);o.start(ctx.currentTime+s);o.stop(ctx.currentTime+s+d);};play(523,0,.12);play(659,.1,.12);play(784,.2,.15);play(1047,.32,.45,.35);}catch(e){}};
+const playNotify=()=>{try{const ctx=new(window.AudioContext||window.webkitAudioContext)();const t=ctx.currentTime;const mk=(f,dt,dur,v)=>{const o=ctx.createOscillator(),g=ctx.createGain();o.type='triangle';o.frequency.setValueAtTime(f,t+dt);g.gain.setValueAtTime(0.0001,t+dt);g.gain.exponentialRampToValueAtTime(v,t+dt+.01);g.gain.exponentialRampToValueAtTime(0.0001,t+dt+dur);o.connect(g);g.connect(ctx.destination);o.start(t+dt);o.stop(t+dt+dur+.02);};mk(880,0,.14,.16);mk(1175,.11,.16,.14);mk(1568,.22,.18,.12);}catch(e){}};
+const playSaleSound=url=>{
+  try{
+    const src=(url||'').trim();
+    if(!src){return;}
+    const a=new Audio(src);
+    a.loop=false;
+    a.volume=0.9;
+    a.play().catch(()=>{});
+  }catch(e){
+    
+  }
+};
 const launchConfetti=canvas=>{const ctx=canvas.getContext('2d');canvas.width=window.innerWidth;canvas.height=window.innerHeight;const cols=['#3b82f6','#10b981','#ff9f0a','#7c3aed','#ff453a','#fff','#ffd60a'];const pts=Array.from({length:80},()=>({x:Math.random()*canvas.width,y:-16,w:Math.random()*10+4,h:Math.random()*6+3,col:cols[Math.floor(Math.random()*cols.length)],vx:(Math.random()-.5)*5,vy:Math.random()*4+2,rot:Math.random()*Math.PI*2,vr:(Math.random()-.5)*.2,op:1}));let raf;const draw=()=>{ctx.clearRect(0,0,canvas.width,canvas.height);pts.forEach(p=>{p.x+=p.vx;p.y+=p.vy;p.vy+=.09;p.rot+=p.vr;p.op-=.007;if(p.op<=0)return;ctx.save();ctx.globalAlpha=Math.max(0,p.op);ctx.translate(p.x,p.y);ctx.rotate(p.rot);ctx.fillStyle=p.col;ctx.fillRect(-p.w/2,-p.h/2,p.w,p.h);ctx.restore();});if(pts.some(p=>p.op>0))raf=requestAnimationFrame(draw);};raf=requestAnimationFrame(draw);return()=>cancelAnimationFrame(raf);};
 
 /* ── Count-up ───────────────────────────────────────────────────────────── */
@@ -106,6 +275,9 @@ const IC={
   gear:<><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></>,
   cash:'M12 1v22M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6',
   clock:'M12 2a10 10 0 1 0 0 20A10 10 0 0 0 12 2zm0 5v5l4 2',
+  dollar:'M12 1v22M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6',
+  eye:<><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8S1 12 1 12z"/><circle cx="12" cy="12" r="3"/></>,
+  eyeoff:<><path d="M17.94 17.94A10.94 10.94 0 0 1 12 20c-7 0-11-8-11-8a21.77 21.77 0 0 1 5.06-6.94"/><path d="M9.9 4.24A10.74 10.74 0 0 1 12 4c7 0 11 8 11 8a21.9 21.9 0 0 1-3.3 5.08"/><path d="M14.12 14.12a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></>,
 };
 const WA=({size=14})=><svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>;
 
@@ -150,30 +322,42 @@ const PBar=({dataInicio,dataVencimento})=>{
 
 /* ── Meta Ring ──────────────────────────────────────────────────────────── */
 const MetaRing=({current,meta,onClick})=>{
-  const pct=meta>0?Math.min(100,(current/meta)*100):0;
+  const pctRaw=meta>0?Math.min(100,(current/meta)*100):0;
+  const pct=Math.max(0,Number.isFinite(pctRaw)?pctRaw:0);
+  const pctV=useCountUp(pct,900);
   const done=pct>=100;
-  const col=done?'#10b981':pct>=70?'#ff9f0a':pct>=40?'#3b82f6':'#6b7280';
+  const col=done?'#10b981':pct>=70?'#f59e0b':pct>=40?'#60a5fa':'rgba(255,255,255,.55)';
   const r=38,circ=2*Math.PI*r,dash=circ-(pct/100)*circ;
+  const gradRef=useRef('');
+  if(!gradRef.current)gradRef.current=`g${Math.random().toString(36).slice(2)}`;
   return(
-    <div onClick={onClick} style={{background:'rgba(255,255,255,.05)',border:'1px solid rgba(255,255,255,.08)',borderRadius:18,padding:'15px 18px',cursor:'pointer',display:'flex',alignItems:'center',gap:15}}>
+    <div onClick={onClick} className="glass" style={{border:`1px solid ${done?'rgba(16,185,129,.30)':pct>=70?'rgba(245,158,11,.26)':pct>=40?'rgba(96,165,250,.26)':'rgba(255,255,255,.14)'}`,borderRadius:18,padding:'15px 16px',cursor:'pointer',display:'flex',alignItems:'center',gap:15,position:'relative',overflow:'hidden'}}>
+      <div style={{position:'absolute',inset:0,background:`linear-gradient(90deg, transparent, ${done?'rgba(16,185,129,.10)':pct>=70?'rgba(245,158,11,.10)':pct>=40?'rgba(96,165,250,.10)':'rgba(255,255,255,.07)'}, transparent)`,transform:'translateX(-140%)',animation:'metaSheen 2.8s ease-in-out infinite',pointerEvents:'none'}}/>
       <div style={{position:'relative',flexShrink:0}}>
         <svg width="84" height="84" viewBox="0 0 84 84" style={{transform:'rotate(-90deg)'}}>
-          <circle cx="42" cy="42" r={r} fill="none" stroke="rgba(255,255,255,.05)" strokeWidth="5"/>
-          <circle cx="42" cy="42" r={r} fill="none" stroke={col} strokeWidth="5"
+          <defs>
+            <linearGradient id={gradRef.current} x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stopColor={col} stopOpacity="1"/>
+              <stop offset="70%" stopColor="#ffffff" stopOpacity=".55"/>
+              <stop offset="100%" stopColor={col} stopOpacity="1"/>
+            </linearGradient>
+          </defs>
+          <circle cx="42" cy="42" r={r} fill="none" stroke="rgba(255,255,255,.06)" strokeWidth="5"/>
+          <circle cx="42" cy="42" r={r} fill="none" stroke={`url(#${gradRef.current})`} strokeWidth="5"
             strokeDasharray={circ} strokeDashoffset={meta===0?circ:dash}
-            strokeLinecap="round" style={{transition:'stroke-dashoffset 1s ease,stroke .4s'}}/>
+            strokeLinecap="round" style={{transition:'stroke-dashoffset .9s cubic-bezier(.22,1,.36,1)',filter:`drop-shadow(0 0 10px ${String(col).includes('rgba')?'rgba(255,255,255,.25)':col}55)`}}/>
         </svg>
-        <div style={{position:'absolute',inset:0,display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center'}}>
-          <div style={{fontSize:16,fontWeight:800,color:col,lineHeight:1}}>{Math.round(pct)}%</div>
-          <div style={{fontSize:7,color:'#6b7280',marginTop:2,fontWeight:700,letterSpacing:'.08em',textTransform:'uppercase'}}>META</div>
+        <div style={{position:'absolute',inset:0,display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',animation:done?'metaPulse 2s ease-in-out infinite':'none'}}>
+          <div style={{fontSize:16,fontWeight:900,color:col,lineHeight:1}}>{Math.round(pctV)}%</div>
+          <div style={{fontSize:7,color:'rgba(255,255,255,.68)',marginTop:2,fontWeight:900,letterSpacing:'.14em',textTransform:'uppercase'}}>Meta</div>
         </div>
       </div>
       <div style={{flex:1,minWidth:0}}>
-        <div style={{fontSize:11,color:'#9ca3af',fontWeight:600,letterSpacing:'.04em',textTransform:'uppercase',marginBottom:3}}>Meta do Mês</div>
+        <div style={{fontSize:11,color:'rgba(255,255,255,.78)',fontWeight:900,letterSpacing:'.12em',textTransform:'uppercase',marginBottom:3}}>Meta Mensal</div>
         <div style={{fontSize:22,fontWeight:800,color:'#fff',letterSpacing:'-.04em',lineHeight:1,marginBottom:4}}><AV value={current}/></div>
-        <div style={{fontSize:11,color:'#6b7280',marginBottom:8}}>de {meta>0?R$(meta):'—'} · falta {meta>0?R$(Math.max(0,meta-current)):'—'}</div>
+        <div style={{fontSize:11,color:'rgba(255,255,255,.72)',marginBottom:8}}>de {meta>0?R$(meta):'—'} · falta {meta>0?R$(Math.max(0,meta-current)):'—'}</div>
         <span style={{display:'inline-flex',alignItems:'center',background:`${col}18`,borderRadius:99,padding:'3px 10px',fontSize:11,fontWeight:700,color:col,border:`1px solid ${col}28`}}>
-          {done?'Meta atingida!':pct>=70?'Quase lá':pct>=40?'No caminho':pct>0?'Arrancando':'Toque para definir'}
+          {done?'Meta Alcançada':pct>=70?'Quase lá':pct>=40?'No caminho':pct>0?'Arrancando':'Definir Meta'}
         </span>
       </div>
     </div>
@@ -212,26 +396,66 @@ const Toggle=({on,onChange})=>(
 
 /* ── Celebration Modal ──────────────────────────────────────────────────── */
 const CelebrationModal=({contract,cfg,onClose})=>{
-  const canvasRef=useRef(null);
   const fin=calcFin(contract,cfg);
-  useEffect(()=>{playSuccess();const c=launchConfetti(canvasRef.current);const t=setTimeout(onClose,5500);return()=>{c&&c();clearTimeout(t);};},[]);
+  const venc=new Date(contract.dataVencimento+'T00:00:00').toLocaleDateString('pt-BR');
+  const emiss=contract.dataInicio?new Date(contract.dataInicio+'T00:00:00').toLocaleDateString('pt-BR'):'—';
   return(
-    <div style={{position:'fixed',inset:0,background:'rgba(6,9,20,.95)',backdropFilter:'blur(16px)',zIndex:60,display:'flex',alignItems:'center',justifyContent:'center',padding:22}} onClick={onClose}>
-      <canvas ref={canvasRef} style={{position:'absolute',inset:0,pointerEvents:'none'}}/>
-      <div className="celeb" style={{background:'rgba(28,28,30,.98)',border:'1px solid rgba(255,255,255,.1)',borderRadius:26,padding:28,width:'100%',maxWidth:350,textAlign:'center',position:'relative',zIndex:1}}>
-        <div style={{fontSize:48,marginBottom:8}}>🎉</div>
-        <div style={{fontSize:22,fontWeight:800,color:'#fff',letterSpacing:'-.04em',marginBottom:4}}>Novo Contrato!</div>
-        <div style={{fontSize:13,color:'#9ca3af',marginBottom:22}}>Operação cadastrada com sucesso</div>
-        <div style={{background:'rgba(255,255,255,.05)',border:'1px solid rgba(255,255,255,.09)',borderRadius:16,padding:18,marginBottom:18}}>
-          <div style={{fontSize:15,fontWeight:700,color:'#fff',marginBottom:12}}>{contract.nome}</div>
-          <div style={{display:'grid',gridTemplateColumns:'1fr 1fr 1fr',gap:8,textAlign:'center'}}>
-            {[{l:'Capital',v:R$(contract.valorEmprestado),c:'#9ca3af'},{l:'Retorno',v:R$(contract.valorRetorno),c:'#3b82f6'},{l:'Seu Lucro',v:R$(fin.liquido),c:'#10b981'}].map(({l,v,c},i)=>(
-              <div key={i}><div style={{fontSize:9,color:'#6b7280',letterSpacing:'.06em',textTransform:'uppercase',marginBottom:3}}>{l}</div><div style={{fontSize:14,fontWeight:800,color:c}} className="npop">{v}</div></div>
+    <div style={{position:'fixed',inset:0,background:'rgba(6,9,20,.92)',backdropFilter:'blur(16px)',WebkitBackdropFilter:'blur(16px)',zIndex:60,display:'flex',alignItems:'center',justifyContent:'center',padding:22}} onClick={e=>e.target===e.currentTarget&&onClose()}>
+      <div className="celeb" style={{background:'rgba(12,12,12,.92)',border:'1px solid rgba(255,255,255,.12)',borderRadius:26,padding:22,width:'100%',maxWidth:380,textAlign:'left',position:'relative'}}>
+        <div style={{display:'flex',alignItems:'flex-start',justifyContent:'space-between',gap:12,marginBottom:14}}>
+          <div style={{display:'flex',alignItems:'center',gap:12}}>
+            <div style={{width:42,height:42,borderRadius:999,background:'rgba(200,162,74,.10)',border:'1px solid rgba(200,162,74,.35)',display:'flex',alignItems:'center',justifyContent:'center',flexShrink:0}}>
+              <Ic d={IC.check} size={18} stroke="#c8a24a"/>
+            </div>
+            <div>
+              <div style={{fontSize:16,fontWeight:900,color:'#fff',letterSpacing:'-.02em'}}>Emissão de Título Confirmada</div>
+              <div style={{fontSize:12,color:'rgba(255,255,255,.72)',marginTop:3}}>O ativo foi devidamente registrado e integrado à sua carteira de gestão.</div>
+            </div>
+          </div>
+          <button onClick={onClose} style={{background:'rgba(255,255,255,.06)',border:'1px solid rgba(255,255,255,.10)',borderRadius:12,width:36,height:36,display:'flex',alignItems:'center',justifyContent:'center',cursor:'pointer',color:'#9ca3af',flexShrink:0}}><Ic d={IC.x} size={16}/></button>
+        </div>
+
+        <div className="glass" style={{borderRadius:18,padding:14,marginBottom:12}}>
+          <div style={{fontSize:10,color:'#9ca3af',fontWeight:900,letterSpacing:'.12em',textTransform:'uppercase',marginBottom:10}}>Recibo de Formalização</div>
+          <div style={{display:'grid',gridTemplateColumns:'1fr',gap:10}}>
+            <div style={{display:'flex',justifyContent:'space-between',gap:10}}>
+              <div style={{fontSize:10,color:'#9ca3af',fontWeight:900,letterSpacing:'.12em',textTransform:'uppercase'}}>Contraparte</div>
+              <div style={{fontSize:13,fontWeight:900,color:'#fff',textAlign:'right',maxWidth:'70%'}} className="npop">{contract.nome}</div>
+            </div>
+            <div style={{height:1,background:'rgba(255,255,255,.07)'}}/>
+            {[{l:'Valor Nominal',v:R$(contract.valorEmprestado),c:'#ffffff'},{l:'Montante de Liquidação',v:R$(contract.valorRetorno),c:'#0ea5e9'},{l:'Projeção de Spread (Bruto)',v:R$(fin.lucro),c:'#c8a24a'},{l:'Projeção de Spread (Líquido)',v:R$(fin.liquido),c:'#34d399'}].map((it,i)=>(
+              <div key={i} style={{display:'flex',justifyContent:'space-between',gap:10,alignItems:'baseline'}}>
+                <div style={{fontSize:10,color:'#9ca3af',fontWeight:900,letterSpacing:'.12em',textTransform:'uppercase'}}>{it.l}</div>
+                <div style={{fontSize:14,fontWeight:900,color:it.c}} className="npop">{it.v}</div>
+              </div>
             ))}
+            {cfg?.temSocio&&(
+              <>
+                <div style={{height:1,background:'rgba(255,255,255,.07)'}}/>
+                <div style={{display:'flex',justifyContent:'space-between',gap:10,alignItems:'baseline'}}>
+                  <div style={{fontSize:10,color:'#9ca3af',fontWeight:900,letterSpacing:'.12em',textTransform:'uppercase'}}>Participação ({cfg.socioNome||'Sócio'})</div>
+                  <div style={{fontSize:13,fontWeight:900,color:'#a78bfa'}} className="npop">{R$(fin.socio)}</div>
+                </div>
+              </>
+            )}
           </div>
         </div>
-        <div style={{fontSize:12,color:'#6b7280',marginBottom:16}}>Vence em <strong style={{color:'#fff'}}>{new Date(contract.dataVencimento+'T00:00:00').toLocaleDateString('pt-BR',{day:'2-digit',month:'long'})}</strong></div>
-        <button onClick={onClose} style={{background:'#3b82f6',border:'none',color:'#fff',borderRadius:13,padding:'14px',fontSize:15,fontWeight:700,cursor:'pointer',fontFamily:'inherit',width:'100%'}}>Continuar</button>
+
+        <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:10,marginBottom:16}}>
+          <div className="glass" style={{borderRadius:16,padding:12}}>
+            <div style={{fontSize:9,color:'#9ca3af',fontWeight:900,letterSpacing:'.12em',textTransform:'uppercase',marginBottom:5}}>Data de Emissão</div>
+            <div style={{fontSize:12,fontWeight:900,color:'#fff'}}>{emiss}</div>
+          </div>
+          <div className="glass" style={{borderRadius:16,padding:12}}>
+            <div style={{fontSize:9,color:'#9ca3af',fontWeight:900,letterSpacing:'.12em',textTransform:'uppercase',marginBottom:5}}>Exigibilidade</div>
+            <div style={{fontSize:12,fontWeight:900,color:'#fff'}}>{venc}</div>
+          </div>
+        </div>
+
+        <div style={{display:'grid',gridTemplateColumns:'1fr',gap:9}}>
+          <button onClick={()=>downloadReciboTitulo(contract,cfg)} style={{background:'rgba(14,165,233,.16)',border:'1px solid rgba(14,165,233,.30)',color:'#e6f6ff',borderRadius:14,padding:'13px',fontSize:14,fontWeight:900,cursor:'pointer',fontFamily:'inherit',width:'100%'}}>Visualizar Contrato (PDF)</button>
+          <button onClick={onClose} style={{background:'transparent',border:'1px solid rgba(255,255,255,.14)',color:'rgba(255,255,255,.88)',borderRadius:14,padding:'12px',fontSize:14,fontWeight:900,cursor:'pointer',fontFamily:'inherit',width:'100%'}}>Continuar</button>
+        </div>
       </div>
     </div>
   );
@@ -243,8 +467,10 @@ const PaymentModal=({contract,cfg,onPagoTotal,onPedalada,onClose})=>{
   const [cobrarAtraso,setCobrarAtraso]=useState(true);
   const fin=calcFin(contract,cfg);
   const jurosBrutos=contract.valorRetorno-contract.valorEmprestado;
+  const taxaContratual=contract.taxaServico||0;
   const diasAtraso=Math.max(0,-daysLeft(contract.dataVencimento));
   const jurosAtraso=calcJurosAtraso(contract,cfg);
+  const totalAtualizado=contract.valorRetorno+jurosAtraso;
   const temJurosAtraso=diasAtraso>0&&(cfg?.taxaAtraso||0)>0&&jurosAtraso>0;
   const pedaladas=contract.pedaladas||0;
   const maxPed=contract.maxPedaladas??3;
@@ -259,40 +485,58 @@ const PaymentModal=({contract,cfg,onPagoTotal,onPedalada,onClose})=>{
         {step==='choice'&&(
           <div style={{padding:'18px 18px 0'}}>
             <div style={{fontWeight:800,fontSize:19,color:'#fff',letterSpacing:'-.03em',marginBottom:3}}>{contract.nome}</div>
-            <div style={{fontSize:13,color:'#9ca3af',marginBottom:18}}>Como foi o pagamento?</div>
+            <div style={{fontSize:13,color:'#9ca3af',marginBottom:18}}>Registrar liquidação</div>
 
             <div style={{background:'rgba(255,255,255,.05)',border:'1px solid rgba(255,255,255,.09)',borderRadius:14,padding:14,marginBottom:14}}>
               <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:10}}>
-                {[{l:'Capital',v:R$(contract.valorEmprestado),c:'#9ca3af'},{l:'Retorno Total',v:R$(contract.valorRetorno),c:'#3b82f6'},{l:'Só os Juros',v:R$(jurosBrutos),c:'#ff9f0a'},{l:'Seu Lucro Liq.',v:R$(fin.liquido),c:'#10b981'}].map(({l,v,c},i)=>(
+                {[{l:'Principal',v:R$(contract.valorEmprestado),c:'#9ca3af'},{l:'Valor de Resgate',v:R$(contract.valorRetorno),c:'#3b82f6'},{l:'Remuneração',v:R$(jurosBrutos),c:'#ff9f0a'},{l:'Lucro Líquido',v:R$(fin.liquido),c:'#10b981'}].map(({l,v,c},i)=>(
                   <div key={i}><div style={{fontSize:9,color:'#6b7280',textTransform:'uppercase',letterSpacing:'.06em',marginBottom:2}}>{l}</div><div style={{fontSize:16,fontWeight:800,color:c}}>{v}</div></div>
                 ))}
               </div>
             </div>
 
             {diasAtraso>0&&(
-              <div style={{background:'rgba(255,69,58,.07)',border:'1px solid rgba(255,69,58,.18)',borderRadius:12,padding:'11px 14px',marginBottom:12}}>
-                <div style={{fontSize:12,fontWeight:700,color:'#ff453a',marginBottom:3}}>{diasAtraso} dia{diasAtraso!==1?'s':''} de atraso</div>
-                <div style={{fontSize:12,color:'#9ca3af'}}>{cfg?.taxaAtraso>0?`Juros de atraso acumulados: ${R$(jurosAtraso)}`:'Sem taxa de atraso configurada (ajuste em Configurações)'}</div>
+              <div style={{background:'rgba(255,69,58,.07)',border:'1px solid rgba(255,69,58,.18)',borderRadius:12,padding:'12px 14px',marginBottom:12}}>
+                <div style={{fontSize:12,fontWeight:800,color:'#ff453a',marginBottom:8}}>{diasAtraso} dia{diasAtraso!==1?'s':''} de inadimplência</div>
+
+                <div style={{display:'grid',gridTemplateColumns:'1fr',gap:7,marginBottom:10}}>
+                  {[
+                    {l:'Valor Nominal (Principal)',v:R$(contract.valorEmprestado),c:'#fff'},
+                    {l:`Remuneração Contratual (${taxaContratual}% )`,v:R$(jurosBrutos),c:'#ff9f0a'},
+                    {l:'Subtotal (Montante de Liquidação)',v:R$(contract.valorRetorno),c:'#3b82f6'},
+                    {l:`Encargos por Atraso (${diasAtraso}d)`,v:R$(jurosAtraso),c:'#ff453a'},
+                    {l:'Total Atualizado para Liquidação',v:R$(totalAtualizado),c:'#ff453a'},
+                  ].map((it,i)=>(
+                    <div key={i} style={{display:'flex',justifyContent:'space-between',gap:10,alignItems:'baseline',background:'rgba(0,0,0,.18)',border:'1px solid rgba(255,255,255,.06)',borderRadius:10,padding:'8px 10px'}}>
+                      <div style={{fontSize:10,color:'#9ca3af',fontWeight:800,letterSpacing:'.08em',textTransform:'uppercase'}}>{it.l}</div>
+                      <div style={{fontSize:12,fontWeight:900,color:it.c,whiteSpace:'nowrap'}}>{it.v}</div>
+                    </div>
+                  ))}
+                </div>
+
+                <div style={{fontSize:10,color:'rgba(255,255,255,.70)',background:'rgba(0,0,0,.22)',borderRadius:10,padding:'9px 10px',border:'1px solid rgba(255,255,255,.06)'}}>
+                  Base contratual = Principal + Remuneração ({taxaContratual}%) = {R$(contract.valorRetorno)}. Encargos de atraso somam-se ao subtotal conforme política vigente.
+                </div>
               </div>
             )}
 
             <button onClick={temJurosAtraso?()=>setStep('confirmar-atraso'):onPagoTotal} style={{width:'100%',background:'rgba(16,185,129,.08)',border:'1px solid rgba(16,185,129,.25)',borderRadius:14,padding:'15px 16px',marginBottom:9,cursor:'pointer',fontFamily:'inherit',textAlign:'left'}}>
-              <div style={{fontSize:15,fontWeight:700,color:'#10b981',marginBottom:3}}>Pagamento Total</div>
-              <div style={{fontSize:12,color:'#9ca3af'}}>Recebeu {R$(contract.valorRetorno)}{temJurosAtraso?` + juros de atraso`:''} · contrato encerrado</div>
+              <div style={{fontSize:15,fontWeight:700,color:'#10b981',marginBottom:3}}>Liquidação Total</div>
+              <div style={{fontSize:12,color:'#9ca3af'}}>Subtotal {R$(contract.valorRetorno)}{temJurosAtraso?` · total atualizado ${R$(totalAtualizado)}`:''} · contrato encerrado</div>
             </button>
 
             {podePedalada?(
               <button onClick={()=>setStep('pedalada')} style={{width:'100%',background:'rgba(255,159,10,.07)',border:'1px solid rgba(255,159,10,.22)',borderRadius:14,padding:'15px 16px',marginBottom:9,cursor:'pointer',fontFamily:'inherit',textAlign:'left'}}>
                 <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:4}}>
-                  <div style={{fontSize:15,fontWeight:700,color:'#ff9f0a'}}>Somente os Juros</div>
-                  <div style={{background:'rgba(255,159,10,.15)',borderRadius:99,padding:'2px 8px',fontSize:10,fontWeight:700,color:'#ff9f0a'}}>🚴 Pedalada {pedaladas+1}/{maxPed}</div>
+                  <div style={{fontSize:15,fontWeight:700,color:'#ff9f0a'}}>Amortização Parcial</div>
+                  <div style={{background:'rgba(255,159,10,.15)',borderRadius:99,padding:'2px 8px',fontSize:10,fontWeight:700,color:'#ff9f0a'}}>🚴 Amortização {pedaladas+1}/{maxPed}</div>
                 </div>
                 <div style={{fontSize:12,color:'#9ca3af'}}>Cliente pagou apenas {R$(jurosBrutos)} · ganha +30 dias</div>
               </button>
             ):(
               <div style={{background:'rgba(255,69,58,.05)',border:'1px solid rgba(255,69,58,.14)',borderRadius:14,padding:'14px 16px',marginBottom:9}}>
-                <div style={{fontSize:13,fontWeight:700,color:'#ff453a',marginBottom:3}}>Limite de pedaladas atingido</div>
-                <div style={{fontSize:12,color:'#9ca3af'}}>{pedaladas}/{maxPed} pedaladas usadas · exija pagamento total</div>
+                <div style={{fontSize:13,fontWeight:700,color:'#ff453a',marginBottom:3}}>Limite de amortizações atingido</div>
+                <div style={{fontSize:12,color:'#9ca3af'}}>{pedaladas}/{maxPed} utilizadas · exija liquidação total</div>
               </div>
             )}
 
@@ -305,23 +549,23 @@ const PaymentModal=({contract,cfg,onPagoTotal,onPedalada,onClose})=>{
             <button onClick={()=>setStep('choice')} style={{background:'none',border:'none',color:'#3b82f6',fontSize:14,fontWeight:600,cursor:'pointer',fontFamily:'inherit',padding:'0 0 14px 0',display:'flex',alignItems:'center',gap:5}}>
               ← Voltar
             </button>
-            <div style={{fontWeight:800,fontSize:19,color:'#fff',letterSpacing:'-.03em',marginBottom:3}}>Confirmar Pagamento</div>
-            <div style={{fontSize:13,color:'#9ca3af',marginBottom:20}}>{contract.nome} · 🚴 Pedalada {pedaladas+1}/{maxPed}</div>
+            <div style={{fontWeight:800,fontSize:19,color:'#fff',letterSpacing:'-.03em',marginBottom:3}}>Confirmar Amortização</div>
+            <div style={{fontSize:13,color:'#9ca3af',marginBottom:20}}>{contract.nome} · 🚴 Amortização {pedaladas+1}/{maxPed}</div>
 
             <div style={{background:'rgba(255,159,10,.06)',border:'1px solid rgba(255,159,10,.25)',borderRadius:16,padding:20,marginBottom:16}}>
-              <div style={{fontSize:13,color:'#9ca3af',marginBottom:6}}>O valor que o cliente pagou foi apenas:</div>
+              <div style={{fontSize:13,color:'#9ca3af',marginBottom:6}}>Valor da amortização parcial:</div>
               <div style={{fontSize:38,fontWeight:900,color:'#ff9f0a',letterSpacing:'-.04em',marginBottom:14}}>{R$(jurosBrutos)}</div>
               <div style={{display:'flex',flexDirection:'column',gap:5}}>
-                <div style={{fontSize:12,color:'#9ca3af'}}>💰 Capital: <strong style={{color:'#fff'}}>{R$(contract.valorEmprestado)}</strong> continua devendo</div>
-                <div style={{fontSize:12,color:'#9ca3af'}}>📅 Novo vencimento: <strong style={{color:'#fff'}}>{new Date(novoVenc+'T00:00:00').toLocaleDateString('pt-BR',{day:'2-digit',month:'long'})}</strong></div>
+                <div style={{fontSize:12,color:'#9ca3af'}}>💰 Principal: <strong style={{color:'#fff'}}>{R$(contract.valorEmprestado)}</strong> permanece em aberto</div>
+                <div style={{fontSize:12,color:'#9ca3af'}}>📅 Nova data de vencimento: <strong style={{color:'#fff'}}>{new Date(novoVenc+'T00:00:00').toLocaleDateString('pt-BR',{day:'2-digit',month:'long'})}</strong></div>
               </div>
             </div>
 
             <button onClick={()=>onPedalada(jurosBrutos)} style={{width:'100%',background:'#ff9f0a',border:'none',color:'#000',borderRadius:13,padding:'15px',fontSize:15,fontWeight:800,cursor:'pointer',fontFamily:'inherit',marginBottom:9}}>
-              Sim, pagou apenas {R$(jurosBrutos)}
+              Confirmar amortização de {R$(jurosBrutos)}
             </button>
             <button onClick={()=>setStep('choice')} style={{width:'100%',background:'transparent',border:'1px solid rgba(255,255,255,.1)',borderRadius:13,padding:'12px',fontSize:14,fontWeight:600,color:'#9ca3af',cursor:'pointer',fontFamily:'inherit',marginBottom:9}}>
-              Não, valor diferente
+              Valor incorreto
             </button>
             <button onClick={onClose} style={{width:'100%',background:'transparent',border:'none',borderRadius:13,padding:'10px',fontSize:13,color:'#6b7280',cursor:'pointer',fontFamily:'inherit'}}>Cancelar</button>
           </div>
@@ -332,25 +576,40 @@ const PaymentModal=({contract,cfg,onPagoTotal,onPedalada,onClose})=>{
             <button onClick={()=>setStep('choice')} style={{background:'none',border:'none',color:'#3b82f6',fontSize:14,fontWeight:600,cursor:'pointer',fontFamily:'inherit',padding:'0 0 14px 0',display:'flex',alignItems:'center',gap:5}}>
               ← Voltar
             </button>
-            <div style={{fontWeight:800,fontSize:19,color:'#fff',letterSpacing:'-.03em',marginBottom:3}}>Juros de Atraso</div>
-            <div style={{fontSize:13,color:'#9ca3af',marginBottom:18}}>{diasAtraso} dia{diasAtraso!==1?'s':''} de atraso · {contract.nome}</div>
+            <div style={{fontWeight:800,fontSize:19,color:'#fff',letterSpacing:'-.03em',marginBottom:3}}>Encargos de Inadimplência</div>
+            <div style={{fontSize:13,color:'#9ca3af',marginBottom:18}}>{diasAtraso} dia{diasAtraso!==1?'s':''} de inadimplência · {contract.nome}</div>
 
-            <div style={{background:'rgba(255,69,58,.08)',border:'1px solid rgba(255,69,58,.22)',borderRadius:16,padding:18,marginBottom:16}}>
-              <div style={{fontSize:12,color:'#ff453a',marginBottom:4,fontWeight:600}}>Juros acumulados ({diasAtraso}d × {cfg?.taxaAtraso}%/dia)</div>
-              <div style={{fontSize:36,fontWeight:900,color:'#ff453a',letterSpacing:'-.04em',marginBottom:10}}>{R$(jurosAtraso)}</div>
-              <div style={{fontSize:12,color:'#9ca3af'}}>Retorno base: <strong style={{color:'#fff'}}>{R$(contract.valorRetorno)}</strong></div>
-              <div style={{fontSize:12,color:'#9ca3af',marginTop:4}}>Total com atraso: <strong style={{color:'#ff453a'}}>{R$(contract.valorRetorno+jurosAtraso)}</strong></div>
+            <div style={{background:'rgba(255,69,58,.08)',border:'1px solid rgba(255,69,58,.22)',borderRadius:16,padding:16,marginBottom:16}}>
+              <div style={{fontSize:10,color:'#ff453a',fontWeight:900,letterSpacing:'.12em',textTransform:'uppercase',marginBottom:10}}>Justificativa de Encargos</div>
+              <div style={{display:'grid',gridTemplateColumns:'1fr',gap:7,marginBottom:10}}>
+                {[
+                  {l:'Valor Nominal (Principal)',v:R$(contract.valorEmprestado),c:'#fff'},
+                  {l:`Remuneração Contratual (${taxaContratual}%)`,v:R$(jurosBrutos),c:'#ff9f0a'},
+                  {l:'Subtotal (Montante de Liquidação)',v:R$(contract.valorRetorno),c:'#3b82f6'},
+                  {l:`Encargos por Atraso (${diasAtraso}d)`,v:R$(jurosAtraso),c:'#ff453a'},
+                  {l:'Total Atualizado',v:R$(totalAtualizado),c:'#ff453a'},
+                ].map((it,i)=>(
+                  <div key={i} style={{display:'flex',justifyContent:'space-between',gap:10,alignItems:'baseline',background:'rgba(0,0,0,.18)',border:'1px solid rgba(255,255,255,.06)',borderRadius:10,padding:'8px 10px'}}>
+                    <div style={{fontSize:10,color:'#9ca3af',fontWeight:800,letterSpacing:'.08em',textTransform:'uppercase'}}>{it.l}</div>
+                    <div style={{fontSize:12,fontWeight:900,color:it.c,whiteSpace:'nowrap'}}>{it.v}</div>
+                  </div>
+                ))}
+              </div>
+
+              <div style={{fontSize:10,color:'rgba(255,255,255,.72)',background:'rgba(0,0,0,.22)',borderRadius:10,padding:'9px 10px',border:'1px solid rgba(255,255,255,.06)'}}>
+                Encargos calculados sobre o vencimento em atraso, conforme parâmetros configurados (multa fixa e/ou encargo diário percentual). Base contratual: {R$(contract.valorRetorno)}.
+              </div>
             </div>
 
-            <div style={{fontSize:13,color:'#9ca3af',marginBottom:14,textAlign:'center'}}>Você cobrou os juros de atraso?</div>
+            <div style={{fontSize:13,color:'#9ca3af',marginBottom:14,textAlign:'center'}}>Os encargos foram cobrados?</div>
 
             <button onClick={()=>onPagoTotal(jurosAtraso)} style={{width:'100%',background:'rgba(255,69,58,.1)',border:'1px solid rgba(255,69,58,.3)',borderRadius:13,padding:'14px 16px',marginBottom:9,cursor:'pointer',fontFamily:'inherit',textAlign:'left'}}>
-              <div style={{fontSize:15,fontWeight:700,color:'#ff453a',marginBottom:2}}>Sim, cobrei os juros</div>
-              <div style={{fontSize:12,color:'#9ca3af'}}>Recebi {R$(contract.valorRetorno+jurosAtraso)} no total</div>
+              <div style={{fontSize:15,fontWeight:700,color:'#ff453a',marginBottom:2}}>Sim, encargos cobrados</div>
+              <div style={{fontSize:12,color:'#9ca3af'}}>Total liquidado: {R$(totalAtualizado)}</div>
             </button>
             <button onClick={()=>onPagoTotal(0)} style={{width:'100%',background:'rgba(16,185,129,.06)',border:'1px solid rgba(16,185,129,.2)',borderRadius:13,padding:'14px 16px',marginBottom:9,cursor:'pointer',fontFamily:'inherit',textAlign:'left'}}>
-              <div style={{fontSize:15,fontWeight:700,color:'#10b981',marginBottom:2}}>Não, dispensei o atraso</div>
-              <div style={{fontSize:12,color:'#9ca3af'}}>Recebi só {R$(contract.valorRetorno)}, sem cobrar atraso</div>
+              <div style={{fontSize:15,fontWeight:700,color:'#10b981',marginBottom:2}}>Encargos dispensados</div>
+              <div style={{fontSize:12,color:'#9ca3af'}}>Valor liquidado: {R$(contract.valorRetorno)}, sem encargos</div>
             </button>
             <button onClick={onClose} style={{width:'100%',background:'transparent',border:'1px solid rgba(255,255,255,.09)',borderRadius:13,padding:'12px',fontSize:14,fontWeight:600,color:'#9ca3af',cursor:'pointer',fontFamily:'inherit'}}>Cancelar</button>
           </div>
@@ -376,25 +635,137 @@ const SettingsModal=({onSave,onClose})=>{
 
           <div style={{background:'rgba(255,255,255,.05)',border:'1px solid rgba(255,255,255,.09)',borderRadius:16,padding:16,marginBottom:12}}>
             <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:cfg.temSocio?14:0}}>
-              <div><div style={{fontSize:14,fontWeight:700,color:'#fff'}}>Tenho sócio</div><div style={{fontSize:11,color:'#9ca3af',marginTop:2}}>Dividir lucros com parceiro</div></div>
+              <div><div style={{fontSize:14,fontWeight:700,color:'#fff'}}>Estrutura societária</div><div style={{fontSize:11,color:'#9ca3af',marginTop:2}}>Distribuição de resultados</div></div>
               <Toggle on={cfg.temSocio} onChange={v=>set('temSocio',v)}/>
             </div>
             {cfg.temSocio&&(
               <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:10}}>
                 <Fw label="Nome do Sócio"><input className="inp" style={iS(false)} value={cfg.socioNome} onChange={e=>set('socioNome',e.target.value)} placeholder="Ex: Vinicius"/></Fw>
-                <Fw label="Percentual (%)"><input type="number" min="0" max="100" step="0.5" className="inp" style={iS(false)} value={cfg.socioPct} onChange={e=>set('socioPct',parseFloat(e.target.value)||0)} placeholder="30"/></Fw>
+                <Fw label="Participação (%)"><input type="number" min="0" max="100" step="0.5" className="inp" style={iS(false)} value={cfg.socioPct} onChange={e=>set('socioPct',parseFloat(e.target.value)||0)} placeholder="30"/></Fw>
               </div>
             )}
           </div>
 
           <div style={{background:'rgba(255,255,255,.05)',border:'1px solid rgba(255,255,255,.09)',borderRadius:16,padding:16,marginBottom:16}}>
-            <Fw label="Taxa de Atraso Diária (%)">
+            <Fw label="Encargo Diário (%)">
               <input type="number" min="0" max="100" step="0.1" className="inp" style={iS(false)} value={cfg.taxaAtraso||''} onChange={e=>set('taxaAtraso',parseFloat(e.target.value)||0)} placeholder="Ex: 1"/>
             </Fw>
-            <div style={{fontSize:11,color:'#6b7280',marginTop:-6}}>Juros cobrados por dia de atraso. Zero = não cobrar atraso.</div>
+            <div style={{fontSize:11,color:'#6b7280',marginTop:-6}}>Encargo percentual aplicado por dia de inadimplência. Zero = não cobrar atraso.</div>
           </div>
 
-          <button onClick={()=>{saveCfg(cfg);onSave(cfg);}} style={{width:'100%',background:'#3b82f6',border:'none',color:'#fff',borderRadius:13,padding:'14px',fontSize:15,fontWeight:700,cursor:'pointer',fontFamily:'inherit'}}>Salvar</button>
+          <div style={{background:'rgba(255,255,255,.05)',border:'1px solid rgba(255,255,255,.09)',borderRadius:16,padding:16,marginBottom:16}}>
+            <Fw label="Multa Fixa Diária (R$)">
+              <input type="number" min="0" step="0.01" className="inp" style={iS(false)} value={cfg.valorFixoDia||''} onChange={e=>set('valorFixoDia',parseFloat(e.target.value)||0)} placeholder="Ex: 5.00"/>
+            </Fw>
+            <div style={{fontSize:11,color:'#6b7280',marginTop:-6}}>Valor fixo adicional por dia de inadimplência. Ex: R$ 5,00/dia = R$ 150,00/mês</div>
+          </div>
+
+
+          <button onClick={()=>{saveCfg(cfg);onSave(cfg);}} style={{width:'100%',background:'#3b82f6',border:'none',color:'#fff',borderRadius:13,padding:'14px',fontSize:15,fontWeight:700,cursor:'pointer',fontFamily:'inherit'}}>Aplicar Parâmetros</button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+/* ── Recolhimentos Modal ─────────────────────────────────────────────────── */
+const RecolhidoModal=({contracts,cfg,onClose,onToast})=>{
+  const [recolhimentos,setRecolhimentos]=useState([]);
+  const [loading,setLoading]=useState(true);
+  const [resumo,setResumo]=useState({totalPendente:0,totalPago:0,quantidadeRecolhimentos:0});
+  
+  useEffect(()=>{
+    const loadRecolhimentos=async()=>{
+      setLoading(true);
+      const recs=await api.get('/api/recolhimentos');
+      const res=await api.get('/api/resumo-socio');
+      setRecolhimentos(Array.isArray(recs)?recs:[]);
+      setResumo(res||{totalPendente:0,totalPago:0,quantidadeRecolhimentos:0});
+      setLoading(false);
+    };
+    loadRecolhimentos();
+  },[]);
+  
+  const handlePagar=async(id)=>{
+    const rec=recolhimentos.find(r=>r.id===id);
+    if(!rec)return;
+    
+    const updatedRec={...rec,status:'PAGO',dataPagamento:today()};
+    await api.put(`/api/recolhimentos/${id}`,updatedRec);
+    
+    // Atualizar lista
+    setRecolhimentos(recs=>recs.map(r=>r.id===id?updatedRec:r));
+    
+    // Atualizar resumo
+    setResumo(prev=>({
+      ...prev,
+      totalPendente:prev.totalPendente-rec.valor,
+      totalPago:prev.totalPago+rec.valor
+    }));
+    
+    onToast&&onToast(`Pagamento de R$ ${rec.valor.toFixed(2)} registrado!`);
+  };
+  
+  return(
+    <div style={{position:'fixed',inset:0,background:'rgba(6,9,20,.95)',backdropFilter:'blur(12px)',zIndex:50,display:'flex',alignItems:'flex-end',justifyContent:'center'}} onClick={e=>e.target===e.currentTarget&&onClose()}>
+      <div className="pop" style={{background:'rgba(255,255,255,.05)',border:'1px solid rgba(255,255,255,.08)',borderRadius:'22px 22px 0 0',width:'100%',maxWidth:480,maxHeight:'92vh',overflowY:'auto',paddingBottom:34}}>
+        <div style={{width:30,height:3,background:'#374151',borderRadius:99,margin:'11px auto 0'}}/>
+        <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',padding:'16px 18px 14px'}}>
+          <div>
+            <div style={{fontWeight:800,fontSize:19,color:'#fff',letterSpacing:'-.03em'}}>Participação — {cfg?.socioNome||'Sócio'}</div>
+            <div style={{fontSize:12,color:'#9ca3af'}}>Distribuição de resultados ao sócio</div>
+          </div>
+          <button onClick={onClose} style={{background:'rgba(255,255,255,.08)',border:'none',borderRadius:10,width:32,height:32,display:'flex',alignItems:'center',justifyContent:'center',cursor:'pointer',color:'#9ca3af'}}><Ic d={IC.x} size={14}/></button>
+        </div>
+        
+        {/* Resumo */}
+        <div style={{padding:'0 18px 16px'}}>
+          <div style={{background:'rgba(255,255,255,.05)',border:'1px solid rgba(255,255,255,.09)',borderRadius:16,padding:16,marginBottom:16}}>
+            <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:12}}>
+              <div style={{textAlign:'center'}}>
+                <div style={{fontSize:10,color:'#6b7280',textTransform:'uppercase',letterSpacing:'.06em',marginBottom:2}}>A Distribuir</div>
+                <div style={{fontSize:18,fontWeight:800,color:'#ff9f0a'}}>{R$(resumo.totalPendente)}</div>
+              </div>
+              <div style={{textAlign:'center'}}>
+                <div style={{fontSize:10,color:'#6b7280',textTransform:'uppercase',letterSpacing:'.06em',marginBottom:2}}>Já Distribuído</div>
+                <div style={{fontSize:18,fontWeight:800,color:'#10b981'}}>{R$(resumo.totalPago)}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        {/* Lista de recolhimentos */}
+        <div style={{padding:'0 18px',maxHeight:'50vh',overflowY:'auto'}}>
+          {loading?(
+            <div style={{textAlign:'center',padding:'40px 0',color:'#6b7280'}}>Carregando carteira…</div>
+          ):recolhimentos.length===0?(
+            <div style={{textAlign:'center',padding:'40px 0',color:'#6b7280'}}>Nenhuma distribuição registrada</div>
+          ):(
+            <div style={{display:'flex',flexDirection:'column',gap:8}}>
+              {recolhimentos.map(rec=>{
+                const isPago=rec.status==='PAGO';
+                return(
+                  <div key={rec.id} style={{background:'rgba(255,255,255,.03)',border:'1px solid rgba(255,255,255,.06)',borderRadius:12,padding:12}}>
+                    <div style={{display:'flex',justifyContent:'space-between',alignItems:'flex-start',marginBottom:6}}>
+                      <div>
+                        <div style={{fontSize:13,fontWeight:700,color:'#fff',marginBottom:2}}>{rec.descricao}</div>
+                        <div style={{fontSize:11,color:'#6b7280'}}>{new Date(rec.data+'T00:00:00').toLocaleDateString('pt-BR')}</div>
+                      </div>
+                      <div style={{textAlign:'right'}}>
+                        <div style={{fontSize:14,fontWeight:800,color:isPago?'#10b981':'#ff9f0a'}}>{R$(rec.valor)}</div>
+                        <div style={{fontSize:10,color:isPago?'#6b7280':'#9ca3af',textTransform:'uppercase',letterSpacing:'.06em'}}>{rec.status}</div>
+                      </div>
+                    </div>
+                    {!isPago&&(
+                      <button onClick={()=>handlePagar(rec.id)} style={{width:'100%',background:'#10b981',border:'none',color:'#fff',borderRadius:8,padding:'8px',fontSize:12,fontWeight:700,cursor:'pointer',fontFamily:'inherit',marginTop:6}}>
+                        Confirmar Distribuição
+                      </button>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          )}
         </div>
       </div>
     </div>
@@ -444,49 +815,53 @@ const ContractModal=({contract,cfg,onSave,onClose})=>{
         <div style={{width:30,height:3,background:'#374151',borderRadius:99,margin:'11px auto 0'}}/>
         <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',padding:'16px 18px 0'}}>
           <div>
-            <div style={{fontWeight:800,fontSize:19,color:'#fff',letterSpacing:'-.03em'}}>{contract?'Editar Contrato':'Novo Contrato'}</div>
+            <div style={{fontWeight:800,fontSize:19,color:'#fff',letterSpacing:'-.03em'}}>{contract?'Editar Instrumento':'Novo Instrumento'}</div>
             <div style={{fontSize:11,color:'#9ca3af',marginTop:3}}>Campos com * são obrigatórios</div>
           </div>
           <button onClick={onClose} style={{background:'rgba(255,255,255,.08)',border:'none',borderRadius:10,width:34,height:34,display:'flex',alignItems:'center',justifyContent:'center',cursor:'pointer',color:'#9ca3af'}}><Ic d={IC.x} size={14}/></button>
         </div>
         <form onSubmit={submit} style={{padding:'16px 18px 0'}}>
-          <Fw label="Nome Completo" err={errs.nome} required>
-            <input className="inp" style={iS(errs.nome)} value={form.nome} onChange={e=>set('nome',e.target.value)} placeholder="Ex: João Silva"/>
+          <Fw label="Qualificação do Devedor" err={errs.nome} required>
+            <input className="inp" style={iS(errs.nome)} value={form.nome} onChange={e=>set('nome',e.target.value)} placeholder="Nome completo"/>
           </Fw>
           <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:10}}>
             <Fw label="CPF" err={errs.cpf} required><input className="inp" style={iS(errs.cpf)} value={form.cpf} onChange={e=>set('cpf',fmtCPF(e.target.value))} placeholder="000.000.000-00" maxLength={14}/></Fw>
-            <Fw label="WhatsApp"><input className="inp" style={iS(false)} value={form.telefone} onChange={e=>set('telefone',fmtPhone(e.target.value))} placeholder="(00) 00000-0000" maxLength={15}/></Fw>
+            <Fw label="Contato"><input className="inp" style={iS(false)} value={form.telefone} onChange={e=>set('telefone',fmtPhone(e.target.value))} placeholder="(00) 00000-0000" maxLength={15}/></Fw>
           </div>
-          <Fw label="Chave Pix" err={errs.chavePix} required>
-            <input className="inp" style={iS(errs.chavePix)} value={form.chavePix} onChange={e=>set('chavePix',e.target.value)} placeholder="CPF, e-mail, telefone ou aleatória"/>
+          <Fw label="Chave Pix / IBAN" err={errs.chavePix} required>
+            <input className="inp" style={iS(errs.chavePix)} value={form.chavePix} onChange={e=>set('chavePix',e.target.value)} placeholder="Chave de recebimento"/>
           </Fw>
           <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:10}}>
-            <Fw label="Valor (R$)" err={errs.valorEmprestado} required><input type="number" min="0.01" step="0.01" className="inp" style={iS(errs.valorEmprestado)} value={form.valorEmprestado} onChange={e=>set('valorEmprestado',e.target.value)} placeholder="0,00"/></Fw>
-            <Fw label="Taxa (%)"><input type="number" min="0" max="9999" step="0.1" className="inp" style={iS(false)} value={form.taxaServico} onChange={e=>set('taxaServico',e.target.value)} placeholder="30"/></Fw>
+            <Fw label="Principal (R$)" err={errs.valorEmprestado} required><input type="number" min="0.01" step="0.01" className="inp" style={iS(errs.valorEmprestado)} value={form.valorEmprestado} onChange={e=>set('valorEmprestado',e.target.value)} placeholder="0,00"/></Fw>
+            <Fw label="Remuneração (%)"><input type="number" min="0" max="9999" step="0.1" className="inp" style={iS(false)} value={form.taxaServico} onChange={e=>set('taxaServico',e.target.value)} placeholder="30"/></Fw>
           </div>
           {ret>0&&(
             <div style={{background:'rgba(10,132,255,.07)',border:'1px solid rgba(10,132,255,.14)',borderRadius:14,padding:14,marginBottom:13}}>
-              <div style={{fontSize:10,color:'#3b82f6',fontWeight:700,letterSpacing:'.08em',textTransform:'uppercase',marginBottom:9}}>Previsão</div>
+              <div style={{fontSize:10,color:'#3b82f6',fontWeight:700,letterSpacing:'.08em',textTransform:'uppercase',marginBottom:9}}>Projeção Financeira</div>
               <div style={{display:'grid',gridTemplateColumns:cfg?.temSocio?'1fr 1fr 1fr':'1fr 1fr',gap:8,textAlign:'center'}}>
-                {[{l:'Retorno',v:R$(ret),c:'#3b82f6'},...(cfg?.temSocio?[{l:cfg.socioNome||'Sócio',v:R$(socio),c:'#7c3aed'}]:[]),{l:'Seu Lucro',v:R$(liq),c:'#10b981'}].map(({l,v,c},i)=>(
+                {[{l:'Resgate',v:R$(ret),c:'#3b82f6'},...(cfg?.temSocio?[{l:cfg.socioNome||'Sócio',v:R$(socio),c:'#7c3aed'}]:[]),{l:'Saldo Líquido',v:R$(liq),c:'#10b981'}].map(({l,v,c},i)=>(
                   <div key={i}><div style={{fontSize:9,color:'#6b7280',textTransform:'uppercase',letterSpacing:'.05em',marginBottom:3}}>{l}</div><div style={{fontSize:15,fontWeight:800,color:c}}>{v}</div></div>
                 ))}
               </div>
             </div>
           )}
           <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:10}}>
-            <Fw label="Início" err={errs.dataInicio} required><input type="date" className="inp" style={{...iS(errs.dataInicio),colorScheme:'dark'}} value={form.dataInicio} onChange={e=>set('dataInicio',e.target.value)}/></Fw>
-            <Fw label="Vencimento" err={errs.dataVencimento} required><input type="date" className="inp" style={{...iS(errs.dataVencimento),colorScheme:'dark'}} value={form.dataVencimento} onChange={e=>set('dataVencimento',e.target.value)}/></Fw>
+            <Fw label="Início do Prazo" err={errs.dataInicio} required>
+              <input type="date" disabled={!!contract} className="inp" style={{...iS(errs.dataInicio),colorScheme:'dark',opacity:contract?.75:1,cursor:contract?'not-allowed':'text'}} value={form.dataInicio} onChange={e=>set('dataInicio',e.target.value)}/>
+            </Fw>
+            <Fw label="Vencimento" err={errs.dataVencimento} required>
+              <input type="date" disabled={!!contract} className="inp" style={{...iS(errs.dataVencimento),colorScheme:'dark',opacity:contract?.75:1,cursor:contract?'not-allowed':'text'}} value={form.dataVencimento} onChange={e=>set('dataVencimento',e.target.value)}/>
+            </Fw>
           </div>
-          <Fw label="Máx. Pedaladas (0 = não permitir)">
+          <Fw label="Máx. Amortizações (0 = não permitir)">
             <input type="number" min="0" max="20" className="inp" style={iS(false)} value={form.maxPedaladas} onChange={e=>set('maxPedaladas',e.target.value)} placeholder="3"/>
           </Fw>
-          <Fw label="Observações">
-            <textarea rows={2} className="inp" style={{...iS(false),resize:'none'}} value={form.observacoes} onChange={e=>set('observacoes',e.target.value)} placeholder="Garantias, referências, etc."/>
+          <Fw label="Anotações">
+            <textarea rows={2} className="inp" style={{...iS(false),resize:'none'}} value={form.observacoes} onChange={e=>set('observacoes',e.target.value)} placeholder="Garantias, lastros, observações jurídicas…"/>
           </Fw>
           <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:10,marginTop:4}}>
             <button type="button" onClick={onClose} style={{background:'rgba(255,255,255,.08)',border:'1px solid rgba(255,255,255,.08)',color:'#9ca3af',borderRadius:13,padding:'13px',fontSize:14,fontWeight:600,cursor:'pointer',fontFamily:'inherit'}}>Cancelar</button>
-            <button type="submit" disabled={saving} style={{background:'#3b82f6',border:'none',color:'#fff',borderRadius:13,padding:'13px',fontSize:14,fontWeight:700,cursor:'pointer',fontFamily:'inherit',opacity:saving?.65:1}}>{saving?'Salvando…':contract?'Salvar':'Cadastrar'}</button>
+            <button type="submit" disabled={saving} style={{background:'#3b82f6',border:'none',color:'#fff',borderRadius:13,padding:'13px',fontSize:14,fontWeight:700,cursor:'pointer',fontFamily:'inherit',opacity:saving?.65:1}}>{saving?'Processando…':contract?'Protocolar':'Registrar'}</button>
           </div>
         </form>
       </div>
@@ -499,11 +874,11 @@ const DelModal=({name,onConfirm,onClose})=>(
   <div style={{position:'fixed',inset:0,background:'rgba(0,0,0,.9)',backdropFilter:'blur(12px)',zIndex:50,display:'flex',alignItems:'center',justifyContent:'center',padding:20}} onClick={e=>e.target===e.currentTarget&&onClose()}>
     <div className="pop" style={{background:'rgba(255,255,255,.05)',border:'1px solid rgba(255,69,58,.18)',borderRadius:22,padding:26,width:'100%',maxWidth:310,textAlign:'center'}}>
       <div style={{width:50,height:50,background:'rgba(255,69,58,.1)',borderRadius:15,display:'flex',alignItems:'center',justifyContent:'center',margin:'0 auto 14px'}}><Ic d={IC.trash} size={20} stroke='#ff453a'/></div>
-      <div style={{fontWeight:800,fontSize:17,color:'#fff',marginBottom:7,letterSpacing:'-.02em'}}>Excluir contrato</div>
-      <div style={{fontSize:13,color:'#9ca3af',lineHeight:1.6,marginBottom:22}}>Excluir contrato de <strong style={{color:'#fff'}}>{name}</strong>?<br/><span style={{fontSize:11,color:'#6b7280'}}>Esta ação não pode ser desfeita.</span></div>
+      <div style={{fontWeight:800,fontSize:17,color:'#fff',marginBottom:7,letterSpacing:'-.02em'}}>Arquivar Instrumento</div>
+      <div style={{fontSize:13,color:'#9ca3af',lineHeight:1.6,marginBottom:22}}>Arquivar instrumento de <strong style={{color:'#fff'}}>{name}</strong>?<br/><span style={{fontSize:11,color:'#6b7280'}}>Esta ação não pode ser desfeita.</span></div>
       <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:9}}>
         <button onClick={onClose} style={{background:'rgba(255,255,255,.08)',border:'1px solid rgba(255,255,255,.09)',color:'#9ca3af',borderRadius:12,padding:'12px',fontSize:14,fontWeight:600,cursor:'pointer',fontFamily:'inherit'}}>Cancelar</button>
-        <button onClick={onConfirm} style={{background:'#ff453a',border:'none',color:'#fff',borderRadius:12,padding:'12px',fontSize:14,fontWeight:700,cursor:'pointer',fontFamily:'inherit'}}>Excluir</button>
+        <button onClick={onConfirm} style={{background:'#ff453a',border:'none',color:'#fff',borderRadius:12,padding:'12px',fontSize:14,fontWeight:700,cursor:'pointer',fontFamily:'inherit'}}>Arquivar</button>
       </div>
     </div>
   </div>
@@ -516,7 +891,7 @@ const MetaModal=({current,onSave,onClose})=>{
     <div style={{position:'fixed',inset:0,background:'rgba(6,9,20,.95)',backdropFilter:'blur(12px)',zIndex:50,display:'flex',alignItems:'center',justifyContent:'center',padding:20}} onClick={e=>e.target===e.currentTarget&&onClose()}>
       <div className="pop" style={{background:'rgba(255,255,255,.05)',border:'1px solid rgba(255,255,255,.08)',borderRadius:22,padding:26,width:'100%',maxWidth:310,textAlign:'center'}}>
         <div style={{width:50,height:50,background:'rgba(10,132,255,.1)',borderRadius:15,display:'flex',alignItems:'center',justifyContent:'center',margin:'0 auto 14px'}}><Ic d={IC.cash} size={20} stroke='#3b82f6'/></div>
-        <div style={{fontWeight:800,fontSize:19,color:'#fff',marginBottom:4,letterSpacing:'-.03em'}}>Meta do Mês</div>
+        <div style={{fontWeight:800,fontSize:19,color:'#fff',marginBottom:4,letterSpacing:'-.03em'}}>Meta Mensal</div>
         <div style={{fontSize:12,color:'#9ca3af',marginBottom:18}}>Quanto quer lucrar esse mês?</div>
         <Fw label="Lucro Líquido Alvo (R$)">
           <input type="number" min="0" step="0.01" className="inp" style={{...iS(false),textAlign:'center',fontSize:22,fontWeight:800}} value={val} onChange={e=>setVal(e.target.value)} placeholder="5000" autoFocus/>
@@ -530,6 +905,30 @@ const MetaModal=({current,onSave,onClose})=>{
   );
 };
 
+const BulkDelPaidModal=({count,total,onConfirm,onClose})=>(
+  <div style={{position:'fixed',inset:0,background:'rgba(0,0,0,.9)',backdropFilter:'blur(12px)',zIndex:55,display:'flex',alignItems:'center',justifyContent:'center',padding:20}} onClick={e=>e.target===e.currentTarget&&onClose()}>
+    <div className="pop" style={{background:'rgba(12,12,12,.92)',border:'1px solid rgba(255,69,58,.20)',borderRadius:22,padding:22,width:'100%',maxWidth:360}}>
+      <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',gap:10,marginBottom:10}}>
+        <div style={{fontWeight:900,fontSize:16,color:'#fff',letterSpacing:'-.02em'}}>Excluir Liquidados</div>
+        <button onClick={onClose} style={{background:'rgba(255,255,255,.06)',border:'1px solid rgba(255,255,255,.10)',borderRadius:12,width:36,height:36,display:'flex',alignItems:'center',justifyContent:'center',cursor:'pointer',color:'#9ca3af'}}><Ic d={IC.x} size={16}/></button>
+      </div>
+      <div style={{fontSize:12,color:'#9ca3af',lineHeight:1.55,marginBottom:14}}>
+        Você está prestes a excluir <strong style={{color:'#fff'}}>{count}</strong> contrato{count!==1?'s':''} liquidado{count!==1?'s':''}. Esta ação remove também lançamentos vinculados do sócio.
+      </div>
+      <div style={{background:'rgba(255,255,255,.05)',border:'1px solid rgba(255,255,255,.10)',borderRadius:16,padding:14,marginBottom:14}}>
+        <div style={{display:'flex',justifyContent:'space-between',alignItems:'baseline',gap:10}}>
+          <div style={{fontSize:10,color:'#9ca3af',fontWeight:900,letterSpacing:'.10em',textTransform:'uppercase'}}>Total</div>
+          <div style={{fontSize:14,fontWeight:900,color:'#ff453a'}}>{R$(total)}</div>
+        </div>
+      </div>
+      <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:10}}>
+        <button onClick={onClose} style={{background:'transparent',border:'1px solid rgba(255,255,255,.12)',color:'rgba(255,255,255,.85)',borderRadius:14,padding:'12px',fontSize:14,fontWeight:900,cursor:'pointer',fontFamily:'inherit'}}>Cancelar</button>
+        <button onClick={onConfirm} style={{background:'#ff453a',border:'none',color:'#fff',borderRadius:14,padding:'12px',fontSize:14,fontWeight:900,cursor:'pointer',fontFamily:'inherit'}}>Excluir</button>
+      </div>
+    </div>
+  </div>
+);
+
 /* ── Contract Card ──────────────────────────────────────────────────────── */
 const ContractCard=({c,cfg,onEdit,onDelete,onPay,index})=>{
   const [open,setOpen]=useState(false);
@@ -540,7 +939,7 @@ const ContractCard=({c,cfg,onEdit,onDelete,onPay,index})=>{
   const late=!isPago&&days<0,tod=!isPago&&days===0,urg=!isPago&&days>0&&days<=5;
   const initials=c.nome.trim().split(' ').filter(Boolean).slice(0,2).map(w=>w[0].toUpperCase()).join('');
   const ac=isPago?'#10b981':late?'#ff453a':tod||urg?'#ff9f0a':'#3b82f6';
-  const sTxt=isPago?'Pago':late?'Atrasado':tod?'Vence Hoje':'No Prazo';
+  const sTxt=isPago?'Liquidado':late?'Inadimplente':tod?'Vence Hoje':'Adimplente';
   const pedaladas=c.pedaladas||0;
   const maxPed=c.maxPedaladas??3;
   const jurosAtraso=!isPago?calcJurosAtraso(c,cfg):0;
@@ -549,7 +948,13 @@ const ContractCard=({c,cfg,onEdit,onDelete,onPay,index})=>{
   return(
     <div className="card-hover fu" style={{animationDelay:`${index*.055}s`,background:'rgba(255,255,255,.05)',border:'1px solid rgba(255,255,255,.08)',borderRadius:18,overflow:'hidden',marginBottom:9,borderLeft:`3px solid ${ac}`}}>
       <div style={{padding:'13px 14px 10px',display:'flex',alignItems:'center',gap:11}}>
-        <div style={{width:42,height:42,borderRadius:13,flexShrink:0,background:`${ac}18`,display:'flex',alignItems:'center',justifyContent:'center',fontSize:13,fontWeight:800,color:ac}}>{initials}</div>
+        <div style={{width:42,height:42,borderRadius:13,flexShrink:0,background:`${ac}18`,border:'1px solid rgba(255,255,255,.08)',overflow:'hidden',display:'flex',alignItems:'center',justifyContent:'center',fontSize:13,fontWeight:800,color:ac}}>
+          {c.avatarUrl?
+            <img src={c.avatarUrl} alt="" style={{width:'100%',height:'100%',objectFit:'cover',display:'block'}} onError={e=>{e.currentTarget.style.display='none';}}/>
+            :
+            initials
+          }
+        </div>
         <div style={{flex:1,minWidth:0}}>
           <div style={{fontWeight:700,fontSize:15,color:'#fff',overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap',letterSpacing:'-.02em'}}>{c.nome}</div>
           <button onClick={copyPix} style={{display:'flex',alignItems:'center',gap:4,background:'none',border:'none',cursor:'pointer',padding:0,marginTop:2}}>
@@ -571,9 +976,9 @@ const ContractCard=({c,cfg,onEdit,onDelete,onPay,index})=>{
 
       {showPedLog&&pedaladas>0&&(
         <div className="fi" style={{margin:'0 12px 10px',background:'rgba(255,159,10,.05)',border:'1px solid rgba(255,159,10,.14)',borderRadius:12,padding:12}}>
-          <div style={{fontSize:10,fontWeight:700,color:'#ff9f0a',letterSpacing:'.07em',textTransform:'uppercase',marginBottom:6}}>Histórico de Pedaladas</div>
+          <div style={{fontSize:10,fontWeight:700,color:'#ff9f0a',letterSpacing:'.07em',textTransform:'uppercase',marginBottom:6}}>Histórico de Amortizações</div>
           <div style={{fontSize:11,color:'#6b7280',marginBottom:8,lineHeight:1.55,padding:'8px 10px',background:'rgba(255,255,255,.03)',borderRadius:8}}>
-            <strong style={{color:'#ff9f0a'}}>Pedalada</strong> = cliente pagou só os juros para ganhar mais 30 dias sem quitar o capital.
+            <strong style={{color:'#ff9f0a'}}>Amortização</strong> = cliente pagou apenas os encargos contratuais para prorrogar o prazo.
           </div>
           {(c.pedaladaLog||[]).map((p,i)=>(
             <div key={i} style={{display:'flex',justifyContent:'space-between',padding:'5px 0',borderBottom:i<(c.pedaladaLog||[]).length-1?'1px solid rgba(255,255,255,.05)':'none'}}>
@@ -588,7 +993,7 @@ const ContractCard=({c,cfg,onEdit,onDelete,onPay,index})=>{
         {isPago?(
           <div style={{display:'flex',alignItems:'center',gap:10,padding:'10px 12px',background:'rgba(16,185,129,.06)',borderRadius:12,border:'1px solid rgba(16,185,129,.12)'}}>
             <div style={{width:30,height:30,background:'rgba(16,185,129,.12)',borderRadius:9,display:'flex',alignItems:'center',justifyContent:'center',flexShrink:0}}><Ic d={IC.check} size={15} stroke='#10b981'/></div>
-            <div><div style={{fontSize:13,fontWeight:700,color:'#10b981'}}>Pagamento Recebido</div><div style={{fontSize:10,color:'#6b7280',marginTop:1}}>Lucro líquido: <span style={{color:'#10b981',fontWeight:700}}>{R$(fin.liquido)}</span></div></div>
+            <div><div style={{fontSize:13,fontWeight:700,color:'#10b981'}}>Liquidação Confirmada</div><div style={{fontSize:10,color:'#6b7280',marginTop:1}}>Saldo líquido: <span style={{color:'#10b981',fontWeight:700}}>{R$(fin.liquido)}</span></div></div>
           </div>
         ):(
           <>
@@ -596,7 +1001,7 @@ const ContractCard=({c,cfg,onEdit,onDelete,onPay,index})=>{
             <PBar dataInicio={c.dataInicio} dataVencimento={c.dataVencimento}/>
             {jurosAtraso>0&&(
               <div style={{marginTop:7,padding:'7px 10px',background:'rgba(255,69,58,.06)',border:'1px solid rgba(255,69,58,.14)',borderRadius:9}}>
-                <div style={{fontSize:10,fontWeight:700,color:'#ff453a'}}>Juros de atraso acumulados</div>
+                <div style={{fontSize:10,fontWeight:700,color:'#ff453a'}}>Encargos acumulados</div>
                 <div style={{fontSize:13,fontWeight:800,color:'#ff453a',marginTop:1}}>{R$(jurosAtraso)}</div>
               </div>
             )}
@@ -605,7 +1010,7 @@ const ContractCard=({c,cfg,onEdit,onDelete,onPay,index})=>{
       </div>
 
       <div style={{display:'grid',gridTemplateColumns:'1fr 1fr 1fr',borderTop:'1px solid rgba(255,255,255,.05)',borderBottom:'1px solid rgba(255,255,255,.05)'}}>
-        {[{l:'Capital',v:R$(c.valorEmprestado),col:'#9ca3af'},{l:'Retorno',v:R$(c.valorRetorno),col:'#3b82f6'},{l:'Seu Lucro',v:R$(fin.liquido),col:'#10b981'}].map(({l,v,col},i)=>(
+        {[{l:'Principal',v:R$(c.valorEmprestado),col:'#9ca3af'},{l:'Resgate',v:R$(c.valorRetorno),col:'#3b82f6'},{l:'Lucro Líquido',v:R$(fin.liquido),col:'#10b981'}].map(({l,v,col},i)=>(
           <div key={i} style={{padding:'10px 7px',textAlign:'center',borderLeft:i>0?'1px solid rgba(255,255,255,.05)':'none'}}>
             <div style={{fontSize:8,color:'#6b7280',textTransform:'uppercase',letterSpacing:'.07em',marginBottom:4,fontWeight:600}}>{l}</div>
             <div style={{fontSize:13,fontWeight:800,color:col}}>{v}</div>
@@ -637,7 +1042,7 @@ const ContractCard=({c,cfg,onEdit,onDelete,onPay,index})=>{
 
       <div style={{display:'flex',borderTop:'1px solid rgba(255,255,255,.05)'}}>
         <button onClick={()=>onPay(c)} style={{flex:1.4,background:isPago?'rgba(48,209,88,.06)':'none',border:'none',cursor:'pointer',padding:'11px 6px',display:'flex',alignItems:'center',justifyContent:'center',gap:5,color:isPago?'#10b981':'#9ca3af',fontFamily:'inherit',fontSize:11,fontWeight:700}}>
-          <Ic d={IC.check} size={12} stroke={isPago?'#10b981':'#9ca3af'}/>{isPago?'Pago':'Registrar'}
+          <Ic d={IC.check} size={12} stroke={isPago?'#10b981':'#9ca3af'}/>{isPago?'Liquidado':'Protocolar'}
         </button>
         {c.telefone&&(
           <button onClick={openWA} style={{flex:.8,background:'none',border:'none',borderLeft:'1px solid rgba(255,255,255,.05)',cursor:'pointer',padding:'11px 6px',display:'flex',alignItems:'center',justifyContent:'center',color:'#25d366',fontFamily:'inherit'}}><WA size={13}/></button>
@@ -649,91 +1054,112 @@ const ContractCard=({c,cfg,onEdit,onDelete,onPay,index})=>{
   );
 };
 
-/* ── App ────────────────────────────────────────────────────────────────── */
-const RecolhidoModal=({contracts,cfg,onClose})=>{
-  const pagos=[...contracts.filter(c=>c.pago)].sort((a,b)=>new Date(b.dataVencimento)-new Date(a.dataVencimento));
-  const totalRecebido=pagos.reduce((s,c)=>s+c.valorRetorno,0);
-  const totalLucro=pagos.reduce((s,c)=>s+calcFin(c,cfg).liquido,0);
-  const fmtDate=d=>d?new Date(d+'T00:00:00').toLocaleDateString('pt-BR',{day:'2-digit',month:'short',year:'numeric'}):'—';
+/* ── Socio Card ─────────────────────────────────────────────────────────── */
+const SocioCard=({cfg,summary,recolhimentos,onPagar})=>{
+  const [expanded,setExpanded]=useState(false);
+  const pendentes=recolhimentos.filter(r=>r.status==='PENDENTE').sort((a,b)=>new Date(b.data)-new Date(a.data));
+  const pagos=recolhimentos.filter(r=>r.status==='PAGO').sort((a,b)=>new Date(b.data)-new Date(a.data));
+  const fmtDate=d=>d?new Date(d+'T00:00:00').toLocaleDateString('pt-BR',{day:'2-digit',month:'short'}):'—';
+  const tipoLabel=t=>t==='PEDALADA'?'🚴 Pedalada':'✅ Pag. Total';
   return(
-    <div onClick={onClose} style={{position:'fixed',inset:0,zIndex:100,background:'rgba(0,0,0,.7)',backdropFilter:'blur(6px)',display:'flex',alignItems:'flex-end',justifyContent:'center'}}>
-      <div onClick={e=>e.stopPropagation()} style={{width:'100%',maxWidth:480,background:'#0d1117',border:'1px solid rgba(255,255,255,.09)',borderRadius:'24px 24px 0 0',maxHeight:'88vh',display:'flex',flexDirection:'column',overflow:'hidden'}}>
-        {/* header */}
-        <div style={{padding:'20px 20px 16px',borderBottom:'1px solid rgba(255,255,255,.07)',display:'flex',alignItems:'center',justifyContent:'space-between',flexShrink:0}}>
-          <div>
-            <div style={{fontSize:17,fontWeight:800,color:'#fff',letterSpacing:'-.02em'}}>Contratos Recolhidos</div>
-            <div style={{fontSize:12,color:'#6b7280',marginTop:2}}>{pagos.length} pago{pagos.length!==1?'s':''}</div>
+    <section className="fu" style={{animationDelay:'.12s',background:'rgba(124,58,237,.06)',border:'1px solid rgba(124,58,237,.2)',borderRadius:18,marginBottom:9,overflow:'hidden'}}>
+      {/* header */}
+      <div style={{padding:'14px 16px',display:'flex',alignItems:'center',justifyContent:'space-between'}}>
+        <div style={{display:'flex',alignItems:'center',gap:8}}>
+          <div style={{width:34,height:34,borderRadius:10,background:'rgba(124,58,237,.15)',display:'flex',alignItems:'center',justifyContent:'center',fontSize:13,fontWeight:800,color:'#a78bfa'}}>
+            {(cfg.socioNome||'S').charAt(0).toUpperCase()}
           </div>
-          <button onClick={onClose} style={{background:'rgba(255,255,255,.07)',border:'none',borderRadius:10,width:32,height:32,color:'#9ca3af',cursor:'pointer',fontSize:18,display:'flex',alignItems:'center',justifyContent:'center'}}>×</button>
+          <div>
+            <div style={{fontSize:14,fontWeight:800,color:'#fff',letterSpacing:'-.02em'}}>{cfg.socioNome||'Sócio'}</div>
+            <div style={{fontSize:10,color:'#7c3aed',fontWeight:700}}>{cfg.socioPct}% dos lucros</div>
+          </div>
         </div>
-        {/* totais */}
-        <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:8,padding:'14px 16px',flexShrink:0}}>
-          {[{l:'Total Recebido',v:totalRecebido,c:'#fff'},{l:'Seu Lucro Líquido',v:totalLucro,c:'#10b981'}].map(({l,v,c},i)=>(
-            <div key={i} style={{background:'rgba(255,255,255,.04)',border:'1px solid rgba(255,255,255,.07)',borderRadius:14,padding:'12px 13px'}}>
-              <div style={{fontSize:9,color:'#6b7280',fontWeight:700,textTransform:'uppercase',letterSpacing:'.08em',marginBottom:5}}>{l}</div>
-              <div style={{fontSize:18,fontWeight:900,color:c,letterSpacing:'-.03em'}}><AV value={v}/></div>
-            </div>
-          ))}
+        <button onClick={()=>setExpanded(e=>!e)} style={{background:'rgba(124,58,237,.1)',border:'1px solid rgba(124,58,237,.2)',borderRadius:8,padding:'5px 10px',fontSize:10,fontWeight:700,color:'#a78bfa',cursor:'pointer',fontFamily:'inherit'}}>
+          {expanded?'Recolher':'Expandir'}
+        </button>
+      </div>
+      {/* totais */}
+      <div style={{display:'grid',gridTemplateColumns:'1fr 1fr 1fr',gap:1,background:'rgba(124,58,237,.08)',borderTop:'1px solid rgba(124,58,237,.12)',borderBottom:expanded?'1px solid rgba(124,58,237,.12)':'none'}}>
+        {[{l:'Total Gerado',v:summary.totalRecolhimentos,c:'#a78bfa'},{l:'A Distribuir',v:summary.recolhimentosPendentes,c:'#f59e0b'},{l:'Distribuído',v:summary.recolhimentosPagos,c:'#10b981'}].map(({l,v,c},i)=>(
+          <div key={i} style={{padding:'11px 10px',textAlign:'center',borderLeft:i>0?'1px solid rgba(124,58,237,.1)':'none'}}>
+            <div style={{fontSize:8,color:'#6b7280',textTransform:'uppercase',letterSpacing:'.07em',marginBottom:3}}>{l}</div>
+            <div style={{fontSize:13,fontWeight:800,color:c}}>{R$(v)}</div>
+          </div>
+        ))}
+      </div>
+      {/* alerta pendente */}
+      {summary.recolhimentosPendentes>0&&!expanded&&(
+        <div onClick={()=>setExpanded(true)} style={{margin:'10px 14px',background:'rgba(245,158,11,.08)',border:'1px solid rgba(245,158,11,.2)',borderRadius:10,padding:'9px 12px',cursor:'pointer',display:'flex',alignItems:'center',justifyContent:'space-between'}}>
+          <div style={{fontSize:11,color:'#9ca3af'}}>A distribuir para {cfg.socioNome}: <strong style={{color:'#f59e0b'}}>{R$(summary.recolhimentosPendentes)}</strong></div>
+          <div style={{fontSize:10,color:'#f59e0b',fontWeight:700}}>DISTRIBUIR ›</div>
         </div>
-        {/* lista */}
-        <div style={{overflowY:'auto',padding:'0 16px 32px',flex:1}}>
-          {pagos.length===0?(
-            <div style={{textAlign:'center',padding:'40px 20px',color:'#4b5563',fontSize:13}}>Nenhum contrato pago ainda</div>
-          ):pagos.map((c,i)=>{
-            const fin=calcFin(c,cfg);
-            const initials=c.nome.trim().split(' ').filter(Boolean).slice(0,2).map(w=>w[0].toUpperCase()).join('');
-            const hasAtraso=(c.jurosAtrasoRecolhido||0)>0;
-            const hasPed=(c.pedaladas||0)>0;
-            return(
-              <div key={c.id} style={{background:'rgba(255,255,255,.03)',border:'1px solid rgba(16,185,129,.12)',borderRadius:14,padding:'14px',marginBottom:8,borderLeft:'3px solid #10b981'}}>
-                <div style={{display:'flex',alignItems:'center',gap:10,marginBottom:10}}>
-                  <div style={{width:36,height:36,borderRadius:10,background:'rgba(16,185,129,.15)',display:'flex',alignItems:'center',justifyContent:'center',fontSize:12,fontWeight:800,color:'#10b981',flexShrink:0}}>{initials}</div>
-                  <div style={{flex:1,minWidth:0}}>
-                    <div style={{fontSize:14,fontWeight:700,color:'#fff',whiteSpace:'nowrap',overflow:'hidden',textOverflow:'ellipsis'}}>{c.nome}</div>
-                    <div style={{fontSize:11,color:'#6b7280'}}>{c.cpf}</div>
+      )}
+      {/* lista expandida */}
+      {expanded&&(
+        <div style={{padding:'0 14px 14px'}}>
+          {pendentes.length>0&&(
+            <>
+              <div style={{fontSize:9,color:'#f59e0b',fontWeight:700,textTransform:'uppercase',letterSpacing:'.09em',margin:'12px 0 7px'}}>A Distribuir — {R$(summary.recolhimentosPendentes)}</div>
+              {pendentes.map(rec=>(
+                <div key={rec.id} style={{background:'rgba(245,158,11,.06)',border:'1px solid rgba(245,158,11,.15)',borderRadius:12,padding:'11px 12px',marginBottom:6}}>
+                  <div style={{display:'flex',alignItems:'flex-start',justifyContent:'space-between',marginBottom:7}}>
+                    <div>
+                      <div style={{fontSize:12,fontWeight:700,color:'#fff'}}>{rec.contratoNome}</div>
+                      <div style={{fontSize:10,color:'#6b7280',marginTop:1}}>{tipoLabel(rec.tipo)} · {fmtDate(rec.data)}</div>
+                    </div>
+                    <div style={{fontSize:15,fontWeight:900,color:'#f59e0b'}}>{R$(rec.valor)}</div>
+                  </div>
+                  <button onClick={()=>onPagar(rec.id)} style={{width:'100%',background:'#f59e0b',border:'none',color:'#000',borderRadius:8,padding:'8px',fontSize:12,fontWeight:800,cursor:'pointer',fontFamily:'inherit'}}>
+                    Confirmar Distribuição
+                  </button>
+                </div>
+              ))}
+            </>
+          )}
+          {pagos.length>0&&(
+            <>
+              <div style={{fontSize:9,color:'#10b981',fontWeight:700,textTransform:'uppercase',letterSpacing:'.09em',margin:'14px 0 7px'}}>Distribuído — {R$(summary.recolhimentosPagos)}</div>
+              {pagos.map(rec=>(
+                <div key={rec.id} style={{background:'rgba(16,185,129,.04)',border:'1px solid rgba(16,185,129,.1)',borderRadius:12,padding:'10px 12px',marginBottom:5,display:'flex',alignItems:'center',justifyContent:'space-between'}}>
+                  <div>
+                    <div style={{fontSize:12,fontWeight:700,color:'#9ca3af'}}>{rec.contratoNome}</div>
+                    <div style={{fontSize:10,color:'#4b5563',marginTop:1}}>{tipoLabel(rec.tipo)} · {fmtDate(rec.data)}</div>
                   </div>
                   <div style={{textAlign:'right'}}>
-                    <div style={{fontSize:15,fontWeight:800,color:'#10b981'}}>{R$(c.valorRetorno)}</div>
-                    <div style={{fontSize:10,color:'#6b7280',marginTop:1}}>recebido</div>
+                    <div style={{fontSize:13,fontWeight:800,color:'#10b981'}}>{R$(rec.valor)}</div>
+                    <div style={{fontSize:9,color:'#4b5563',marginTop:1}}>Pago em {fmtDate(rec.dataPagamento)}</div>
                   </div>
                 </div>
-                <div style={{display:'grid',gridTemplateColumns:'1fr 1fr 1fr',gap:6,marginBottom:hasAtraso||hasPed?8:0}}>
-                  {[{l:'Capital',v:R$(c.valorEmprestado),c:'#9ca3af'},{l:'Juros',v:R$(c.valorRetorno-c.valorEmprestado),c:'#3b82f6'},{l:'Seu lucro',v:R$(fin.liquido),c:'#10b981'}].map(({l,v,c:col})=>(
-                    <div key={l} style={{background:'rgba(255,255,255,.04)',borderRadius:8,padding:'7px 8px'}}>
-                      <div style={{fontSize:8,color:'#4b5563',textTransform:'uppercase',letterSpacing:'.07em',marginBottom:3}}>{l}</div>
-                      <div style={{fontSize:12,fontWeight:700,color:col}}>{v}</div>
-                    </div>
-                  ))}
-                </div>
-                {(hasAtraso||hasPed)&&(
-                  <div style={{display:'flex',gap:5,flexWrap:'wrap'}}>
-                    {hasAtraso&&<div style={{fontSize:10,color:'#f59e0b',background:'rgba(245,158,11,.1)',border:'1px solid rgba(245,158,11,.2)',borderRadius:6,padding:'3px 8px',fontWeight:600}}>+{R$(c.jurosAtrasoRecolhido)} atraso</div>}
-                    {hasPed&&<div style={{fontSize:10,color:'#a78bfa',background:'rgba(167,139,250,.1)',border:'1px solid rgba(167,139,250,.2)',borderRadius:6,padding:'3px 8px',fontWeight:600}}>🚴 {c.pedaladas} pedalada{c.pedaladas!==1?'s':''}</div>}
-                  </div>
-                )}
-                <div style={{marginTop:8,paddingTop:8,borderTop:'1px solid rgba(255,255,255,.05)',display:'flex',gap:12}}>
-                  <div style={{fontSize:10,color:'#4b5563'}}><span style={{color:'#6b7280'}}>Início: </span>{fmtDate(c.dataInicio)}</div>
-                  <div style={{fontSize:10,color:'#4b5563'}}><span style={{color:'#6b7280'}}>Venc.: </span>{fmtDate(c.dataVencimento)}</div>
-                </div>
-              </div>
-            );
-          })}
+              ))}
+            </>
+          )}
+          {recolhimentos.length===0&&(
+            <div style={{textAlign:'center',padding:'20px 0',color:'#4b5563',fontSize:12}}>Nenhuma distribuição registrada</div>
+          )}
         </div>
-      </div>
-    </div>
+      )}
+    </section>
   );
 };
 
+/* ── App ────────────────────────────────────────────────────────────────── */
 const App=()=>{
   const [user,setUser]=useState(null);
   const [contracts,setContracts]=useState([]);
+  const [recolhimentos,setRecolhimentos]=useState([]);
   const [loading,setLoading]=useState(true);
   const [search,setSearch]=useState('');
   const [modal,setModal]=useState(null);
   const [delTgt,setDelTgt]=useState(null);
+  const [bulkDelPaid,setBulkDelPaid]=useState(false);
   const [filter,setFilter]=useState('Prazo');
   const [toast,setToast]=useState(null);
-  const [tab,setTab]=useState('contratos');
+  const [tab,setTab]=useState('carteira');
+  const [inbox,setInbox]=useState([]);
+  const [hideMoney,setHideMoney]=useState(false);
+  const [finSel,setFinSel]=useState(null);
+  const [finStatus,setFinStatus]=useState('all');
+  const [finRating,setFinRating]=useState('all');
   const [meta,setMeta]=useState(()=>parseFloat(localStorage.getItem('bpx_meta')||'0'));
   const [metaModal,setMetaModal]=useState(false);
   const [celeb,setCeleb]=useState(null);
@@ -743,7 +1169,151 @@ const App=()=>{
   const [recolhidoModal,setRecolhidoModal]=useState(false);
 
   const showToast=(msg,type='success')=>{setToast({msg,type});setTimeout(()=>setToast(null),3000);};
-  const load=useCallback(async()=>{const d=await api.get('/api/contratos');setContracts(Array.isArray(d)?d:[]);},[]);
+
+  const pushInbox=useCallback((title,body)=>{
+    const id=uid();
+    const when=new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
+    setInbox(cur=>[{id,title,body,when},...cur].slice(0,3));
+  },[]);
+
+  const downloadComprovante=(ev)=>{
+    const c=contracts.find(x=>x.id===ev.contratoId);
+    const now=new Date();
+    const fmtDt=d=>d?new Date(d+'T00:00:00').toLocaleDateString('pt-BR'):'—';
+    const emitidoEm=now.toLocaleString('pt-BR');
+    const protocolo=`${(ev.tipo||'EV').slice(0,3)}-${String(ev.contratoId||'').slice(0,8)}-${String(ev.data||'').replaceAll('-','')||'ND'}-${String(ev.id||'').slice(-6)}`.toUpperCase();
+
+    const linhas=[];
+    linhas.push(['Tipo de Operação', ev.tipo==='LIQUIDACAO'?'Liquidação Total':'Amortização Parcial (Juros)']);
+    linhas.push(['Data do Registro', fmtDt(ev.data)]);
+    linhas.push(['Beneficiário', ev.contratoNome||'—']);
+    linhas.push(['Valor', R$(ev.valor)]);
+    linhas.push(['ID do Contrato', ev.contratoId||'—']);
+    linhas.push(['Protocolo', protocolo]);
+    if(ev.tipo==='LIQUIDACAO'&&c){
+      const enc=c.jurosAtrasoRecolhido||0;
+      linhas.push(['Base (Resgate)', R$(c.valorRetorno)]);
+      linhas.push(['Encargos (Atraso)', R$(enc)]);
+      linhas.push(['Total Liquidado', R$((c.valorRetorno||0)+enc)]);
+    }
+    if(ev.tipo==='PEDALADA'&&c){
+      const last=Array.isArray(c.pedaladaLog)?c.pedaladaLog.find(p=>p?.data===ev.data&&p?.valor===ev.valor):null;
+      if(last?.novoVenc)linhas.push(['Novo Vencimento', fmtDt(last.novoVenc)]);
+    }
+
+    const html=`<!doctype html>
+<html lang="pt-BR"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Comprovante</title>
+<style>
+  :root{--txt:#0b1220;--muted:#5b6475;--line:#e6e8ee;--bg:#f6f7fb;--card:#ffffff;--brand:#111827;}
+  *{box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,Arial,sans-serif}
+  body{margin:0;background:var(--bg);color:var(--txt)}
+  .wrap{max-width:820px;margin:24px auto;padding:0 16px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:18px;overflow:hidden;box-shadow:0 10px 30px rgba(17,24,39,.06)}
+  .top{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:18px 20px;border-bottom:1px solid var(--line)}
+  .brand{display:flex;align-items:center;gap:12px}
+  .logo{width:180px;height:44px;background:url("/assets/images/O%20BOBO%20JURISTA.png") 0 50%/contain no-repeat}
+  .title{font-weight:800;letter-spacing:-.02em;color:var(--brand)}
+  .meta{color:var(--muted);font-size:12px;line-height:1.4;text-align:right}
+  .body{padding:18px 20px}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .row{border:1px solid var(--line);border-radius:14px;padding:12px 12px;background:#fff}
+  .k{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px}
+  .v{font-size:14px;font-weight:700;color:var(--txt);word-break:break-word}
+  .obs{margin-top:12px;border:1px dashed var(--line);border-radius:14px;padding:12px 12px;background:#fbfcff}
+  .obs .k{margin-bottom:6px}
+  .foot{padding:14px 20px;border-top:1px solid var(--line);display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;color:var(--muted);font-size:12px}
+  .btns{margin-top:14px;display:flex;gap:10px;flex-wrap:wrap}
+  .btn{border:1px solid var(--line);background:#fff;border-radius:12px;padding:10px 12px;font-weight:700;cursor:pointer}
+  .btnp{border:1px solid #0ea5e9;background:#0ea5e9;color:#fff}
+  @media print{body{background:#fff}.wrap{margin:0;max-width:none}.btns{display:none}.card{box-shadow:none}}
+</style></head><body>
+  <div class="wrap">
+    <div class="card">
+      <div class="top">
+        <div class="brand"><div class="logo"></div><div class="title">Comprovante de Registro</div></div>
+        <div class="meta"><div>Emitido em: ${emitidoEm}</div><div>Protocolo: ${protocolo}</div></div>
+      </div>
+      <div class="body">
+        <div class="grid">
+          ${linhas.map(([k,v])=>`<div class="row"><div class="k">${k}</div><div class="v">${String(v).replaceAll('<','&lt;')}</div></div>`).join('')}
+        </div>
+        <div class="obs"><div class="k">Observação</div><div class="v" style="font-weight:600">${String(ev.obs||'—').replaceAll('<','&lt;')}</div></div>
+        <div class="btns">
+          <button class="btn btnp" onclick="window.print()">Salvar / Imprimir</button>
+          <button class="btn" onclick="window.close()">Fechar</button>
+        </div>
+      </div>
+      <div class="foot">
+        <div>Documento gerado automaticamente para conferência e arquivo.</div>
+        <div>O Bobo Jurista · Registro interno</div>
+      </div>
+    </div>
+  </div>
+</body></html>`;
+
+    const blob=new Blob([html],{type:'text/html;charset=utf-8'});
+    const url=URL.createObjectURL(blob);
+    const a=document.createElement('a');
+    a.href=url;
+    a.download=`comprovante-${protocolo}.html`;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(()=>URL.revokeObjectURL(url),500);
+    showToast('Comprovante gerado.','success');
+  };
+  const load=useCallback(async()=>{
+    const [d,r]=await Promise.all([
+      api.get('/api/contratos'),
+      api.get('/api/recolhimentos')
+    ]);
+    const contratos=Array.isArray(d)?d:[];
+    let recs=Array.isArray(r)?r:[];
+
+    if(cfg?.temSocio){
+      const pct=(cfg.socioPct||0)/100;
+      const cents=n=>Math.round((n||0)*100);
+      const keys=new Set(recs.map(x=>`${x.tipo}|${x.contratoId}|${x.data}|${cents(x.valor)}`));
+      const extra=[];
+
+      for(const c of contratos){
+        if(c.pago){
+          const fin=calcFin(c,cfg);
+          const v=Number((fin.socio||0).toFixed(2));
+          const data=c.pagoEm||c.dataVencimento||today();
+          const k=`PAGAMENTO_TOTAL|${c.id}|${data}|${cents(v)}`;
+          if(v>0&&!keys.has(k)){
+            const obj={id:uid(),contratoId:c.id,contratoNome:c.nome,valor:v,tipo:'PAGAMENTO_TOTAL',data,status:'PENDENTE',descricao:`Liquidação total do contrato. Motivo: quitação integral do título. Por quê: distribuição de resultado conforme participação (${cfg.socioPct}%).`};
+            extra.push(obj);
+            keys.add(k);
+          }
+        }
+
+        const logs=Array.isArray(c.pedaladaLog)?c.pedaladaLog:[];
+        logs.forEach(p=>{
+          const data=p?.data||today();
+          const v=Number(((p?.valor||0)*pct).toFixed(2));
+          const k=`PEDALADA|${c.id}|${data}|${cents(v)}`;
+          if(v>0&&!keys.has(k)){
+            const obj={id:uid(),contratoId:c.id,contratoNome:c.nome,valor:v,tipo:'PEDALADA',data,status:'PENDENTE',descricao:`Amortização parcial (juros) registrada. Motivo: prorrogação do vencimento. Por quê: remuneração recebida e principal mantido em aberto. Distribuição conforme participação (${cfg.socioPct}%).`};
+            extra.push(obj);
+            keys.add(k);
+          }
+        });
+      }
+
+      if(extra.length){
+        for(const x of extra){
+          await api.post('/api/recolhimentos',x);
+        }
+        recs=[...recs,...extra];
+      }
+    }
+
+    setContracts(contratos);
+    setRecolhimentos(recs);
+  },[cfg]);
 
   useEffect(()=>{
     (async()=>{
@@ -751,31 +1321,81 @@ const App=()=>{
       if(!me.ok){window.location='/login';return;}
       setUser(me.nome);await load();setLoading(false);
     })();
-  },[]);
+  },[load]);
 
   const handleSave=async data=>{
     const exists=contracts.find(c=>c.id===data.id);
     if(exists)await api.put(`/api/contratos/${data.id}`,data);
     else await api.post('/api/contratos',data);
     await load();setModal(null);
-    if(!exists)setCeleb(data);else showToast('Contrato atualizado!');
+    if(!exists){
+      setCeleb(data);
+      const principal=R$(data.valorEmprestado);
+      const resgate=R$(data.valorRetorno);
+      pushInbox('Novo contrato registrado',`${data.nome} · Principal ${principal} · Resgate ${resgate} · Operador ${user||'—'}`);
+      playSaleSound(SALE_SOUND_URL);
+    } else showToast('Contrato atualizado!');
   };
   const handleDelete=async()=>{await api.delete(`/api/contratos/${delTgt.id}`);await load();setDelTgt(null);showToast('Contrato excluído.','info');};
 
+  const handleBulkDeletePaid=async()=>{
+    const pagos=contracts.filter(c=>c.pago);
+    for(const c of pagos){
+      await api.delete(`/api/contratos/${c.id}`);
+    }
+    await load();
+    setBulkDelPaid(false);
+    showToast(`Liquidados excluídos: ${pagos.length}`,'info');
+  };
+
   const handlePagoTotal=async(jurosAtrasoRecolhido=0)=>{
-    const u={...payTgt,pago:true,...(jurosAtrasoRecolhido>0?{jurosAtrasoRecolhido}:{})};
-    await api.put(`/api/contratos/${payTgt.id}`,u);
+    const c=payTgt;
+    const fin=calcFin(c,cfg);
+    const u={...c,pago:true,pagoEm:today(),...(jurosAtrasoRecolhido>0?{jurosAtrasoRecolhido}:{})};
+    await api.put(`/api/contratos/${c.id}`,u);
+    if(cfg?.temSocio&&fin.socio>0){
+      await api.post('/api/recolhimentos',{
+        id:uid(),contratoId:c.id,contratoNome:c.nome,
+        valor:fin.socio,tipo:'PAGAMENTO_TOTAL',data:today(),status:'PENDENTE',
+        descricao:`Liquidação total do contrato. Motivo: quitação integral do título. Base: ${R$(c.valorRetorno)}${jurosAtrasoRecolhido>0?` + encargos ${R$(jurosAtrasoRecolhido)}`:''}.`
+      });
+    }
     await load();setPayTgt(null);
-    showToast(jurosAtrasoRecolhido>0?`Pagamento registrado! +${R$(jurosAtrasoRecolhido)} de atraso`:'Pagamento registrado!');
+    const total=c.valorRetorno+(jurosAtrasoRecolhido||0);
+    pushInbox('Liquidação registrada',`${c.nome} · Total ${R$(total)} · Operador ${user||'—'}`);
+    playSaleSound(SALE_SOUND_URL);
+    showToast(jurosAtrasoRecolhido>0?`Liquidação registrada! Total ${R$(total)}`:`Liquidação registrada! Total ${R$(total)}`);
   };
 
   const handlePedalada=async valorJuros=>{
     const c=payTgt;
     const novoInicio=today(),novoVenc=addDays(novoInicio,30);
-    const u={...c,dataInicio:novoInicio,dataVencimento:novoVenc,pedaladas:(c.pedaladas||0)+1,pedaladaLog:[...(c.pedaladaLog||[]),{data:novoInicio,valor:valorJuros}]};
+    
+    // Calcular a parte do sócio (30% do lucro)
+    const pct=cfg?.temSocio?(cfg.socioPct||0):0;
+    const valorRecolhimento=valorJuros*(pct/100);
+    
+    const idx=(c.pedaladas||0)+1;
+    const obsPedalada=`Recebido ${R$(valorJuros)} em amortização parcial. Motivo: prorrogação do vencimento. Por quê: o principal permanece em aberto e o prazo é estendido para ${new Date(novoVenc+'T00:00:00').toLocaleDateString('pt-BR')}.`;
+    const u={...c,dataInicio:novoInicio,dataVencimento:novoVenc,pedaladas:idx,pedaladaLog:[...(c.pedaladaLog||[]),{data:novoInicio,valor:valorJuros,novoVenc,obs:obsPedalada}]};
     await api.put(`/api/contratos/${c.id}`,u);
+    
+    // Criar recolhimento para o sócio
+    if(valorRecolhimento>0){
+      await api.post('/api/recolhimentos',{
+        id:uid(),
+        contratoId:c.id,
+        contratoNome:c.nome,
+        valor:valorRecolhimento,
+        tipo:'PEDALADA',
+        data:novoInicio,
+        status:'PENDENTE',
+        descricao:`Amortização parcial (juros) registrada. Motivo: prorrogação do vencimento. Por quê: o principal permanece em aberto e a remuneração do período foi recebida. ${obsPedalada}`
+      });
+    }
+    
     await load();setPayTgt(null);
-    showToast(`Pedalada registrada! Vence ${new Date(novoVenc+'T00:00:00').toLocaleDateString('pt-BR')}`);
+    showToast(`Amortização parcial registrada: ${R$(valorJuros)} · novo vencimento ${new Date(novoVenc+'T00:00:00').toLocaleDateString('pt-BR')}`);
   };
 
   const handleSetMeta=val=>{setMeta(val);localStorage.setItem('bpx_meta',String(val));setMetaModal(false);showToast('Meta definida!');};
@@ -788,16 +1408,135 @@ const App=()=>{
     const aReceber=ativos.reduce((s,c)=>s+c.valorRetorno,0);
     const lucroAtivo=ativos.reduce((s,c)=>s+calcFin(c,cfg).lucro,0);
     const liqAtivo=ativos.reduce((s,c)=>s+calcFin(c,cfg).liquido,0);
-    const recolhido=pagos.reduce((s,c)=>s+c.valorRetorno,0);
-    const jurosRecolhidos=pagos.reduce((s,c)=>s+calcFin(c,cfg).lucro,0);
-    const socioRecolhido=pagos.reduce((s,c)=>s+calcFin(c,cfg).socio,0);
-    const liqRecolhido=pagos.reduce((s,c)=>s+calcFin(c,cfg).liquido,0);
+    const pctSocio=cfg?.temSocio?(cfg.socioPct||0)/100:0;
+    const pedaladaTotal=contracts.reduce((s,c)=>s+(c.pedaladaLog||[]).reduce((ps,p)=>ps+(p.valor||0),0),0);
+    const socioPedalada=contracts.reduce((s,c)=>s+(c.pedaladaLog||[]).reduce((ps,p)=>ps+((p.valor||0)*pctSocio),0),0);
+    const liqPedalada=pedaladaTotal-socioPedalada;
+    const recolhido=pagos.reduce((s,c)=>s+c.valorRetorno,0)+pedaladaTotal;
+    const jurosRecolhidos=pagos.reduce((s,c)=>s+calcFin(c,cfg).lucro,0)+pedaladaTotal;
+    const socioRecolhido=pagos.reduce((s,c)=>s+calcFin(c,cfg).socio,0)+socioPedalada;
+    const liqRecolhido=pagos.reduce((s,c)=>s+calcFin(c,cfg).liquido,0)+liqPedalada;
     const totalLiq=contracts.reduce((s,c)=>s+calcFin(c,cfg).liquido,0);
     const totalSocio=contracts.reduce((s,c)=>s+calcFin(c,cfg).socio,0);
+    
+    // Calcular recolhimentos adicionais
+    const recolhimentosPendentes=recolhimentos.filter(r=>r.status==='PENDENTE').reduce((s,r)=>s+r.valor,0);
+    const recolhimentosPagos=recolhimentos.filter(r=>r.status==='PAGO').reduce((s,r)=>s+r.valor,0);
+    const totalRecolhimentos=recolhimentos.reduce((s,r)=>s+r.valor,0);
+    
     const late=ativos.filter(c=>daysLeft(c.dataVencimento)<0).length;
     const totalPedaladas=contracts.reduce((s,c)=>s+(c.pedaladas||0),0);
-    return{emGiro,aReceber,lucroAtivo,liqAtivo,recolhido,jurosRecolhidos,socioRecolhido,liqRecolhido,totalLiq,totalSocio,late,count:contracts.length,ativoCount:ativos.length,pagoCount:pagos.length,liqPago:liqRecolhido,totalPedaladas};
-  },[contracts,cfg]);
+    return{emGiro,aReceber,lucroAtivo,liqAtivo,recolhido,jurosRecolhidos,socioRecolhido,liqRecolhido,totalLiq,totalSocio,recolhimentosPendentes,recolhimentosPagos,totalRecolhimentos,late,count:contracts.length,ativoCount:ativos.length,pagoCount:pagos.length,liqPago:liqRecolhido,totalPedaladas};
+  },[contracts,cfg,recolhimentos]);
+
+  const liquidados=useMemo(()=>{
+    const ev=[];
+    const fmtDate=d=>d?new Date(d+'T00:00:00').toLocaleDateString('pt-BR'):'';
+    for(const c of contracts){
+      if(c.pago){
+        const enc=c.jurosAtrasoRecolhido||0;
+        const total=(c.valorRetorno||0)+enc;
+        const data=c.pagoEm||c.dataVencimento||today();
+        const obs=enc>0
+          ?`Recebimento integral registrado. Motivo: liquidação do contrato. Por quê: encerra a exigibilidade do título. Base: ${R$(c.valorRetorno)} + encargos ${R$(enc)} = ${R$(total)}.`
+          :`Recebimento integral registrado. Motivo: liquidação do contrato. Por quê: encerra a exigibilidade do título. Valor: ${R$(c.valorRetorno)}.`;
+        ev.push({id:`liq-${c.id}`,tipo:'LIQUIDACAO',contratoId:c.id,contratoNome:c.nome,data,valor:total,obs,label:`Liquidação Total${data?` · ${fmtDate(data)}`:''}`});
+      }
+      const logs=Array.isArray(c.pedaladaLog)?c.pedaladaLog:[];
+      logs.forEach((p,i)=>{
+        const data=p?.data||'';
+        const valor=p?.valor||0;
+        const novoVenc=p?.novoVenc||'';
+        const obs=p?.obs||`Recebido ${R$(valor)} em amortização parcial. Motivo: prorrogação do vencimento. Por quê: o principal permanece em aberto${novoVenc?` e o prazo foi estendido para ${fmtDate(novoVenc)}`:''}.`;
+        ev.push({id:`ped-${c.id}-${i}`,tipo:'PEDALADA',contratoId:c.id,contratoNome:c.nome,data,valor,obs,label:`Amortização Parcial${data?` · ${fmtDate(data)}`:''}`});
+      });
+    }
+    ev.sort((a,b)=>{
+      const da=a.data?new Date(a.data+'T00:00:00').getTime():0;
+      const db=b.data?new Date(b.data+'T00:00:00').getTime():0;
+      return db-da;
+    });
+    return ev;
+  },[contracts]);
+
+  const liquidadosFiltrados=useMemo(()=>liquidados,[liquidados]);
+
+  const finOps=useMemo(()=>{
+    const ratingIdx=buildRatingIndex(contracts);
+    const ratingOf=c=>c?.rating||'—';
+    const riskOf=c=>c?.perfilRisco||'—';
+    const statusOf=c=>{
+      if(c?.ajuizado)return 'Ajuizado';
+      if(c?.pago)return 'Liquidado';
+      const d=daysLeft(c?.dataVencimento);
+      if(d<0)return 'Em mora';
+      return 'Em compensação';
+    };
+    const moraDias=c=>Math.max(0,-daysLeft(c?.dataVencimento));
+    const bucket=d=>d===0?'0':d<=30?'1-30':d<=60?'31-60':d<=90?'61-90':'90+';
+    return contracts.map(c=>{
+      const md=moraDias(c);
+      const auto=ratingIdx.get(normCPF(c.cpf))||null;
+
+      let opRating='—',opRisco='—';
+      if(c?.ajuizado){opRating='D';opRisco='Alto';}
+      else if(c?.pago){opRating='—';opRisco='—';}
+      else if(md>=15){opRating='D';opRisco='Alto';}
+      else if(md>=4){opRating='C';opRisco='Médio';}
+      else if(md>=1){opRating='B';opRisco='Médio';}
+
+      const baseRating=(auto?.rating)||ratingOf(c);
+      const baseRisco=(auto?.risco)||riskOf(c);
+      const effRating=opRating!=='—'?opRating:baseRating;
+      const effRisco=opRisco!=='—'?opRisco:baseRisco;
+      return{
+        id:c.id,
+        nome:c.nome,
+        cpf:c.cpf,
+        principal:c.valorEmprestado||0,
+        resgate:c.valorRetorno||0,
+        remuneracao:(c.valorRetorno||0)-(c.valorEmprestado||0),
+        dataInicio:c.dataInicio,
+        dataExigibilidade:c.dataVencimento,
+        status:statusOf(c),
+        mora:md,
+        bucket:bucket(md),
+        rating:effRating,
+        risco:effRisco,
+        raw:c,
+      };
+    });
+  },[contracts]);
+
+  const finOpsFiltradas=useMemo(()=>{
+    return finOps.filter(o=>{
+      if(finStatus!=='all'&&o.status!==finStatus)return false;
+      if(finRating!=='all'&&o.rating!==finRating)return false;
+      return true;
+    });
+  },[finOps,finStatus,finRating]);
+
+  const finSeries=useMemo(()=>{
+    const months=[];
+    const now=new Date();
+    for(let i=11;i>=0;i--){
+      const d=new Date(now.getFullYear(),now.getMonth()-i,1);
+      months.push(d.toISOString().slice(0,7));
+    }
+    const monthEndTs=ym=>{
+      const [y,m]=ym.split('-').map(Number);
+      return new Date(y,m,0,23,59,59,999).getTime();
+    };
+    const growth=months.map(ym=>{
+      const end=monthEndTs(ym);
+      return contracts.reduce((s,c)=>{
+        const di=c.dataInicio?new Date(c.dataInicio+'T00:00:00').getTime():0;
+        return di&&di<=end?s+(c.valorEmprestado||0):s;
+      },0);
+    });
+    const recovery=months.map(ym=>liquidados.reduce((s,e)=>e?.data?.slice(0,7)===ym?s+(e.valor||0):s,0));
+    return{months,growth,recovery};
+  },[contracts,liquidados]);
 
   const filtered=useMemo(()=>{
     const qr=search.toLowerCase().trim(),qd=search.replace(/\D/g,'');
@@ -820,24 +1559,28 @@ const App=()=>{
     </div>
   );
 
-  const fOpts=[{v:'Prazo',l:'No Prazo'},{v:'Hoje',l:'Hoje'},{v:'Atrasado',l:'Atrasados'},{v:'Pago',l:'Pagos'},{v:'all',l:'Todos'}];
+  const fOpts=[{v:'Prazo',l:'Adimplente'},{v:'Hoje',l:'Vence Hoje'},{v:'Atrasado',l:'Inadimplente'},{v:'Pago',l:'Liquidado'},{v:'all',l:'Carteira Geral'}];
 
   return(
-    <div style={{minHeight:'100vh',maxWidth:480,margin:'0 auto'}}>
+    <div style={{minHeight:'100vh',width:'100%',maxWidth:'100%',margin:0}}>
+
+      {inbox.length>0&&(
+        <div style={{position:'fixed',top:10,left:10,right:10,zIndex:80,display:'grid',gap:8,pointerEvents:'none'}}>
+          {inbox.map(it=>(
+            <div key={it.id} style={{pointerEvents:'auto',maxWidth:520,margin:'0 auto'}}>
+              <InboxNotice item={it} onClose={()=>setInbox(cur=>cur.filter(x=>x.id!==it.id))}/>
+            </div>
+          ))}
+        </div>
+      )}
 
       {/* Header */}
-      <div style={{position:'sticky',top:0,zIndex:30,background:'rgba(6,9,20,.96)',backdropFilter:'blur(28px)',WebkitBackdropFilter:'blur(28px)',borderBottom:'1px solid rgba(255,255,255,.06)',padding:'14px 18px',display:'flex',alignItems:'center',justifyContent:'space-between'}}>
-        <div style={{display:'flex',alignItems:'center',gap:12}}>
-          <img src="/logo.png" alt="" style={{height:36,width:36,objectFit:'contain',filter:'drop-shadow(0 2px 12px rgba(37,99,235,.5))'}}/>
-          <div>
-            <div style={{fontFamily:"'Space Grotesk',sans-serif",fontWeight:800,fontSize:17,letterSpacing:'-.02em',lineHeight:1.1,color:'#fff'}}>O Bobo Jurista</div>
-            <div style={{fontSize:11,color:'#6b7280',marginTop:1}}>{user}</div>
-          </div>
-        </div>
-        <div style={{display:'flex',alignItems:'center',gap:8}}>
+      <div className="hdr">
+        <div className="hdr-center">O BOBO JURISTA</div>
+        <div className="hdr-actions">
           {summary.late>0&&(
-            <div style={{background:'rgba(239,68,68,.12)',border:'1px solid rgba(239,68,68,.25)',borderRadius:99,padding:'4px 10px',fontSize:11,fontWeight:700,color:'#ef4444'}}>
-              {summary.late} atrasado{summary.late!==1?'s':''}
+            <div style={{background:'rgba(239,68,68,.10)',border:'1px solid rgba(239,68,68,.22)',borderRadius:99,padding:'4px 10px',fontSize:11,fontWeight:800,color:'#ef4444'}}>
+              {summary.late} atraso{summary.late!==1?'s':''}
             </div>
           )}
           <button onClick={()=>setSettingsOpen(true)} style={{background:'rgba(255,255,255,.06)',border:'1px solid rgba(255,255,255,.09)',borderRadius:10,width:34,height:34,display:'flex',alignItems:'center',justifyContent:'center',cursor:'pointer',color:'#9ca3af'}}><Ic d={IC.gear} size={14}/></button>
@@ -846,15 +1589,15 @@ const App=()=>{
       </div>
 
       {/* Tabs */}
-      <div style={{display:'flex',background:'rgba(6,9,20,.8)',padding:'0 18px',borderBottom:'1px solid rgba(255,255,255,.06)'}}>
-        {[['contratos','Contratos'],['financeiro','Financeiro']].map(([k,l])=>(
-          <button key={k} onClick={()=>setTab(k)} style={{flex:'none',padding:'14px 18px 13px',border:'none',cursor:'pointer',fontFamily:'inherit',fontSize:13,fontWeight:700,background:'transparent',color:tab===k?'#fff':'#4b5563',borderBottom:tab===k?'2px solid #3b82f6':'2px solid transparent',transition:'all .15s',marginRight:4}}>{l}</button>
+      <div className="tabsbar">
+        {[['carteira','Carteira'],['analise','Análise'],['liquidados','Liquidados'],['pedaladas','Pedaladas'],['financeiro','Financeiro']].map(([k,l])=> (
+          <button key={k} onClick={()=>setTab(k)} style={{flex:'none',padding:'14px 14px 13px',border:'none',cursor:'pointer',fontFamily:'inherit',fontSize:13,fontWeight:800,background:'transparent',color:tab===k?'#fff':'rgba(255,255,255,.80)',borderBottom:tab===k?'2px solid #3b82f6':'2px solid transparent',transition:'all .15s',marginRight:2}}>{l}</button>
         ))}
       </div>
 
-      {/* CONTRATOS */}
-      {tab==='contratos'&&(
-        <div style={{padding:'11px 11px 120px'}}>
+      {/* CARTEIRA */}
+      {tab==='carteira'&&(
+        <div style={{padding:'10px 10px 120px'}}>
 
           <div className="fu" style={{marginBottom:9}}>
             <MetaRing current={summary.liqPago} meta={meta} onClick={()=>setMetaModal(true)}/>
@@ -863,30 +1606,28 @@ const App=()=>{
           <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:8,marginBottom:8}}>
             {[
               {dot:'#f59e0b',label:'Em Giro',v:summary.emGiro,sub:`${summary.ativoCount} ativo${summary.ativoCount!==1?'s':''}`,sublabel:'A receber',subv:summary.aReceber,subc:'#3b82f6',delay:'.04s',click:null},
-              {dot:'#10b981',label:'Recolhido',v:summary.recolhido,sub:`${summary.pagoCount} pago${summary.pagoCount!==1?'s':''}`,sublabel:'Seu lucro',subv:summary.liqRecolhido,subc:'#10b981',delay:'.07s',click:()=>setRecolhidoModal(true)},
+              {dot:'#10b981',label:'Liquidados',v:summary.recolhido,sub:`${liquidados.length} lançamento${liquidados.length!==1?'s':''}`,sublabel:'Seu líquido',subv:summary.liqRecolhido,subc:'#10b981',delay:'.07s',click:()=>setTab('liquidados')},
             ].map(({dot,label,v,sub,sublabel,subv,subc,delay,click},i)=>(
               <div key={i} onClick={click||undefined} className="fu" style={{animationDelay:delay,background:'rgba(255,255,255,.04)',border:`1px solid ${click?'rgba(16,185,129,.2)':'rgba(255,255,255,.08)'}`,borderRadius:18,padding:'16px 14px',backdropFilter:'blur(12px)',cursor:click?'pointer':'default',transition:'border .15s'}}>
                 <div style={{display:'flex',alignItems:'center',gap:6,marginBottom:10}}>
                   <div style={{width:8,height:8,borderRadius:'50%',background:dot,boxShadow:`0 0 8px ${dot}`}}/>
                   <div style={{fontSize:10,color:'#6b7280',fontWeight:600,textTransform:'uppercase',letterSpacing:'.08em'}}>{label}</div>
+                  {label==='Em Giro'&&(
+                    <button onClick={e=>{e.stopPropagation();setHideMoney(h=>!h);}} style={{marginLeft:'auto',background:'transparent',border:'1px solid rgba(255,255,255,.10)',borderRadius:10,width:30,height:26,display:'flex',alignItems:'center',justifyContent:'center',cursor:'pointer',color:'rgba(255,255,255,.75)'}}>
+                      <Ic d={hideMoney?IC.eye:IC.eyeoff} size={14}/>
+                    </button>
+                  )}
                   {click&&<div style={{marginLeft:'auto',fontSize:9,color:'#10b981',fontWeight:700,letterSpacing:'.05em'}}>VER ›</div>}
                 </div>
-                <div style={{fontSize:22,fontWeight:900,color:'#fff',letterSpacing:'-.04em',lineHeight:1,marginBottom:3}}><AV value={v}/></div>
+                <div style={{fontSize:22,fontWeight:900,color:'#fff',letterSpacing:'-.04em',lineHeight:1,marginBottom:3}}>{(label==='Em Giro'||label==='Liquidados')&&hideMoney?<span>R$ ••••</span>:<AV value={v}/>}</div>
                 <div style={{fontSize:10,color:'#6b7280',marginBottom:10}}>{sub}</div>
                 <div style={{paddingTop:10,borderTop:'1px solid rgba(255,255,255,.06)'}}>
                   <div style={{fontSize:9,color:'#4b5563',textTransform:'uppercase',letterSpacing:'.07em',marginBottom:3}}>{sublabel}</div>
-                  <div style={{fontSize:14,fontWeight:800,color:subc}}><AV value={subv}/></div>
+                  <div style={{fontSize:14,fontWeight:800,color:subc}}>{(label==='Em Giro'||label==='Liquidados')&&hideMoney?<span>R$ ••••</span>:<AV value={subv}/>}</div>
                 </div>
               </div>
             ))}
           </div>
-
-          {summary.totalPedaladas>0&&(
-            <div className="fu" style={{animationDelay:'.09s',background:'rgba(255,159,10,.05)',border:'1px solid rgba(255,159,10,.15)',borderRadius:12,padding:'9px 13px',marginBottom:7,display:'flex',alignItems:'center',gap:8}}>
-              <span style={{fontSize:15}}>🚴</span>
-              <div style={{fontSize:12,color:'#9ca3af'}}><strong style={{color:'#ff9f0a'}}>{summary.totalPedaladas} pedalada{summary.totalPedaladas!==1?'s':''}</strong> — clientes pagaram só os juros</div>
-            </div>
-          )}
 
           <div style={{position:'relative',marginBottom:7}}>
             <div style={{position:'absolute',left:11,top:'50%',transform:'translateY(-50%)',color:'#6b7280',pointerEvents:'none'}}><Ic d={IC.search} size={14}/></div>
@@ -940,57 +1681,31 @@ const App=()=>{
         </div>
       )}
 
-      {/* FINANCEIRO */}
-      {tab==='financeiro'&&(
-        <div style={{padding:'13px 11px 120px'}}>
-
-          {[
-            {dot:'#ff9f0a',label:'Capital em Giro — Risco Atual',delay:'0s',vals:[{l:'Na Rua',v:summary.emGiro,c:'#fff',big:true},{l:'A Receber',v:summary.aReceber,c:'#3b82f6',big:true}],sub:[{l:'Juros Esperados',v:summary.lucroAtivo,c:'#9ca3af'},{l:'Seu Lucro Esperado',v:summary.liqAtivo,c:'#3b82f6'}]},
-            {dot:'#10b981',label:'Recolhido — Em Caixa',delay:'.05s',vals:[{l:'Total Recebido',v:summary.recolhido,c:'#fff',big:true},{l:'Juros Recolhidos',v:summary.jurosRecolhidos,c:'#10b981',big:true}],sub:[...(cfg?.temSocio?[{l:`Parte ${cfg.socioNome}`,v:summary.socioRecolhido,c:'#7c3aed'}]:[]),{l:'Seu Líquido Real',v:summary.liqRecolhido,c:'#10b981'}]},
-          ].map(({dot,label,delay,vals,sub},i)=>(
-            <div key={i} className="fu" style={{animationDelay:delay,background:'rgba(255,255,255,.05)',border:'1px solid rgba(255,255,255,.08)',borderRadius:18,padding:16,marginBottom:9}}>
-              <div style={{display:'flex',alignItems:'center',gap:6,marginBottom:13}}>
-                <div style={{width:6,height:6,borderRadius:'50%',background:dot}}/>
-                <div style={{fontSize:10,color:dot,fontWeight:700,textTransform:'uppercase',letterSpacing:'.1em'}}>{label}</div>
-              </div>
-              <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:13,marginBottom:13}}>
-                {vals.map(({l,v,c},j)=>(
-                  <div key={j}><div style={{fontSize:9,color:'#9ca3af',textTransform:'uppercase',letterSpacing:'.07em',marginBottom:3}}>{l}</div><div style={{fontSize:22,fontWeight:800,color:c,letterSpacing:'-.04em'}}><AV value={v}/></div></div>
-                ))}
-              </div>
-              <div style={{height:1,background:'rgba(255,255,255,.05)',marginBottom:11}}/>
-              <div style={{display:'grid',gridTemplateColumns:`repeat(${sub.length},1fr)`,gap:9}}>
-                {sub.map(({l,v,c},j)=>(
-                  <div key={j}><div style={{fontSize:9,color:'#6b7280',textTransform:'uppercase',letterSpacing:'.06em',marginBottom:3}}>{l}</div><div style={{fontSize:13,fontWeight:700,color:c}}><AV value={v}/></div></div>
-                ))}
-              </div>
-            </div>
-          ))}
-
-          <div className="fu" style={{animationDelay:'.09s',marginBottom:9}}>
-            <MetaRing current={summary.liqPago} meta={meta} onClick={()=>setMetaModal(true)}/>
-          </div>
-
-          {cfg?.temSocio&&(
-            <div className="fu" style={{animationDelay:'.12s',background:'rgba(94,92,230,.07)',border:'1px solid rgba(94,92,230,.18)',borderRadius:18,padding:16,marginBottom:9}}>
-              <div style={{fontSize:10,color:'#7c3aed',fontWeight:700,textTransform:'uppercase',letterSpacing:'.09em',marginBottom:13}}>Sócio · {cfg.socioNome} ({cfg.socioPct}%)</div>
-              <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:9}}>
-                {[{l:'Recolhido p/ Sócio',v:summary.socioRecolhido,c:'#7c3aed',prev:summary.totalSocio},{l:'Seu Líquido Real',v:summary.liqRecolhido,c:'#10b981',prev:summary.totalLiq}].map(({l,v,c,prev},i)=>(
-                  <div key={i} style={{background:`${c}09`,borderRadius:13,padding:13}}>
-                    <div style={{fontSize:9,color:'#9ca3af',textTransform:'uppercase',letterSpacing:'.06em',marginBottom:4}}>{l}</div>
-                    <div style={{fontSize:18,fontWeight:800,color:c}}><AV value={v}/></div>
-                    <div style={{fontSize:9,color:'#6b7280',marginTop:3}}>Previsto: {R$(prev)}</div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-
-          <div style={{fontSize:10,color:'#6b7280',fontWeight:700,letterSpacing:'.09em',textTransform:'uppercase',marginBottom:8}}>Por Contrato</div>
+      {/* ANÁLISE */}
+      {tab==='analise'&&(
+        <div style={{padding:'10px 10px 120px'}}>
+          <div style={{fontSize:10,color:'#6b7280',fontWeight:700,letterSpacing:'.09em',textTransform:'uppercase',marginBottom:8}}>Visão por Contrato</div>
           {[...contracts].sort((a,b)=>{if(a.pago&&!b.pago)return 1;if(!a.pago&&b.pago)return-1;return daysLeft(a.dataVencimento)-daysLeft(b.dataVencimento);}).map((c,i)=>{
             const fin=calcFin(c,cfg),isPago=!!c.pago,days=daysLeft(c.dataVencimento),late=!isPago&&days<0;
             const ac=isPago?'#10b981':late?'#ff453a':'#3b82f6';
             const initials=c.nome.trim().split(' ').filter(Boolean).slice(0,2).map(w=>w[0].toUpperCase()).join('');
+            const ev=[];
+            if(c.pago){
+              const enc=c.jurosAtrasoRecolhido||0;
+              const total=(c.valorRetorno||0)+enc;
+              const data=c.pagoEm||'';
+              const obs=enc>0
+                ?`Recebimento integral registrado. Motivo: liquidação do contrato. Por quê: encerra a exigibilidade do título. Base: ${R$(c.valorRetorno)} + encargos ${R$(enc)} = ${R$(total)}.`
+                :`Recebimento integral registrado. Motivo: liquidação do contrato. Por quê: encerra a exigibilidade do título. Valor: ${R$(c.valorRetorno)}.`;
+              ev.push({id:`liq-${c.id}`,tipo:'LIQUIDACAO',contratoId:c.id,contratoNome:c.nome,data,valor:total,obs,label:`Liquidação Total`});
+            }
+            const logs=Array.isArray(c.pedaladaLog)?c.pedaladaLog:[];
+            logs.forEach((p,pi)=>{
+              const data=p?.data||'';
+              const valor=p?.valor||0;
+              const obs=p?.obs||`Recebido ${R$(valor)} em amortização parcial. Motivo: prorrogação do vencimento. Por quê: o principal permanece em aberto.`;
+              ev.push({id:`ped-${c.id}-${pi}`,tipo:'PEDALADA',contratoId:c.id,contratoNome:c.nome,data,valor,obs,label:`Amortização Parcial`});
+            });
             return(
               <div key={c.id} className="fu" style={{animationDelay:`${i*.04}s`,background:'rgba(255,255,255,.05)',border:'1px solid rgba(255,255,255,.05)',borderRadius:14,marginBottom:7,overflow:'hidden',borderLeft:`3px solid ${ac}`}}>
                 <div style={{padding:'11px 13px',display:'flex',alignItems:'center',gap:9}}>
@@ -1012,9 +1727,306 @@ const App=()=>{
                     </div>
                   ))}
                 </div>
+                {ev.length>0&&(
+                  <div style={{padding:'10px 12px',borderTop:'1px solid rgba(255,255,255,.05)'}}>
+                    <div style={{fontSize:9,color:'#6b7280',fontWeight:700,letterSpacing:'.09em',textTransform:'uppercase',marginBottom:8}}>Comprovantes</div>
+                    {ev.map((e,ei)=>(
+                      <div key={e.id} style={{display:'flex',alignItems:'center',justifyContent:'space-between',gap:10,background:'rgba(0,0,0,.18)',border:'1px solid rgba(255,255,255,.06)',borderRadius:12,padding:'9px 10px',marginBottom:6}}>
+                        <div style={{minWidth:0}}>
+                          <div style={{fontSize:11,fontWeight:800,color:'#fff'}}>{e.label} · {R$(e.valor)}</div>
+                          <div style={{fontSize:10,color:'#6b7280',marginTop:2,whiteSpace:'nowrap',overflow:'hidden',textOverflow:'ellipsis'}}>{e.obs}</div>
+                        </div>
+                        <button onClick={()=>downloadComprovante(e)} style={{flexShrink:0,background:'#0ea5e9',border:'none',color:'#001018',borderRadius:10,padding:'8px 10px',fontSize:11,fontWeight:900,cursor:'pointer',fontFamily:'inherit'}}>Baixar</button>
+                      </div>
+                    ))}
+                  </div>
+                )}
               </div>
             );
           })}
+        </div>
+      )}
+
+      {/* LIQUIDADOS */}
+      {tab==='liquidados'&&(
+        <div style={{padding:'10px 10px 120px'}}>
+          <div style={{display:'flex',alignItems:'baseline',justifyContent:'space-between',gap:10,marginBottom:10}}>
+            <div>
+              <div style={{fontSize:10,color:'#6b7280',fontWeight:700,letterSpacing:'.09em',textTransform:'uppercase'}}>Histórico de Liquidações</div>
+              {contracts.filter(c=>c.pago).length>0&&(
+                <button onClick={()=>setBulkDelPaid(true)} style={{marginTop:8,background:'rgba(255,69,58,.10)',border:'1px solid rgba(255,69,58,.25)',color:'#ff453a',borderRadius:12,padding:'8px 10px',fontSize:12,fontWeight:900,cursor:'pointer',fontFamily:'inherit'}}>Excluir liquidados</button>
+              )}
+            </div>
+            <div style={{fontSize:12,color:'#10b981',fontWeight:800}}>{R$(summary.recolhido)}</div>
+          </div>
+
+          {liquidadosFiltrados.length===0?(
+            <div className="fi" style={{textAlign:'center',padding:'54px 20px'}}>
+              <div style={{width:50,height:50,background:'rgba(255,255,255,.05)',borderRadius:15,display:'flex',alignItems:'center',justifyContent:'center',margin:'0 auto 13px'}}><Ic d={IC.cash} size={20} stroke='#6b7280'/></div>
+              <div style={{color:'#6b7280',fontSize:14,fontWeight:700,marginBottom:4}}>Nenhum lançamento registrado</div>
+              <div style={{color:'#374151',fontSize:12}}>Registre uma liquidação total ou amortização parcial</div>
+            </div>
+          ):(
+            <div>
+              {liquidadosFiltrados.map((e,i)=>{
+                const col=e.tipo==='LIQUIDACAO'?'#10b981':'#ff9f0a';
+                const bg=e.tipo==='LIQUIDACAO'?'rgba(16,185,129,.06)':'rgba(255,159,10,.06)';
+                const br=e.tipo==='LIQUIDACAO'?'rgba(16,185,129,.16)':'rgba(255,159,10,.18)';
+                const c=contracts.find(x=>x.id===e.contratoId);
+                return(
+                  <div key={e.id} className="fu" style={{animationDelay:`${i*.03}s`,background:bg,border:`1px solid ${br}`,borderRadius:14,padding:'12px 13px',marginBottom:7}}>
+                    <div style={{display:'flex',alignItems:'flex-start',justifyContent:'space-between',gap:10}}>
+                      <div style={{minWidth:0}}>
+                        <div style={{fontSize:12,color:col,fontWeight:800,letterSpacing:'-.01em'}}>{e.label}</div>
+                        <div style={{fontSize:13,fontWeight:800,color:'#fff',marginTop:3,overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap'}}>{e.contratoNome}</div>
+                      </div>
+                      <div style={{textAlign:'right'}}>
+                        <div style={{fontSize:15,fontWeight:900,color:col,whiteSpace:'nowrap'}}>{R$(e.valor)}</div>
+                        <div style={{display:'flex',gap:8,justifyContent:'flex-end',marginTop:6}}>
+                          <button onClick={()=>downloadComprovante(e)} style={{background:'#0ea5e9',border:'none',color:'#001018',borderRadius:10,padding:'7px 10px',fontSize:11,fontWeight:900,cursor:'pointer',fontFamily:'inherit'}}>Baixar</button>
+                          {c?.pago&&(
+                            <button onClick={()=>setDelTgt(c)} style={{background:'rgba(255,69,58,.10)',border:'1px solid rgba(255,69,58,.22)',color:'#ff453a',borderRadius:10,padding:'7px 10px',fontSize:11,fontWeight:900,cursor:'pointer',fontFamily:'inherit'}}>Excluir</button>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                    <div style={{marginTop:8,fontSize:11,color:'#9ca3af',lineHeight:1.45,background:'rgba(0,0,0,.18)',borderRadius:10,padding:'9px 10px'}}>{e.obs}</div>
+                  </div>
+                );
+              })}
+            </div>
+          )}
+
+          {bulkDelPaid&&(
+            <BulkDelPaidModal
+              count={contracts.filter(c=>c.pago).length}
+              total={contracts.filter(c=>c.pago).reduce((s,c)=>s+(c.valorRetorno||0)+(c.jurosAtrasoRecolhido||0),0)}
+              onConfirm={handleBulkDeletePaid}
+              onClose={()=>setBulkDelPaid(false)}
+            />
+          )}
+        </div>
+      )}
+
+      {/* PEDALADAS */}
+      {tab==='pedaladas'&&(
+        <div style={{padding:'10px 10px 120px'}}>
+          {(()=>{
+            const lista=[...contracts].filter(c=>(c.pedaladas||0)>0||(Array.isArray(c.pedaladaLog)&&c.pedaladaLog.length>0));
+            const totalPed=lista.reduce((s,c)=>s+(c.pedaladaLog||[]).reduce((ps,p)=>ps+(p?.valor||0),0),0);
+            lista.sort((a,b)=>{
+              const ad=(a.pedaladaLog||[]).at(-1)?.data||'';
+              const bd=(b.pedaladaLog||[]).at(-1)?.data||'';
+              return (bd>ad?1:bd<ad?-1:0);
+            });
+            return(
+              <>
+                <div style={{display:'flex',alignItems:'baseline',justifyContent:'space-between',marginBottom:10}}>
+                  <div style={{fontSize:10,color:'#6b7280',fontWeight:700,letterSpacing:'.09em',textTransform:'uppercase'}}>Amortizações Parciais</div>
+                  <div style={{fontSize:12,color:'#ff9f0a',fontWeight:900}}>{R$(totalPed)}</div>
+                </div>
+                {lista.length===0?(
+                  <div className="fi" style={{textAlign:'center',padding:'54px 20px'}}>
+                    <div style={{width:50,height:50,background:'rgba(255,255,255,.05)',borderRadius:15,display:'flex',alignItems:'center',justifyContent:'center',margin:'0 auto 13px'}}><span style={{fontSize:20}}>🚴</span></div>
+                    <div style={{color:'#6b7280',fontSize:14,fontWeight:700,marginBottom:4}}>Nenhuma amortização registrada</div>
+                    <div style={{color:'#374151',fontSize:12}}>Registre uma amortização parcial no fluxo de pagamento</div>
+                  </div>
+                ):(
+                  <>
+                    <div style={{fontSize:11,color:'#9ca3af',marginBottom:10}}>{lista.length} cliente{lista.length!==1?'s':''} · {summary.totalPedaladas} registro{summary.totalPedaladas!==1?'s':''}</div>
+                    {lista.map((c,i)=>{
+                      const logs=Array.isArray(c.pedaladaLog)?c.pedaladaLog:[];
+                      const total=logs.reduce((s,p)=>s+(p?.valor||0),0);
+                      if(!logs.length)return null;
+                      return(
+                        <div key={c.id} className="fu" style={{animationDelay:`${i*.03}s`,background:'rgba(255,159,10,.05)',border:'1px solid rgba(255,159,10,.16)',borderRadius:14,marginBottom:8,overflow:'hidden'}}>
+                          <div style={{padding:'12px 13px',display:'flex',alignItems:'center',justifyContent:'space-between',gap:10}}>
+                            <div style={{minWidth:0}}>
+                              <div style={{fontSize:13,fontWeight:900,color:'#fff',overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap'}}>{c.nome}</div>
+                              <div style={{fontSize:10,color:'#6b7280',marginTop:2}}>{logs.length} registro{logs.length!==1?'s':''} · Total {R$(total)}</div>
+                            </div>
+                            <div style={{fontSize:11,fontWeight:900,color:'#ff9f0a',whiteSpace:'nowrap'}}>🚴</div>
+                          </div>
+                          <div style={{borderTop:'1px solid rgba(255,255,255,.05)',padding:'10px 12px'}}>
+                            {logs.slice().reverse().map((p,pi)=>{
+                              const ev={id:`ped-${c.id}-${pi}`,tipo:'PEDALADA',contratoId:c.id,contratoNome:c.nome,data:p?.data||'',valor:p?.valor||0,obs:p?.obs||''};
+                              return(
+                                <div key={`${c.id}-${pi}`} style={{background:'rgba(0,0,0,.18)',border:'1px solid rgba(255,255,255,.06)',borderRadius:12,padding:'10px 10px',marginBottom:7}}>
+                                  <div style={{display:'flex',alignItems:'flex-start',justifyContent:'space-between',gap:10}}>
+                                    <div style={{minWidth:0}}>
+                                      <div style={{fontSize:11,fontWeight:900,color:'#ff9f0a'}}>Amortização Parcial · {p?.data?new Date(p.data+'T00:00:00').toLocaleDateString('pt-BR'):''}</div>
+                                      <div style={{fontSize:10,color:'#6b7280',marginTop:3,whiteSpace:'nowrap',overflow:'hidden',textOverflow:'ellipsis'}}>{ev.obs||`Recebimento de ${R$(ev.valor)} em amortização parcial.`}</div>
+                                    </div>
+                                    <div style={{textAlign:'right'}}>
+                                      <div style={{fontSize:13,fontWeight:900,color:'#fff'}}>{R$(ev.valor)}</div>
+                                      <button onClick={()=>downloadComprovante(ev)} style={{marginTop:6,background:'#0ea5e9',border:'none',color:'#001018',borderRadius:10,padding:'7px 10px',fontSize:11,fontWeight:900,cursor:'pointer',fontFamily:'inherit'}}>Baixar</button>
+                                    </div>
+                                  </div>
+                                </div>
+                              );
+                            })}
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </>
+                )}
+              </>
+            );
+          })()}
+        </div>
+      )}
+
+      {/* FINANCEIRO */}
+      {tab==='financeiro'&&(
+        <div style={{padding:'10px 10px 120px'}}>
+
+          {(()=>{
+            const totalPrincipal=finOps.reduce((s,o)=>s+o.principal,0);
+            const aum=finOps.filter(o=>o.status!=='Liquidado').reduce((s,o)=>s+o.principal,0);
+            const nplExp=finOps.filter(o=>o.status==='Em mora').reduce((s,o)=>s+o.principal,0);
+            const npl=aum?((nplExp/aum)*100):0;
+            const yieldPct=totalPrincipal?((finOps.reduce((s,o)=>s+o.remuneracao,0)/totalPrincipal)*100):0;
+            const ticket=finOps.length?(totalPrincipal/finOps.length):0;
+
+            const maxV=Math.max(1,...finSeries.growth,...finSeries.recovery);
+            const w=320,h=120,pad=10;
+            const x=i=>pad+(i*(w-pad*2))/11;
+            const y=v=>h-pad-((v/maxV)*(h-pad*2));
+            const path=arr=>arr.map((v,i)=>`${i===0?'M':'L'}${x(i)},${y(v)}`).join(' ');
+
+            const ratingKeys=['A','B','C','D','—'];
+            const ratingSum=k=>finOps.filter(o=>o.status!=='Liquidado'&&(o.rating||'—')===k).reduce((s,o)=>s+o.principal,0);
+            const ratingTotal=ratingKeys.reduce((s,k)=>s+ratingSum(k),0)||1;
+            const ratingColor={A:'#10b981',B:'#f59e0b',C:'#fb923c',D:'#ef4444','—':'rgba(255,255,255,.25)'};
+
+            return(
+              <>
+                <div className="glass" style={{borderRadius:18,padding:14,marginBottom:10}}>
+                  <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',gap:10,marginBottom:12}}>
+                    <div>
+                      <div style={{fontSize:10,color:'#9ca3af',fontWeight:800,letterSpacing:'.12em',textTransform:'uppercase'}}>Financeiro · CRM</div>
+                      <div style={{fontSize:12,color:'rgba(255,255,255,.88)',fontWeight:800,marginTop:4}}>Visão consolidada de risco, liquidez e adimplemento</div>
+                    </div>
+                    <div style={{display:'flex',gap:8,alignItems:'center',flexWrap:'wrap',justifyContent:'flex-end'}}>
+                      <select className="inp" value={finStatus} onChange={e=>setFinStatus(e.target.value)} style={{maxWidth:170,padding:'10px 12px',fontSize:13}}>
+                        <option value="all">Status: Geral</option>
+                        <option value="Em compensação">Em compensação</option>
+                        <option value="Em mora">Em mora</option>
+                        <option value="Liquidado">Liquidado</option>
+                        <option value="Ajuizado">Ajuizado</option>
+                      </select>
+                      <select className="inp" value={finRating} onChange={e=>setFinRating(e.target.value)} style={{maxWidth:140,padding:'10px 12px',fontSize:13}}>
+                        <option value="all">Rating: Geral</option>
+                        <option value="A">A</option>
+                        <option value="B">B</option>
+                        <option value="C">C</option>
+                        <option value="D">D</option>
+                        <option value="—">—</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div className="crm-kpis" style={{display:'grid',gridTemplateColumns:'repeat(3, minmax(0, 1fr))',gap:8}}>
+                    {[{t:'Total sob Gestão (AUM)',v:aum,s:'#60a5fa'},{t:'Rentabilidade Média (%)',v:yieldPct,c:'pct',s:'#10b981'},{t:'Inadimplência Real (%)',v:npl,c:'pct',s:npl>8?'#ef4444':npl>3?'#f59e0b':'#10b981'}].map((k,i)=>(
+                      <div key={i} style={{background:'rgba(0,0,0,.28)',border:'1px solid rgba(255,255,255,.10)',borderRadius:16,padding:'12px 12px'}}>
+                        <div style={{fontSize:9,color:'#9ca3af',fontWeight:800,letterSpacing:'.10em',textTransform:'uppercase',marginBottom:6}}>{k.t}</div>
+                        <div style={{fontSize:18,fontWeight:900,color:'#fff',letterSpacing:'-.02em'}}>{k.c==='pct'?`${k.v.toFixed(2)}%`:R$(k.v)}</div>
+                        <div style={{marginTop:6,height:2,borderRadius:99,background:`linear-gradient(90deg, ${k.s}, transparent)`}}/>
+                      </div>
+                    ))}
+                  </div>
+
+                  <div className="crm-charts" style={{display:'grid',gridTemplateColumns:'1.4fr .6fr',gap:10,marginTop:12}}>
+                    <div style={{background:'rgba(0,0,0,.22)',border:'1px solid rgba(255,255,255,.10)',borderRadius:16,padding:12}}>
+                      <div style={{display:'flex',alignItems:'baseline',justifyContent:'space-between',marginBottom:8}}>
+                        <div style={{fontSize:9,color:'#9ca3af',fontWeight:800,letterSpacing:'.10em',textTransform:'uppercase'}}>Crescimento vs Recuperação (12m)</div>
+                        <div style={{fontSize:10,color:'#6b7280'}}>{finSeries.months.at(-1)}</div>
+                      </div>
+                      <svg viewBox={`0 0 ${w} ${h}`} width="100%" height="130" preserveAspectRatio="none" style={{display:'block'}}>
+                        <path d={path(finSeries.growth)} fill="none" stroke="#22d3ee" strokeWidth="2" opacity=".9"/>
+                        <path d={path(finSeries.recovery)} fill="none" stroke="#f59e0b" strokeWidth="2" opacity=".9"/>
+                      </svg>
+                      <div style={{display:'flex',gap:12,marginTop:4,fontSize:10,color:'#9ca3af',fontWeight:700}}>
+                        <div style={{display:'flex',alignItems:'center',gap:6}}><span style={{width:8,height:2,background:'#22d3ee',display:'inline-block'}}/>Crescimento</div>
+                        <div style={{display:'flex',alignItems:'center',gap:6}}><span style={{width:8,height:2,background:'#f59e0b',display:'inline-block'}}/>Recuperação</div>
+                        <div style={{marginLeft:'auto'}}>Ticket Médio: <span style={{color:'#fff'}}>{R$(ticket)}</span></div>
+                      </div>
+                    </div>
+
+                    <div style={{background:'rgba(0,0,0,.22)',border:'1px solid rgba(255,255,255,.10)',borderRadius:16,padding:12}}>
+                      <div style={{fontSize:9,color:'#9ca3af',fontWeight:800,letterSpacing:'.10em',textTransform:'uppercase',marginBottom:10}}>Carteira por Rating</div>
+                      <div style={{height:10,borderRadius:99,overflow:'hidden',display:'flex',background:'rgba(255,255,255,.06)'}}>
+                        {ratingKeys.map(k=>{
+                          const v=ratingSum(k);
+                          const w=(v/ratingTotal)*100;
+                          return <div key={k} style={{width:`${w}%`,background:ratingColor[k]}}/>;
+                        })}
+                      </div>
+                      <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:8,marginTop:10}}>
+                        {ratingKeys.map(k=>{
+                          const v=ratingSum(k);
+                          return(
+                            <div key={k} style={{display:'flex',alignItems:'center',justifyContent:'space-between',gap:8}}>
+                              <div style={{display:'flex',alignItems:'center',gap:6}}>
+                                <div style={{width:8,height:8,borderRadius:'50%',background:ratingColor[k]}}/>
+                                <div style={{fontSize:11,color:'#fff',fontWeight:800}}>Rating {k}</div>
+                              </div>
+                              <div style={{fontSize:11,color:'#9ca3af',fontWeight:800}}>{R$(v)}</div>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div style={{display:'flex',alignItems:'baseline',justifyContent:'space-between',margin:'2px 2px 10px'}}>
+                  <div style={{fontSize:10,color:'#9ca3af',fontWeight:800,letterSpacing:'.12em',textTransform:'uppercase'}}>Planilha Inteligente</div>
+                  <div style={{fontSize:11,color:'rgba(255,255,255,.85)',fontWeight:800}}>{finOpsFiltradas.length} título{finOpsFiltradas.length!==1?'s':''}</div>
+                </div>
+
+                {finOpsFiltradas.map((o,i)=>{
+                  const col=o.status==='Liquidado'?'#10b981':o.status==='Em mora'?'#ef4444':o.status==='Ajuizado'?'#f59e0b':'rgba(255,255,255,.65)';
+                  const ratingTxt=o.status!=='Liquidado'?(o.mora>=15?'D':o.mora>=4?'C':o.mora>=1?'B':o.rating):o.rating;
+                  const riscoTxt=o.status!=='Liquidado'?(o.mora>=15?'Alto':o.mora>=1?'Médio':o.risco):o.risco;
+                  return(
+                    <div key={o.id} className="glass" style={{borderRadius:16,padding:'12px 12px',marginBottom:8}}>
+                      <div style={{display:'flex',alignItems:'flex-start',justifyContent:'space-between',gap:10}}>
+                        <div style={{minWidth:0}}>
+                          <div style={{fontSize:12,fontWeight:900,color:'#fff',whiteSpace:'nowrap',overflow:'hidden',textOverflow:'ellipsis'}}>{o.nome}</div>
+                          <div style={{fontSize:10,color:'#9ca3af',marginTop:3}}>ID do Título: <span style={{color:'#fff',fontWeight:800}}>{o.id}</span> · Exigibilidade: <span style={{color:'#fff',fontWeight:800}}>{new Date(o.dataExigibilidade+'T00:00:00').toLocaleDateString('pt-BR')}</span></div>
+                        </div>
+                        <button onClick={()=>setFinSel(o.raw)} style={{background:'#0ea5e9',border:'none',color:'#001018',borderRadius:12,padding:'9px 10px',fontSize:12,fontWeight:900,cursor:'pointer',fontFamily:'inherit',flexShrink:0}}>Abrir</button>
+                      </div>
+                      <div style={{display:'grid',gridTemplateColumns:'1fr 1fr 1fr',gap:8,marginTop:10}}>
+                        {[{k:'Valor Nominal',v:R$(o.principal),c:'#fff'},{k:'Remuneração',v:R$(o.remuneracao),c:'#60a5fa'},{k:'Status de Adimplemento',v:o.status,c:col}].map((x,xi)=>(
+                          <div key={xi} style={{background:'rgba(0,0,0,.18)',border:'1px solid rgba(255,255,255,.08)',borderRadius:14,padding:'10px 10px'}}>
+                            <div style={{fontSize:9,color:'#9ca3af',fontWeight:800,letterSpacing:'.10em',textTransform:'uppercase',marginBottom:4}}>{x.k}</div>
+                            <div style={{fontSize:12,fontWeight:900,color:x.c}}>{x.v}</div>
+                          </div>
+                        ))}
+                      </div>
+                      <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',gap:10,marginTop:10}}>
+                        <div style={{fontSize:11,color:'#9ca3af'}}>Rating: <span style={{color:'#fff',fontWeight:900}}>{ratingTxt||'—'}</span> · Perfil de Risco: <span style={{color:'#fff',fontWeight:900}}>{riscoTxt||'—'}</span></div>
+                        <div style={{fontSize:11,color:o.mora? '#ef4444':'#10b981',fontWeight:900}}>{o.mora?`${o.mora}d em mora`:'Adimplente'}</div>
+                      </div>
+                    </div>
+                  );
+                })}
+
+                {cfg?.temSocio&&(
+                  <div style={{marginTop:6}}>
+                    <SocioCard cfg={cfg} summary={summary} recolhimentos={recolhimentos} onPagar={async id=>{
+                      const rec=recolhimentos.find(r=>r.id===id);if(!rec)return;
+                      await api.put(`/api/recolhimentos/${id}`,{...rec,status:'PAGO',dataPagamento:today()});
+                      await load();showToast(`Pago ${R$(rec.valor)} para ${cfg.socioNome}`);
+                    }}/>
+                  </div>
+                )}
+              </>
+            );
+          })()}
         </div>
       )}
 
@@ -1029,7 +2041,63 @@ const App=()=>{
       {payTgt&&<PaymentModal contract={payTgt} cfg={cfg} onPagoTotal={handlePagoTotal} onPedalada={handlePedalada} onClose={()=>setPayTgt(null)}/>}
       {settingsOpen&&<SettingsModal onSave={handleCfgSave} onClose={()=>setSettingsOpen(false)}/>}
       {celeb&&<CelebrationModal contract={celeb} cfg={cfg} onClose={()=>{setCeleb(null);showToast('Contrato cadastrado!');}}/>}
-      {recolhidoModal&&<RecolhidoModal contracts={contracts} cfg={cfg} onClose={()=>setRecolhidoModal(false)}/>}
+      {recolhidoModal&&<RecolhidoModal contracts={contracts} cfg={cfg} onClose={()=>setRecolhidoModal(false)} onToast={showToast}/>}
+      {finSel&&(
+        <div style={{position:'fixed',inset:0,background:'rgba(0,0,0,.72)',backdropFilter:'blur(10px)',WebkitBackdropFilter:'blur(10px)',zIndex:70,display:'flex',alignItems:'flex-end',justifyContent:'center'}} onClick={e=>e.target===e.currentTarget&&setFinSel(null)}>
+          <div className="pop" style={{width:'100%',maxWidth:720,maxHeight:'92vh',overflowY:'auto',background:'rgba(10,10,10,.85)',border:'1px solid rgba(255,255,255,.12)',borderRadius:'22px 22px 0 0',paddingBottom:22}}>
+            <div style={{width:30,height:3,background:'rgba(255,255,255,.18)',borderRadius:99,margin:'11px auto 0'}}/>
+            <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',padding:'14px 16px 10px'}}>
+              <div style={{minWidth:0}}>
+                <div style={{fontSize:12,color:'#9ca3af',fontWeight:900,letterSpacing:'.12em',textTransform:'uppercase'}}>Ficha de Qualificação · KYC</div>
+                <div style={{fontSize:16,fontWeight:900,color:'#fff',marginTop:4,whiteSpace:'nowrap',overflow:'hidden',textOverflow:'ellipsis'}}>{finSel.nome}</div>
+              </div>
+              <button onClick={()=>setFinSel(null)} style={{background:'rgba(255,255,255,.06)',border:'1px solid rgba(255,255,255,.10)',borderRadius:12,width:36,height:36,display:'flex',alignItems:'center',justifyContent:'center',cursor:'pointer',color:'#9ca3af'}}><Ic d={IC.x} size={16}/></button>
+            </div>
+
+            <div style={{padding:'0 16px'}}>
+              <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:10,marginBottom:10}}>
+                <div style={{background:'rgba(0,0,0,.26)',border:'1px solid rgba(255,255,255,.10)',borderRadius:16,padding:12}}>
+                  <div style={{fontSize:9,color:'#9ca3af',fontWeight:900,letterSpacing:'.10em',textTransform:'uppercase',marginBottom:6}}>Rating</div>
+                  <select className="inp" value={finSel.rating||'—'} onChange={e=>setFinSel(s=>({...s,rating:e.target.value}))} style={{padding:'10px 12px',fontSize:14}}>
+                    <option value="—">—</option>
+                    <option value="A">A</option>
+                    <option value="B">B</option>
+                    <option value="C">C</option>
+                    <option value="D">D</option>
+                  </select>
+                </div>
+                <div style={{background:'rgba(0,0,0,.26)',border:'1px solid rgba(255,255,255,.10)',borderRadius:16,padding:12}}>
+                  <div style={{fontSize:9,color:'#9ca3af',fontWeight:900,letterSpacing:'.10em',textTransform:'uppercase',marginBottom:6}}>Perfil de Risco</div>
+                  <select className="inp" value={finSel.perfilRisco||'—'} onChange={e=>setFinSel(s=>({...s,perfilRisco:e.target.value}))} style={{padding:'10px 12px',fontSize:14}}>
+                    <option value="—">—</option>
+                    <option value="Baixo">Baixo</option>
+                    <option value="Médio">Médio</option>
+                    <option value="Alto">Alto</option>
+                  </select>
+                </div>
+              </div>
+
+              <div style={{background:'rgba(0,0,0,.22)',border:'1px solid rgba(255,255,255,.10)',borderRadius:16,padding:12,marginBottom:10}}>
+                <div style={{fontSize:9,color:'#9ca3af',fontWeight:900,letterSpacing:'.10em',textTransform:'uppercase',marginBottom:6}}>Lastro Patrimonial</div>
+                <textarea className="inp" value={finSel.lastroPatrimonial||''} onChange={e=>setFinSel(s=>({...s,lastroPatrimonial:e.target.value}))} rows={3} style={{resize:'vertical'}}/>
+              </div>
+
+              <div style={{background:'rgba(0,0,0,.22)',border:'1px solid rgba(255,255,255,.10)',borderRadius:16,padding:12,marginBottom:10}}>
+                <div style={{fontSize:9,color:'#9ca3af',fontWeight:900,letterSpacing:'.10em',textTransform:'uppercase',marginBottom:6}}>Vínculos Profissionais</div>
+                <textarea className="inp" value={finSel.vinculosProfissionais||''} onChange={e=>setFinSel(s=>({...s,vinculosProfissionais:e.target.value}))} rows={3} style={{resize:'vertical'}}/>
+              </div>
+
+              <div style={{background:'rgba(0,0,0,.22)',border:'1px solid rgba(255,255,255,.10)',borderRadius:16,padding:12,marginBottom:12}}>
+                <div style={{fontSize:9,color:'#9ca3af',fontWeight:900,letterSpacing:'.10em',textTransform:'uppercase',marginBottom:6}}>Histórico de Adimplemento</div>
+                <textarea className="inp" value={finSel.historicoAdimplemento||''} onChange={e=>setFinSel(s=>({...s,historicoAdimplemento:e.target.value}))} rows={3} style={{resize:'vertical'}}/>
+              </div>
+
+              <button onClick={async()=>{await api.put(`/api/contratos/${finSel.id}`,finSel);await load();setFinSel(null);showToast('Registro atualizado.');}} style={{width:'100%',background:'#0ea5e9',border:'none',color:'#001018',borderRadius:14,padding:'14px',fontSize:14,fontWeight:900,cursor:'pointer',fontFamily:'inherit'}}>Consolidar Dados</button>
+              <div style={{height:10}}/>
+            </div>
+          </div>
+        </div>
+      )}
       {toast&&<Toast msg={toast.msg} type={toast.type}/>}
     </div>
   );
