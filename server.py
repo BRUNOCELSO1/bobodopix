@@ -5,7 +5,7 @@ Execute: python3 server.py
 Acesse:  http://localhost:8080
 """
 import os, json, hashlib, secrets, time, sys
-from http.server import HTTPServer, BaseHTTPRequestHandler
+from http.server import HTTPServer, BaseHTTPRequestHandler, ThreadingHTTPServer
 from urllib.parse import urlparse, parse_qs, unquote
 
 BASE   = os.path.dirname(os.path.abspath(__file__))
@@ -13,6 +13,7 @@ DATA   = os.path.join(BASE, 'data')
 DB     = os.path.join(DATA, 'contratos.json')
 USERS  = os.path.join(DATA, 'usuarios.json')
 SESS   = os.path.join(DATA, 'sessoes.json')
+RECOLH = os.path.join(DATA, 'recolhimentos.json')
 PORT   = int(os.environ.get('PORT', 8080))
 
 os.makedirs(DATA, exist_ok=True)
@@ -90,8 +91,8 @@ class H(BaseHTTPRequestHandler):
 
     def set_cookie(self, name, value, days=7, delete=False):
         if delete:
-            return f'{name}=; Path=/; HttpOnly; Max-Age=0'
-        return f'{name}={value}; Path=/; HttpOnly; Max-Age={days*86400}'
+            return f'{name}=; Path=/; HttpOnly; Max-Age=0; SameSite=Lax'
+        return f'{name}={value}; Path=/; HttpOnly; Max-Age={days*86400}; SameSite=Lax'
 
     def json_resp(self, code, data, extra_headers=None):
         body = json.dumps(data, ensure_ascii=False).encode()
@@ -136,14 +137,14 @@ class H(BaseHTTPRequestHandler):
             return
 
         if p == '/login':
-            self.html_resp(200, open(os.path.join(BASE, 'login.html'), 'rb').read())
+            self.html_resp(200, open(os.path.join(BASE, 'public', 'login.html'), 'rb').read())
             return
 
         if p == '/app':
             if not self.current_user():
                 self.redirect('/login')
                 return
-            self.html_resp(200, open(os.path.join(BASE, 'app.html'), 'rb').read())
+            self.html_resp(200, open(os.path.join(BASE, 'public', 'app.html'), 'rb').read())
             return
 
         if p == '/api/me':
@@ -161,12 +162,58 @@ class H(BaseHTTPRequestHandler):
             self.json_resp(200, read_json(DB, []))
             return
 
+        if p == '/api/recolhimentos':
+            if not self.current_user():
+                self.json_resp(401, {'ok': False})
+                return
+            contratos = read_json(DB, [])
+            ids = {c.get('id') for c in contratos}
+            recs = read_json(RECOLH, [])
+            filtered = [r for r in recs if r.get('contratoId') in ids]
+            if len(filtered) != len(recs):
+                write_json(RECOLH, filtered)
+            self.json_resp(200, filtered)
+            return
+
+        if p == '/api/resumo-socio':
+            if not self.current_user():
+                self.json_resp(401, {'ok': False})
+                return
+            
+            contratos = read_json(DB, [])
+            ids = {c.get('id') for c in contratos}
+            recolhimentos_all = read_json(RECOLH, [])
+            recolhimentos = [r for r in recolhimentos_all if r.get('contratoId') in ids]
+            if len(recolhimentos) != len(recolhimentos_all):
+                write_json(RECOLH, recolhimentos)
+            
+            # Calcular totais
+            total_pendente = 0
+            total_pago = 0
+            
+            for rec in recolhimentos:
+                if rec.get('status') == 'PAGO':
+                    total_pago += rec.get('valor', 0)
+                else:
+                    total_pendente += rec.get('valor', 0)
+            
+            self.json_resp(200, {
+                'ok': True,
+                'totalPendente': total_pendente,
+                'totalPago': total_pago,
+                'quantidadeRecolhimentos': len(recolhimentos)
+            })
+            return
+
         # arquivos estáticos
         static = os.path.join(BASE, unquote(p).lstrip('/'))
         if os.path.isfile(static):
             ext  = os.path.splitext(static)[1].lower()
             mime = {'.png':'image/png','.jpg':'image/jpeg','.svg':'image/svg+xml',
-                    '.ico':'image/x-icon'}.get(ext, 'application/octet-stream')
+                    '.ico':'image/x-icon','.js':'application/javascript',
+                    '.css':'text/css','.woff2':'font/woff2','.woff':'font/woff'
+                    ,'.mp3':'audio/mpeg','.ogg':'audio/ogg','.wav':'audio/wav','.m4a':'audio/mp4'
+                    }.get(ext, 'application/octet-stream')
             with open(static, 'rb') as f:
                 body = f.read()
             self.send_response(200)
@@ -187,8 +234,14 @@ class H(BaseHTTPRequestHandler):
             u = next((x for x in users if x['usuario'].upper() == d.get('usuario', '').upper()), None)
             if u and check_pw(d.get('senha', ''), u['senha']):
                 token = sess_create(u['id'], u['nome'])
-                self.json_resp(200, {'ok': True, 'nome': u['nome']},
-                               {'Set-Cookie': self.set_cookie('sid', token)})
+                cookie_header = self.set_cookie('sid', token)
+                self.send_response(200)
+                self.send_header('Content-Type', 'application/json; charset=utf-8')
+                self.send_header('Set-Cookie', cookie_header)
+                response_data = json.dumps({'ok': True, 'nome': u['nome']}, ensure_ascii=False)
+                self.send_header('Content-Length', len(response_data.encode('utf-8')))
+                self.end_headers()
+                self.wfile.write(response_data.encode('utf-8'))
             else:
                 self.json_resp(401, {'ok': False, 'msg': 'Usuário ou senha incorretos'})
             return
@@ -211,6 +264,16 @@ class H(BaseHTTPRequestHandler):
             self.json_resp(200, {'ok': True})
             return
 
+        if p == '/api/recolhimentos':
+            if not self.current_user():
+                self.json_resp(401, {'ok': False}); return
+            data = self.body()
+            recolhimentos = read_json(RECOLH, [])
+            recolhimentos.append(data)
+            write_json(RECOLH, recolhimentos)
+            self.json_resp(200, {'ok': True})
+            return
+
         self.json_resp(404, {'ok': False})
 
     def do_PUT(self):
@@ -225,6 +288,17 @@ class H(BaseHTTPRequestHandler):
             write_json(DB, items)
             self.json_resp(200, {'ok': True})
             return
+
+        if p.startswith('/api/recolhimentos/'):
+            if not self.current_user():
+                self.json_resp(401, {'ok': False}); return
+            rid   = p.split('/')[-1]
+            data  = self.body()
+            items = read_json(RECOLH, [])
+            items = [data if r['id'] == rid else r for r in items]
+            write_json(RECOLH, items)
+            self.json_resp(200, {'ok': True})
+            return
         self.json_resp(404, {'ok': False})
 
     def do_DELETE(self):
@@ -236,6 +310,9 @@ class H(BaseHTTPRequestHandler):
             items = read_json(DB, [])
             items = [c for c in items if c['id'] != cid]
             write_json(DB, items)
+            recs = read_json(RECOLH, [])
+            recs = [r for r in recs if r.get('contratoId') != cid]
+            write_json(RECOLH, recs)
             self.json_resp(200, {'ok': True})
             return
         self.json_resp(404, {'ok': False})
@@ -244,7 +321,7 @@ class H(BaseHTTPRequestHandler):
 
 if __name__ == '__main__':
     print(f'Bobo do Pix | porta {PORT}', flush=True)
-    server = HTTPServer(('0.0.0.0', PORT), H)
+    server = ThreadingHTTPServer(('0.0.0.0', PORT), H)
     try:
         server.serve_forever()
     except KeyboardInterrupt:
