@@ -3,53 +3,38 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"/>
-  <title>Bobo do Pix</title>
+  <title>O Bobo Jurista</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@700;800&display=swap" rel="stylesheet"/>
   <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
   <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
   <style>
-    *,*::before,*::after{box-sizing:border-box;font-family:'Inter',sans-serif;-webkit-tap-highlight-color:transparent}
-    html,body{background:#000;color:#fff;margin:0;min-height:100%}
+    *,*::before,*::after{box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;-webkit-tap-highlight-color:transparent}
+    html,body{background:#060914;color:#fff;margin:0;min-height:100%}
     .bg-canvas{position:fixed;inset:0;overflow:hidden;pointer-events:none;z-index:0}
-    .orb{position:absolute;border-radius:50%;filter:blur(120px);opacity:.06}
-    .o1{width:500px;height:500px;background:#0a84ff;top:-150px;left:-100px;animation:o1 18s ease-in-out infinite}
-    .o2{width:400px;height:400px;background:#5e5ce6;bottom:-100px;right:-100px;animation:o2 22s ease-in-out infinite}
-    .o3{width:300px;height:300px;background:#30d158;top:45%;left:38%;animation:o3 14s ease-in-out infinite}
-    @keyframes o1{0%,100%{transform:translate(0,0)}40%{transform:translate(60px,-40px)}70%{transform:translate(-30px,50px)}}
-    @keyframes o2{0%,100%{transform:translate(0,0)}40%{transform:translate(-50px,30px)}70%{transform:translate(40px,-60px)}}
-    @keyframes o3{0%,100%{transform:translate(-50%,-50%) scale(1)}50%{transform:translate(-50%,-50%) scale(1.3)}}
-    ::-webkit-scrollbar{width:2px}
-    ::-webkit-scrollbar-track{background:transparent}
-    ::-webkit-scrollbar-thumb{background:#3a3a3c;border-radius:99px}
-    @keyframes up{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
-    @keyframes fadeIn{from{opacity:0}to{opacity:1}}
-    @keyframes popIn{from{opacity:0;transform:scale(.94) translateY(16px)}to{opacity:1;transform:scale(1) translateY(0)}}
-    @keyframes celebIn{from{opacity:0;transform:scale(.88)}to{opacity:1;transform:scale(1)}}
-    @keyframes spin{to{transform:rotate(360deg)}}
-    @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
-    @keyframes glow{0%,100%{box-shadow:0 0 20px rgba(10,132,255,.3)}50%{box-shadow:0 0 44px rgba(10,132,255,.6)}}
-    @keyframes pr{0%{box-shadow:0 0 0 0 rgba(255,69,58,.4)}70%{box-shadow:0 0 0 10px rgba(255,69,58,0)}100%{box-shadow:0 0 0 0 rgba(255,69,58,0)}}
-    @keyframes toastIn{from{opacity:0;transform:translateY(18px) scale(.94)}to{opacity:1;transform:translateY(0) scale(1)}}
-    @keyframes npop{0%{transform:scale(.7);opacity:0}70%{transform:scale(1.06)}100%{transform:scale(1);opacity:1}}
-    .fu{animation:up .3s ease-out both}
-    .fi{animation:fadeIn .22s ease-out both}
-    .pop{animation:popIn .25s cubic-bezier(.34,1.56,.64,1) both}
-    .celeb{animation:celebIn .36s cubic-bezier(.34,1.56,.64,1) both}
-    .spin{animation:spin .7s linear infinite}
-    .float{animation:float 3s ease-in-out infinite}
-    .glow{animation:glow 2.5s ease-in-out infinite}
-    .pr{animation:pr 2s ease-in-out infinite}
-    .npop{animation:npop .42s cubic-bezier(.34,1.56,.64,1) both}
-    .card-hover{transition:transform .15s ease}
-    .card-hover:active{transform:scale(.985)}
-    .inp{transition:border-color .2s,box-shadow .2s}
-    .inp:focus{border-color:rgba(10,132,255,.5)!important;box-shadow:0 0 0 3px rgba(10,132,255,.1)!important}
-    .tog{transition:background .2s}
+    .orb{position:absolute;border-radius:50%;filter:blur(150px);opacity:.18}
+    .o1{width:650px;height:650px;background:#1a3bff;top:-220px;left:-180px;animation:o1 22s ease-in-out infinite}
+    .o2{width:550px;height:550px;background:#7b2fff;bottom:-180px;right:-180px;animation:o2 28s ease-in-out infinite}
+    .o3{width:400px;height:400px;background:#0ea5e9;top:40%;left:32%;animation:o3 16s ease-in-out infinite}
+    @keyframes o1{0%,100%{transform:translate(0,0)}40%{transform:translate(70px,-50px)}70%{transform:translate(-40px,60px)}}
+    @keyframes o2{0%,100%{transform:translate(0,0)}40%{transform:translate(-60px,40px)}70%{transform:translate(50px,-70px)}}
+    @keyframes o3{0%,100%{transform:translate(-50%,-50%) scale(1)}50%{transform:translate(-50%,-50%) scale(1.4)}}
+    ::-webkit-scrollbar{width:2px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:rgba(255,255,255,.15);border-radius:99px}
+    @keyframes up{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+    @keyframes spin{to{transform:rotate(360deg)}}.spin{animation:spin .8s linear infinite}
+    .fu{animation:up .3s cubic-bezier(.22,1,.36,1) both}.pop{animation:up .2s cubic-bezier(.22,1,.36,1) both}
+    .inp{width:100%;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:12px 14px;color:#fff;font-size:15px;outline:none;transition:border .15s,background .15s}
+    .inp:focus{border-color:#3b82f6;background:rgba(59,130,246,.08)}.inp::placeholder{color:#4b5563}
+    .card-hover{transition:transform .12s,opacity .12s}.card-hover:active{transform:scale(.982);opacity:.9}
+    .glass{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.09);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px)}
+    .glass-strong{background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.12)}
+    .btn-primary{background:linear-gradient(135deg,#2563eb,#1d4ed8);border:none;color:#fff;font-weight:700;cursor:pointer;font-family:inherit;transition:opacity .15s,transform .12s}
+    .btn-primary:active{opacity:.85;transform:scale(.97)}
   </style>
 </head>
 <body>
-<div class="bg-canvas"><div class="orb o1"/><div class="orb o2"/><div class="orb o3"/></div>
+<div class="bg-canvas"><div class="orb o1"></div><div class="orb o2"></div><div class="orb o3"></div></div>
 <div id="root" style="position:relative;z-index:1"></div>
 <script type="text/babel">
 const{useState,useEffect,useCallback,useMemo,useRef}=React;
@@ -94,7 +79,7 @@ const api={
 
 /* ── Sound & Confetti ───────────────────────────────────────────────────── */
 const playSuccess=()=>{try{const ctx=new(window.AudioContext||window.webkitAudioContext)();const play=(f,s,d,v=.28)=>{const o=ctx.createOscillator(),g=ctx.createGain();o.connect(g);g.connect(ctx.destination);o.frequency.value=f;g.gain.setValueAtTime(v,ctx.currentTime+s);g.gain.exponentialRampToValueAtTime(.001,ctx.currentTime+s+d);o.start(ctx.currentTime+s);o.stop(ctx.currentTime+s+d);};play(523,0,.12);play(659,.1,.12);play(784,.2,.15);play(1047,.32,.45,.35);}catch(e){}};
-const launchConfetti=canvas=>{const ctx=canvas.getContext('2d');canvas.width=window.innerWidth;canvas.height=window.innerHeight;const cols=['#0a84ff','#30d158','#ff9f0a','#5e5ce6','#ff453a','#fff','#ffd60a'];const pts=Array.from({length:80},()=>({x:Math.random()*canvas.width,y:-16,w:Math.random()*10+4,h:Math.random()*6+3,col:cols[Math.floor(Math.random()*cols.length)],vx:(Math.random()-.5)*5,vy:Math.random()*4+2,rot:Math.random()*Math.PI*2,vr:(Math.random()-.5)*.2,op:1}));let raf;const draw=()=>{ctx.clearRect(0,0,canvas.width,canvas.height);pts.forEach(p=>{p.x+=p.vx;p.y+=p.vy;p.vy+=.09;p.rot+=p.vr;p.op-=.007;if(p.op<=0)return;ctx.save();ctx.globalAlpha=Math.max(0,p.op);ctx.translate(p.x,p.y);ctx.rotate(p.rot);ctx.fillStyle=p.col;ctx.fillRect(-p.w/2,-p.h/2,p.w,p.h);ctx.restore();});if(pts.some(p=>p.op>0))raf=requestAnimationFrame(draw);};raf=requestAnimationFrame(draw);return()=>cancelAnimationFrame(raf);};
+const launchConfetti=canvas=>{const ctx=canvas.getContext('2d');canvas.width=window.innerWidth;canvas.height=window.innerHeight;const cols=['#3b82f6','#10b981','#ff9f0a','#7c3aed','#ff453a','#fff','#ffd60a'];const pts=Array.from({length:80},()=>({x:Math.random()*canvas.width,y:-16,w:Math.random()*10+4,h:Math.random()*6+3,col:cols[Math.floor(Math.random()*cols.length)],vx:(Math.random()-.5)*5,vy:Math.random()*4+2,rot:Math.random()*Math.PI*2,vr:(Math.random()-.5)*.2,op:1}));let raf;const draw=()=>{ctx.clearRect(0,0,canvas.width,canvas.height);pts.forEach(p=>{p.x+=p.vx;p.y+=p.vy;p.vy+=.09;p.rot+=p.vr;p.op-=.007;if(p.op<=0)return;ctx.save();ctx.globalAlpha=Math.max(0,p.op);ctx.translate(p.x,p.y);ctx.rotate(p.rot);ctx.fillStyle=p.col;ctx.fillRect(-p.w/2,-p.h/2,p.w,p.h);ctx.restore();});if(pts.some(p=>p.op>0))raf=requestAnimationFrame(draw);};raf=requestAnimationFrame(draw);return()=>cancelAnimationFrame(raf);};
 
 /* ── Count-up ───────────────────────────────────────────────────────────── */
 const useCountUp=(end,ms=900)=>{const[v,setV]=useState(0);const r=useRef(null);useEffect(()=>{if(r.current)cancelAnimationFrame(r.current);if(!end){setV(0);return;}let t0=null;const s=ts=>{if(!t0)t0=ts;const p=Math.min((ts-t0)/ms,1),e=1-Math.pow(1-p,4);setV(end*e);if(p<1)r.current=requestAnimationFrame(s);};r.current=requestAnimationFrame(s);return()=>{if(r.current)cancelAnimationFrame(r.current);};},[end]);return v;};
@@ -129,7 +114,7 @@ const Countdown=({dataInicio,dataVencimento})=>{
   const days=daysLeft(dataVencimento),total=daysDiff(dataInicio,dataVencimento);
   const passed=Math.max(0,total-Math.max(0,days)),pct=total>0?Math.min(100,(passed/total)*100):0;
   const late=days<0,tod=days===0,urg=days>0&&days<=5;
-  const col=late?'#ff453a':tod||urg?'#ff9f0a':'#0a84ff';
+  const col=late?'#ff453a':tod||urg?'#ff9f0a':'#3b82f6';
   const lbl=late?`${Math.abs(days)}d em atraso`:tod?'Vence hoje':`${days}d restantes`;
   const r=18,c=2*Math.PI*r,dash=c-(pct/100)*c;
   return(
@@ -149,7 +134,7 @@ const Countdown=({dataInicio,dataVencimento})=>{
         <div style={{display:'inline-flex',alignItems:'center',gap:5,background:`${col}14`,border:`1px solid ${col}28`,borderRadius:99,padding:'4px 11px',fontSize:11,fontWeight:700,color:col}} className={late?'pr':''}>
           {lbl}
         </div>
-        <div style={{fontSize:10,color:'#48484a',marginTop:4}}>
+        <div style={{fontSize:10,color:'#6b7280',marginTop:4}}>
           {new Date(dataVencimento+'T00:00:00').toLocaleDateString('pt-BR')} · {passed}/{total} dias
         </div>
       </div>
@@ -159,7 +144,7 @@ const Countdown=({dataInicio,dataVencimento})=>{
 const PBar=({dataInicio,dataVencimento})=>{
   const days=daysLeft(dataVencimento),total=daysDiff(dataInicio,dataVencimento);
   const passed=Math.max(0,total-Math.max(0,days)),pct=total>0?Math.min(100,(passed/total)*100):0;
-  const late=days<0,col=late?'#ff453a':pct>80?'#ff9f0a':'#0a84ff';
+  const late=days<0,col=late?'#ff453a':pct>80?'#ff9f0a':'#3b82f6';
   return<div style={{height:2,background:'rgba(255,255,255,.05)',borderRadius:99,overflow:'hidden',marginTop:8}}><div style={{height:'100%',width:`${late?100:pct}%`,background:col,borderRadius:99,transition:'width .7s ease'}}/></div>;
 };
 
@@ -167,10 +152,10 @@ const PBar=({dataInicio,dataVencimento})=>{
 const MetaRing=({current,meta,onClick})=>{
   const pct=meta>0?Math.min(100,(current/meta)*100):0;
   const done=pct>=100;
-  const col=done?'#30d158':pct>=70?'#ff9f0a':pct>=40?'#0a84ff':'#48484a';
+  const col=done?'#10b981':pct>=70?'#ff9f0a':pct>=40?'#3b82f6':'#6b7280';
   const r=38,circ=2*Math.PI*r,dash=circ-(pct/100)*circ;
   return(
-    <div onClick={onClick} style={{background:'#1c1c1e',border:'1px solid rgba(255,255,255,.06)',borderRadius:18,padding:'15px 18px',cursor:'pointer',display:'flex',alignItems:'center',gap:15}}>
+    <div onClick={onClick} style={{background:'rgba(255,255,255,.05)',border:'1px solid rgba(255,255,255,.08)',borderRadius:18,padding:'15px 18px',cursor:'pointer',display:'flex',alignItems:'center',gap:15}}>
       <div style={{position:'relative',flexShrink:0}}>
         <svg width="84" height="84" viewBox="0 0 84 84" style={{transform:'rotate(-90deg)'}}>
           <circle cx="42" cy="42" r={r} fill="none" stroke="rgba(255,255,255,.05)" strokeWidth="5"/>
@@ -180,13 +165,13 @@ const MetaRing=({current,meta,onClick})=>{
         </svg>
         <div style={{position:'absolute',inset:0,display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center'}}>
           <div style={{fontSize:16,fontWeight:800,color:col,lineHeight:1}}>{Math.round(pct)}%</div>
-          <div style={{fontSize:7,color:'#48484a',marginTop:2,fontWeight:700,letterSpacing:'.08em',textTransform:'uppercase'}}>META</div>
+          <div style={{fontSize:7,color:'#6b7280',marginTop:2,fontWeight:700,letterSpacing:'.08em',textTransform:'uppercase'}}>META</div>
         </div>
       </div>
       <div style={{flex:1,minWidth:0}}>
-        <div style={{fontSize:11,color:'#8e8e93',fontWeight:600,letterSpacing:'.04em',textTransform:'uppercase',marginBottom:3}}>Meta do Mês</div>
+        <div style={{fontSize:11,color:'#9ca3af',fontWeight:600,letterSpacing:'.04em',textTransform:'uppercase',marginBottom:3}}>Meta do Mês</div>
         <div style={{fontSize:22,fontWeight:800,color:'#fff',letterSpacing:'-.04em',lineHeight:1,marginBottom:4}}><AV value={current}/></div>
-        <div style={{fontSize:11,color:'#48484a',marginBottom:8}}>de {meta>0?R$(meta):'—'} · falta {meta>0?R$(Math.max(0,meta-current)):'—'}</div>
+        <div style={{fontSize:11,color:'#6b7280',marginBottom:8}}>de {meta>0?R$(meta):'—'} · falta {meta>0?R$(Math.max(0,meta-current)):'—'}</div>
         <span style={{display:'inline-flex',alignItems:'center',background:`${col}18`,borderRadius:99,padding:'3px 10px',fontSize:11,fontWeight:700,color:col,border:`1px solid ${col}28`}}>
           {done?'Meta atingida!':pct>=70?'Quase lá':pct>=40?'No caminho':pct>0?'Arrancando':'Toque para definir'}
         </span>
@@ -197,7 +182,7 @@ const MetaRing=({current,meta,onClick})=>{
 
 /* ── Toast ──────────────────────────────────────────────────────────────── */
 const Toast=({msg,type})=>{
-  const c={success:'#30d158',error:'#ff453a',info:'#0a84ff'}[type]||'#0a84ff';
+  const c={success:'#10b981',error:'#ff453a',info:'#3b82f6'}[type]||'#3b82f6';
   return(
     <div style={{position:'fixed',bottom:100,left:'50%',transform:'translateX(-50%)',background:'rgba(28,28,30,.98)',color:'#fff',borderRadius:14,padding:'11px 18px',display:'flex',alignItems:'center',gap:9,boxShadow:'0 8px 40px rgba(0,0,0,.8)',zIndex:999,fontSize:13,fontWeight:600,whiteSpace:'nowrap',border:`1px solid ${c}30`,animation:'toastIn .25s ease-out both'}}>
       <div style={{width:6,height:6,borderRadius:'50%',background:c,flexShrink:0}}/>
@@ -210,7 +195,7 @@ const Toast=({msg,type})=>{
 const iS=err=>({width:'100%',background:'rgba(255,255,255,.05)',border:`1px solid ${err?'rgba(255,69,58,.4)':'rgba(255,255,255,.1)'}`,borderRadius:12,padding:'12px 13px',fontSize:15,color:'#fff',outline:'none',fontFamily:'inherit',WebkitAppearance:'none'});
 const Fw=({label,err,required,children})=>(
   <div style={{marginBottom:13}}>
-    <label style={{display:'block',fontSize:12,fontWeight:600,color:'#8e8e93',marginBottom:6}}>
+    <label style={{display:'block',fontSize:12,fontWeight:600,color:'#9ca3af',marginBottom:6}}>
       {label}{required&&<span style={{color:'#ff453a',marginLeft:3}}>*</span>}
     </label>
     {children}
@@ -220,7 +205,7 @@ const Fw=({label,err,required,children})=>(
 
 /* ── Toggle ─────────────────────────────────────────────────────────────── */
 const Toggle=({on,onChange})=>(
-  <button onClick={()=>onChange(!on)} className="tog" style={{width:48,height:26,borderRadius:99,border:'none',cursor:'pointer',background:on?'#30d158':'#3a3a3c',position:'relative',flexShrink:0}}>
+  <button onClick={()=>onChange(!on)} className="tog" style={{width:48,height:26,borderRadius:99,border:'none',cursor:'pointer',background:on?'#10b981':'#374151',position:'relative',flexShrink:0}}>
     <div style={{position:'absolute',top:2,left:on?24:2,width:22,height:22,background:'#fff',borderRadius:'50%',transition:'left .18s',boxShadow:'0 1px 4px rgba(0,0,0,.3)'}}/>
   </button>
 );
@@ -231,22 +216,22 @@ const CelebrationModal=({contract,cfg,onClose})=>{
   const fin=calcFin(contract,cfg);
   useEffect(()=>{playSuccess();const c=launchConfetti(canvasRef.current);const t=setTimeout(onClose,5500);return()=>{c&&c();clearTimeout(t);};},[]);
   return(
-    <div style={{position:'fixed',inset:0,background:'rgba(0,0,0,.92)',backdropFilter:'blur(16px)',zIndex:60,display:'flex',alignItems:'center',justifyContent:'center',padding:22}} onClick={onClose}>
+    <div style={{position:'fixed',inset:0,background:'rgba(6,9,20,.95)',backdropFilter:'blur(16px)',zIndex:60,display:'flex',alignItems:'center',justifyContent:'center',padding:22}} onClick={onClose}>
       <canvas ref={canvasRef} style={{position:'absolute',inset:0,pointerEvents:'none'}}/>
       <div className="celeb" style={{background:'rgba(28,28,30,.98)',border:'1px solid rgba(255,255,255,.1)',borderRadius:26,padding:28,width:'100%',maxWidth:350,textAlign:'center',position:'relative',zIndex:1}}>
         <div style={{fontSize:48,marginBottom:8}}>🎉</div>
         <div style={{fontSize:22,fontWeight:800,color:'#fff',letterSpacing:'-.04em',marginBottom:4}}>Novo Contrato!</div>
-        <div style={{fontSize:13,color:'#8e8e93',marginBottom:22}}>Operação cadastrada com sucesso</div>
-        <div style={{background:'rgba(255,255,255,.04)',border:'1px solid rgba(255,255,255,.07)',borderRadius:16,padding:18,marginBottom:18}}>
+        <div style={{fontSize:13,color:'#9ca3af',marginBottom:22}}>Operação cadastrada com sucesso</div>
+        <div style={{background:'rgba(255,255,255,.05)',border:'1px solid rgba(255,255,255,.09)',borderRadius:16,padding:18,marginBottom:18}}>
           <div style={{fontSize:15,fontWeight:700,color:'#fff',marginBottom:12}}>{contract.nome}</div>
           <div style={{display:'grid',gridTemplateColumns:'1fr 1fr 1fr',gap:8,textAlign:'center'}}>
-            {[{l:'Capital',v:R$(contract.valorEmprestado),c:'#8e8e93'},{l:'Retorno',v:R$(contract.valorRetorno),c:'#0a84ff'},{l:'Seu Lucro',v:R$(fin.liquido),c:'#30d158'}].map(({l,v,c},i)=>(
-              <div key={i}><div style={{fontSize:9,color:'#48484a',letterSpacing:'.06em',textTransform:'uppercase',marginBottom:3}}>{l}</div><div style={{fontSize:14,fontWeight:800,color:c}} className="npop">{v}</div></div>
+            {[{l:'Capital',v:R$(contract.valorEmprestado),c:'#9ca3af'},{l:'Retorno',v:R$(contract.valorRetorno),c:'#3b82f6'},{l:'Seu Lucro',v:R$(fin.liquido),c:'#10b981'}].map(({l,v,c},i)=>(
+              <div key={i}><div style={{fontSize:9,color:'#6b7280',letterSpacing:'.06em',textTransform:'uppercase',marginBottom:3}}>{l}</div><div style={{fontSize:14,fontWeight:800,color:c}} className="npop">{v}</div></div>
             ))}
           </div>
         </div>
-        <div style={{fontSize:12,color:'#48484a',marginBottom:16}}>Vence em <strong style={{color:'#fff'}}>{new Date(contract.dataVencimento+'T00:00:00').toLocaleDateString('pt-BR',{day:'2-digit',month:'long'})}</strong></div>
-        <button onClick={onClose} style={{background:'#0a84ff',border:'none',color:'#fff',borderRadius:13,padding:'14px',fontSize:15,fontWeight:700,cursor:'pointer',fontFamily:'inherit',width:'100%'}}>Continuar</button>
+        <div style={{fontSize:12,color:'#6b7280',marginBottom:16}}>Vence em <strong style={{color:'#fff'}}>{new Date(contract.dataVencimento+'T00:00:00').toLocaleDateString('pt-BR',{day:'2-digit',month:'long'})}</strong></div>
+        <button onClick={onClose} style={{background:'#3b82f6',border:'none',color:'#fff',borderRadius:13,padding:'14px',fontSize:15,fontWeight:700,cursor:'pointer',fontFamily:'inherit',width:'100%'}}>Continuar</button>
       </div>
     </div>
   );
@@ -255,29 +240,31 @@ const CelebrationModal=({contract,cfg,onClose})=>{
 /* ── Payment Modal ──────────────────────────────────────────────────────── */
 const PaymentModal=({contract,cfg,onPagoTotal,onPedalada,onClose})=>{
   const [step,setStep]=useState('choice');
+  const [cobrarAtraso,setCobrarAtraso]=useState(true);
   const fin=calcFin(contract,cfg);
   const jurosBrutos=contract.valorRetorno-contract.valorEmprestado;
   const diasAtraso=Math.max(0,-daysLeft(contract.dataVencimento));
   const jurosAtraso=calcJurosAtraso(contract,cfg);
+  const temJurosAtraso=diasAtraso>0&&(cfg?.taxaAtraso||0)>0&&jurosAtraso>0;
   const pedaladas=contract.pedaladas||0;
   const maxPed=contract.maxPedaladas??3;
   const podePedalada=pedaladas<maxPed;
   const novoVenc=addDays(today(),30);
 
   return(
-    <div style={{position:'fixed',inset:0,background:'rgba(0,0,0,.88)',backdropFilter:'blur(12px)',zIndex:50,display:'flex',alignItems:'flex-end',justifyContent:'center'}} onClick={e=>e.target===e.currentTarget&&onClose()}>
-      <div className="pop" style={{background:'#1c1c1e',border:'1px solid rgba(255,255,255,.08)',borderRadius:'22px 22px 0 0',width:'100%',maxWidth:480,maxHeight:'92vh',overflowY:'auto',paddingBottom:34}}>
-        <div style={{width:30,height:3,background:'#3a3a3c',borderRadius:99,margin:'11px auto 0'}}/>
+    <div style={{position:'fixed',inset:0,background:'rgba(6,9,20,.95)',backdropFilter:'blur(12px)',zIndex:50,display:'flex',alignItems:'flex-end',justifyContent:'center'}} onClick={e=>e.target===e.currentTarget&&onClose()}>
+      <div className="pop" style={{background:'rgba(255,255,255,.05)',border:'1px solid rgba(255,255,255,.08)',borderRadius:'22px 22px 0 0',width:'100%',maxWidth:480,maxHeight:'92vh',overflowY:'auto',paddingBottom:34}}>
+        <div style={{width:30,height:3,background:'#374151',borderRadius:99,margin:'11px auto 0'}}/>
 
         {step==='choice'&&(
           <div style={{padding:'18px 18px 0'}}>
             <div style={{fontWeight:800,fontSize:19,color:'#fff',letterSpacing:'-.03em',marginBottom:3}}>{contract.nome}</div>
-            <div style={{fontSize:13,color:'#8e8e93',marginBottom:18}}>Como foi o pagamento?</div>
+            <div style={{fontSize:13,color:'#9ca3af',marginBottom:18}}>Como foi o pagamento?</div>
 
-            <div style={{background:'rgba(255,255,255,.04)',border:'1px solid rgba(255,255,255,.07)',borderRadius:14,padding:14,marginBottom:14}}>
+            <div style={{background:'rgba(255,255,255,.05)',border:'1px solid rgba(255,255,255,.09)',borderRadius:14,padding:14,marginBottom:14}}>
               <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:10}}>
-                {[{l:'Capital',v:R$(contract.valorEmprestado),c:'#8e8e93'},{l:'Retorno Total',v:R$(contract.valorRetorno),c:'#0a84ff'},{l:'Só os Juros',v:R$(jurosBrutos),c:'#ff9f0a'},{l:'Seu Lucro Liq.',v:R$(fin.liquido),c:'#30d158'}].map(({l,v,c},i)=>(
-                  <div key={i}><div style={{fontSize:9,color:'#48484a',textTransform:'uppercase',letterSpacing:'.06em',marginBottom:2}}>{l}</div><div style={{fontSize:16,fontWeight:800,color:c}}>{v}</div></div>
+                {[{l:'Capital',v:R$(contract.valorEmprestado),c:'#9ca3af'},{l:'Retorno Total',v:R$(contract.valorRetorno),c:'#3b82f6'},{l:'Só os Juros',v:R$(jurosBrutos),c:'#ff9f0a'},{l:'Seu Lucro Liq.',v:R$(fin.liquido),c:'#10b981'}].map(({l,v,c},i)=>(
+                  <div key={i}><div style={{fontSize:9,color:'#6b7280',textTransform:'uppercase',letterSpacing:'.06em',marginBottom:2}}>{l}</div><div style={{fontSize:16,fontWeight:800,color:c}}>{v}</div></div>
                 ))}
               </div>
             </div>
@@ -285,58 +272,87 @@ const PaymentModal=({contract,cfg,onPagoTotal,onPedalada,onClose})=>{
             {diasAtraso>0&&(
               <div style={{background:'rgba(255,69,58,.07)',border:'1px solid rgba(255,69,58,.18)',borderRadius:12,padding:'11px 14px',marginBottom:12}}>
                 <div style={{fontSize:12,fontWeight:700,color:'#ff453a',marginBottom:3}}>{diasAtraso} dia{diasAtraso!==1?'s':''} de atraso</div>
-                <div style={{fontSize:12,color:'#8e8e93'}}>{cfg?.taxaAtraso>0?`Juros de atraso acumulados: ${R$(jurosAtraso)}`:'Sem taxa de atraso configurada (ajuste em Configurações)'}</div>
+                <div style={{fontSize:12,color:'#9ca3af'}}>{cfg?.taxaAtraso>0?`Juros de atraso acumulados: ${R$(jurosAtraso)}`:'Sem taxa de atraso configurada (ajuste em Configurações)'}</div>
               </div>
             )}
 
-            <button onClick={onPagoTotal} style={{width:'100%',background:'rgba(48,209,88,.08)',border:'1px solid rgba(48,209,88,.25)',borderRadius:14,padding:'15px 16px',marginBottom:9,cursor:'pointer',fontFamily:'inherit',textAlign:'left'}}>
-              <div style={{fontSize:15,fontWeight:700,color:'#30d158',marginBottom:3}}>Pagamento Total</div>
-              <div style={{fontSize:12,color:'#8e8e93'}}>Recebeu {R$(contract.valorRetorno)} · contrato encerrado</div>
+            <button onClick={temJurosAtraso?()=>setStep('confirmar-atraso'):onPagoTotal} style={{width:'100%',background:'rgba(16,185,129,.08)',border:'1px solid rgba(16,185,129,.25)',borderRadius:14,padding:'15px 16px',marginBottom:9,cursor:'pointer',fontFamily:'inherit',textAlign:'left'}}>
+              <div style={{fontSize:15,fontWeight:700,color:'#10b981',marginBottom:3}}>Pagamento Total</div>
+              <div style={{fontSize:12,color:'#9ca3af'}}>Recebeu {R$(contract.valorRetorno)}{temJurosAtraso?` + juros de atraso`:''} · contrato encerrado</div>
             </button>
 
             {podePedalada?(
               <button onClick={()=>setStep('pedalada')} style={{width:'100%',background:'rgba(255,159,10,.07)',border:'1px solid rgba(255,159,10,.22)',borderRadius:14,padding:'15px 16px',marginBottom:9,cursor:'pointer',fontFamily:'inherit',textAlign:'left'}}>
-                <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:3}}>
-                  <div style={{fontSize:15,fontWeight:700,color:'#ff9f0a'}}>🚴 Pedalada</div>
-                  <div style={{background:'rgba(255,159,10,.15)',borderRadius:99,padding:'2px 8px',fontSize:10,fontWeight:700,color:'#ff9f0a'}}>{pedaladas}/{maxPed}</div>
+                <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:4}}>
+                  <div style={{fontSize:15,fontWeight:700,color:'#ff9f0a'}}>Somente os Juros</div>
+                  <div style={{background:'rgba(255,159,10,.15)',borderRadius:99,padding:'2px 8px',fontSize:10,fontWeight:700,color:'#ff9f0a'}}>🚴 Pedalada {pedaladas+1}/{maxPed}</div>
                 </div>
-                <div style={{fontSize:12,color:'#8e8e93',marginBottom:3}}>Pagou só os juros ({R$(jurosBrutos)}) · ganha +30 dias</div>
-                <div style={{fontSize:11,color:'#48484a',fontStyle:'italic'}}>Pedalada = pagar apenas os juros para renovar o prazo por mais 30 dias, sem quitar o capital</div>
+                <div style={{fontSize:12,color:'#9ca3af'}}>Cliente pagou apenas {R$(jurosBrutos)} · ganha +30 dias</div>
               </button>
             ):(
               <div style={{background:'rgba(255,69,58,.05)',border:'1px solid rgba(255,69,58,.14)',borderRadius:14,padding:'14px 16px',marginBottom:9}}>
                 <div style={{fontSize:13,fontWeight:700,color:'#ff453a',marginBottom:3}}>Limite de pedaladas atingido</div>
-                <div style={{fontSize:12,color:'#8e8e93'}}>{pedaladas}/{maxPed} pedaladas usadas · exija pagamento total</div>
+                <div style={{fontSize:12,color:'#9ca3af'}}>{pedaladas}/{maxPed} pedaladas usadas · exija pagamento total</div>
               </div>
             )}
 
-            <button onClick={onClose} style={{width:'100%',background:'transparent',border:'1px solid rgba(255,255,255,.07)',borderRadius:13,padding:'12px',fontSize:14,fontWeight:600,color:'#8e8e93',cursor:'pointer',fontFamily:'inherit'}}>Cancelar</button>
+            <button onClick={onClose} style={{width:'100%',background:'transparent',border:'1px solid rgba(255,255,255,.09)',borderRadius:13,padding:'12px',fontSize:14,fontWeight:600,color:'#9ca3af',cursor:'pointer',fontFamily:'inherit'}}>Cancelar</button>
           </div>
         )}
 
         {step==='pedalada'&&(
           <div style={{padding:'18px 18px 0'}}>
-            <button onClick={()=>setStep('choice')} style={{background:'none',border:'none',color:'#0a84ff',fontSize:14,fontWeight:600,cursor:'pointer',fontFamily:'inherit',padding:'0 0 14px 0',display:'flex',alignItems:'center',gap:5}}>
+            <button onClick={()=>setStep('choice')} style={{background:'none',border:'none',color:'#3b82f6',fontSize:14,fontWeight:600,cursor:'pointer',fontFamily:'inherit',padding:'0 0 14px 0',display:'flex',alignItems:'center',gap:5}}>
               ← Voltar
             </button>
-            <div style={{fontWeight:800,fontSize:19,color:'#fff',letterSpacing:'-.03em',marginBottom:3}}>Confirmar Pedalada</div>
-            <div style={{fontSize:13,color:'#8e8e93',marginBottom:18}}>Pedalada {pedaladas+1} de {maxPed} · {contract.nome}</div>
+            <div style={{fontWeight:800,fontSize:19,color:'#fff',letterSpacing:'-.03em',marginBottom:3}}>Confirmar Pagamento</div>
+            <div style={{fontSize:13,color:'#9ca3af',marginBottom:20}}>{contract.nome} · 🚴 Pedalada {pedaladas+1}/{maxPed}</div>
 
-            <div style={{background:'rgba(255,159,10,.07)',border:'1px solid rgba(255,159,10,.22)',borderRadius:16,padding:18,marginBottom:16}}>
-              <div style={{fontSize:12,color:'#8e8e93',marginBottom:4}}>Valor dos juros a receber agora</div>
-              <div style={{fontSize:32,fontWeight:900,color:'#ff9f0a',letterSpacing:'-.04em',marginBottom:12}}>{R$(jurosBrutos)}</div>
-              <div style={{fontSize:12,color:'#8e8e93',marginBottom:3}}>Novo vencimento: <strong style={{color:'#fff'}}>{new Date(novoVenc+'T00:00:00').toLocaleDateString('pt-BR',{day:'2-digit',month:'long',year:'numeric'})}</strong></div>
-              <div style={{fontSize:12,color:'#8e8e93'}}>Capital que continua devendo: <strong style={{color:'#ff9f0a'}}>{R$(contract.valorEmprestado)}</strong></div>
-            </div>
-
-            <div style={{fontSize:12,color:'#48484a',marginBottom:18,background:'rgba(255,255,255,.03)',borderRadius:12,padding:'12px 13px',lineHeight:1.65}}>
-              O cliente paga <strong style={{color:'#fff'}}>{R$(jurosBrutos)}</strong> hoje e ganha mais 30 dias. No próximo vencimento, deverá novamente <strong style={{color:'#ff9f0a'}}>{R$(contract.valorRetorno)}</strong> (capital + juros). Após {maxPed} pedaladas o pagamento total se torna obrigatório.
+            <div style={{background:'rgba(255,159,10,.06)',border:'1px solid rgba(255,159,10,.25)',borderRadius:16,padding:20,marginBottom:16}}>
+              <div style={{fontSize:13,color:'#9ca3af',marginBottom:6}}>O valor que o cliente pagou foi apenas:</div>
+              <div style={{fontSize:38,fontWeight:900,color:'#ff9f0a',letterSpacing:'-.04em',marginBottom:14}}>{R$(jurosBrutos)}</div>
+              <div style={{display:'flex',flexDirection:'column',gap:5}}>
+                <div style={{fontSize:12,color:'#9ca3af'}}>💰 Capital: <strong style={{color:'#fff'}}>{R$(contract.valorEmprestado)}</strong> continua devendo</div>
+                <div style={{fontSize:12,color:'#9ca3af'}}>📅 Novo vencimento: <strong style={{color:'#fff'}}>{new Date(novoVenc+'T00:00:00').toLocaleDateString('pt-BR',{day:'2-digit',month:'long'})}</strong></div>
+              </div>
             </div>
 
             <button onClick={()=>onPedalada(jurosBrutos)} style={{width:'100%',background:'#ff9f0a',border:'none',color:'#000',borderRadius:13,padding:'15px',fontSize:15,fontWeight:800,cursor:'pointer',fontFamily:'inherit',marginBottom:9}}>
-              Confirmar · recebi {R$(jurosBrutos)}
+              Sim, pagou apenas {R$(jurosBrutos)}
             </button>
-            <button onClick={onClose} style={{width:'100%',background:'transparent',border:'1px solid rgba(255,255,255,.07)',borderRadius:13,padding:'12px',fontSize:14,fontWeight:600,color:'#8e8e93',cursor:'pointer',fontFamily:'inherit'}}>Cancelar</button>
+            <button onClick={()=>setStep('choice')} style={{width:'100%',background:'transparent',border:'1px solid rgba(255,255,255,.1)',borderRadius:13,padding:'12px',fontSize:14,fontWeight:600,color:'#9ca3af',cursor:'pointer',fontFamily:'inherit',marginBottom:9}}>
+              Não, valor diferente
+            </button>
+            <button onClick={onClose} style={{width:'100%',background:'transparent',border:'none',borderRadius:13,padding:'10px',fontSize:13,color:'#6b7280',cursor:'pointer',fontFamily:'inherit'}}>Cancelar</button>
+          </div>
+        )}
+
+        {step==='confirmar-atraso'&&(
+          <div style={{padding:'18px 18px 0'}}>
+            <button onClick={()=>setStep('choice')} style={{background:'none',border:'none',color:'#3b82f6',fontSize:14,fontWeight:600,cursor:'pointer',fontFamily:'inherit',padding:'0 0 14px 0',display:'flex',alignItems:'center',gap:5}}>
+              ← Voltar
+            </button>
+            <div style={{fontWeight:800,fontSize:19,color:'#fff',letterSpacing:'-.03em',marginBottom:3}}>Juros de Atraso</div>
+            <div style={{fontSize:13,color:'#9ca3af',marginBottom:18}}>{diasAtraso} dia{diasAtraso!==1?'s':''} de atraso · {contract.nome}</div>
+
+            <div style={{background:'rgba(255,69,58,.08)',border:'1px solid rgba(255,69,58,.22)',borderRadius:16,padding:18,marginBottom:16}}>
+              <div style={{fontSize:12,color:'#ff453a',marginBottom:4,fontWeight:600}}>Juros acumulados ({diasAtraso}d × {cfg?.taxaAtraso}%/dia)</div>
+              <div style={{fontSize:36,fontWeight:900,color:'#ff453a',letterSpacing:'-.04em',marginBottom:10}}>{R$(jurosAtraso)}</div>
+              <div style={{fontSize:12,color:'#9ca3af'}}>Retorno base: <strong style={{color:'#fff'}}>{R$(contract.valorRetorno)}</strong></div>
+              <div style={{fontSize:12,color:'#9ca3af',marginTop:4}}>Total com atraso: <strong style={{color:'#ff453a'}}>{R$(contract.valorRetorno+jurosAtraso)}</strong></div>
+            </div>
+
+            <div style={{fontSize:13,color:'#9ca3af',marginBottom:14,textAlign:'center'}}>Você cobrou os juros de atraso?</div>
+
+            <button onClick={()=>onPagoTotal(jurosAtraso)} style={{width:'100%',background:'rgba(255,69,58,.1)',border:'1px solid rgba(255,69,58,.3)',borderRadius:13,padding:'14px 16px',marginBottom:9,cursor:'pointer',fontFamily:'inherit',textAlign:'left'}}>
+              <div style={{fontSize:15,fontWeight:700,color:'#ff453a',marginBottom:2}}>Sim, cobrei os juros</div>
+              <div style={{fontSize:12,color:'#9ca3af'}}>Recebi {R$(contract.valorRetorno+jurosAtraso)} no total</div>
+            </button>
+            <button onClick={()=>onPagoTotal(0)} style={{width:'100%',background:'rgba(16,185,129,.06)',border:'1px solid rgba(16,185,129,.2)',borderRadius:13,padding:'14px 16px',marginBottom:9,cursor:'pointer',fontFamily:'inherit',textAlign:'left'}}>
+              <div style={{fontSize:15,fontWeight:700,color:'#10b981',marginBottom:2}}>Não, dispensei o atraso</div>
+              <div style={{fontSize:12,color:'#9ca3af'}}>Recebi só {R$(contract.valorRetorno)}, sem cobrar atraso</div>
+            </button>
+            <button onClick={onClose} style={{width:'100%',background:'transparent',border:'1px solid rgba(255,255,255,.09)',borderRadius:13,padding:'12px',fontSize:14,fontWeight:600,color:'#9ca3af',cursor:'pointer',fontFamily:'inherit'}}>Cancelar</button>
           </div>
         )}
       </div>
@@ -349,18 +365,18 @@ const SettingsModal=({onSave,onClose})=>{
   const [cfg,setCfg]=useState(()=>loadCfg());
   const set=(k,v)=>setCfg(c=>({...c,[k]:v}));
   return(
-    <div style={{position:'fixed',inset:0,background:'rgba(0,0,0,.88)',backdropFilter:'blur(12px)',zIndex:50,display:'flex',alignItems:'flex-end',justifyContent:'center'}} onClick={e=>e.target===e.currentTarget&&onClose()}>
-      <div className="pop" style={{background:'#1c1c1e',border:'1px solid rgba(255,255,255,.08)',borderRadius:'22px 22px 0 0',width:'100%',maxWidth:480,maxHeight:'92vh',overflowY:'auto',paddingBottom:34}}>
-        <div style={{width:30,height:3,background:'#3a3a3c',borderRadius:99,margin:'11px auto 0'}}/>
+    <div style={{position:'fixed',inset:0,background:'rgba(6,9,20,.95)',backdropFilter:'blur(12px)',zIndex:50,display:'flex',alignItems:'flex-end',justifyContent:'center'}} onClick={e=>e.target===e.currentTarget&&onClose()}>
+      <div className="pop" style={{background:'rgba(255,255,255,.05)',border:'1px solid rgba(255,255,255,.08)',borderRadius:'22px 22px 0 0',width:'100%',maxWidth:480,maxHeight:'92vh',overflowY:'auto',paddingBottom:34}}>
+        <div style={{width:30,height:3,background:'#374151',borderRadius:99,margin:'11px auto 0'}}/>
         <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',padding:'16px 18px 14px'}}>
           <div style={{fontWeight:800,fontSize:19,color:'#fff',letterSpacing:'-.03em'}}>Configurações</div>
-          <button onClick={onClose} style={{background:'rgba(255,255,255,.06)',border:'none',borderRadius:10,width:32,height:32,display:'flex',alignItems:'center',justifyContent:'center',cursor:'pointer',color:'#8e8e93'}}><Ic d={IC.x} size={14}/></button>
+          <button onClick={onClose} style={{background:'rgba(255,255,255,.08)',border:'none',borderRadius:10,width:32,height:32,display:'flex',alignItems:'center',justifyContent:'center',cursor:'pointer',color:'#9ca3af'}}><Ic d={IC.x} size={14}/></button>
         </div>
         <div style={{padding:'0 18px'}}>
 
-          <div style={{background:'rgba(255,255,255,.04)',border:'1px solid rgba(255,255,255,.07)',borderRadius:16,padding:16,marginBottom:12}}>
+          <div style={{background:'rgba(255,255,255,.05)',border:'1px solid rgba(255,255,255,.09)',borderRadius:16,padding:16,marginBottom:12}}>
             <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:cfg.temSocio?14:0}}>
-              <div><div style={{fontSize:14,fontWeight:700,color:'#fff'}}>Tenho sócio</div><div style={{fontSize:11,color:'#8e8e93',marginTop:2}}>Dividir lucros com parceiro</div></div>
+              <div><div style={{fontSize:14,fontWeight:700,color:'#fff'}}>Tenho sócio</div><div style={{fontSize:11,color:'#9ca3af',marginTop:2}}>Dividir lucros com parceiro</div></div>
               <Toggle on={cfg.temSocio} onChange={v=>set('temSocio',v)}/>
             </div>
             {cfg.temSocio&&(
@@ -371,14 +387,14 @@ const SettingsModal=({onSave,onClose})=>{
             )}
           </div>
 
-          <div style={{background:'rgba(255,255,255,.04)',border:'1px solid rgba(255,255,255,.07)',borderRadius:16,padding:16,marginBottom:16}}>
+          <div style={{background:'rgba(255,255,255,.05)',border:'1px solid rgba(255,255,255,.09)',borderRadius:16,padding:16,marginBottom:16}}>
             <Fw label="Taxa de Atraso Diária (%)">
               <input type="number" min="0" max="100" step="0.1" className="inp" style={iS(false)} value={cfg.taxaAtraso||''} onChange={e=>set('taxaAtraso',parseFloat(e.target.value)||0)} placeholder="Ex: 1"/>
             </Fw>
-            <div style={{fontSize:11,color:'#48484a',marginTop:-6}}>Juros cobrados por dia de atraso. Zero = não cobrar atraso.</div>
+            <div style={{fontSize:11,color:'#6b7280',marginTop:-6}}>Juros cobrados por dia de atraso. Zero = não cobrar atraso.</div>
           </div>
 
-          <button onClick={()=>{saveCfg(cfg);onSave(cfg);}} style={{width:'100%',background:'#0a84ff',border:'none',color:'#fff',borderRadius:13,padding:'14px',fontSize:15,fontWeight:700,cursor:'pointer',fontFamily:'inherit'}}>Salvar</button>
+          <button onClick={()=>{saveCfg(cfg);onSave(cfg);}} style={{width:'100%',background:'#3b82f6',border:'none',color:'#fff',borderRadius:13,padding:'14px',fontSize:15,fontWeight:700,cursor:'pointer',fontFamily:'inherit'}}>Salvar</button>
         </div>
       </div>
     </div>
@@ -423,15 +439,15 @@ const ContractModal=({contract,cfg,onSave,onClose})=>{
     setSaving(false);
   };
   return(
-    <div style={{position:'fixed',inset:0,background:'rgba(0,0,0,.88)',backdropFilter:'blur(12px)',zIndex:50,display:'flex',alignItems:'flex-end',justifyContent:'center'}} onClick={e=>e.target===e.currentTarget&&onClose()}>
-      <div className="pop" style={{background:'#1c1c1e',border:'1px solid rgba(255,255,255,.08)',borderRadius:'22px 22px 0 0',width:'100%',maxWidth:480,maxHeight:'93vh',overflowY:'auto',paddingBottom:34}}>
-        <div style={{width:30,height:3,background:'#3a3a3c',borderRadius:99,margin:'11px auto 0'}}/>
+    <div style={{position:'fixed',inset:0,background:'rgba(6,9,20,.95)',backdropFilter:'blur(12px)',zIndex:50,display:'flex',alignItems:'flex-end',justifyContent:'center'}} onClick={e=>e.target===e.currentTarget&&onClose()}>
+      <div className="pop" style={{background:'rgba(255,255,255,.05)',border:'1px solid rgba(255,255,255,.08)',borderRadius:'22px 22px 0 0',width:'100%',maxWidth:480,maxHeight:'93vh',overflowY:'auto',paddingBottom:34}}>
+        <div style={{width:30,height:3,background:'#374151',borderRadius:99,margin:'11px auto 0'}}/>
         <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',padding:'16px 18px 0'}}>
           <div>
             <div style={{fontWeight:800,fontSize:19,color:'#fff',letterSpacing:'-.03em'}}>{contract?'Editar Contrato':'Novo Contrato'}</div>
-            <div style={{fontSize:11,color:'#8e8e93',marginTop:3}}>Campos com * são obrigatórios</div>
+            <div style={{fontSize:11,color:'#9ca3af',marginTop:3}}>Campos com * são obrigatórios</div>
           </div>
-          <button onClick={onClose} style={{background:'rgba(255,255,255,.06)',border:'none',borderRadius:10,width:34,height:34,display:'flex',alignItems:'center',justifyContent:'center',cursor:'pointer',color:'#8e8e93'}}><Ic d={IC.x} size={14}/></button>
+          <button onClick={onClose} style={{background:'rgba(255,255,255,.08)',border:'none',borderRadius:10,width:34,height:34,display:'flex',alignItems:'center',justifyContent:'center',cursor:'pointer',color:'#9ca3af'}}><Ic d={IC.x} size={14}/></button>
         </div>
         <form onSubmit={submit} style={{padding:'16px 18px 0'}}>
           <Fw label="Nome Completo" err={errs.nome} required>
@@ -450,10 +466,10 @@ const ContractModal=({contract,cfg,onSave,onClose})=>{
           </div>
           {ret>0&&(
             <div style={{background:'rgba(10,132,255,.07)',border:'1px solid rgba(10,132,255,.14)',borderRadius:14,padding:14,marginBottom:13}}>
-              <div style={{fontSize:10,color:'#0a84ff',fontWeight:700,letterSpacing:'.08em',textTransform:'uppercase',marginBottom:9}}>Previsão</div>
+              <div style={{fontSize:10,color:'#3b82f6',fontWeight:700,letterSpacing:'.08em',textTransform:'uppercase',marginBottom:9}}>Previsão</div>
               <div style={{display:'grid',gridTemplateColumns:cfg?.temSocio?'1fr 1fr 1fr':'1fr 1fr',gap:8,textAlign:'center'}}>
-                {[{l:'Retorno',v:R$(ret),c:'#0a84ff'},...(cfg?.temSocio?[{l:cfg.socioNome||'Sócio',v:R$(socio),c:'#5e5ce6'}]:[]),{l:'Seu Lucro',v:R$(liq),c:'#30d158'}].map(({l,v,c},i)=>(
-                  <div key={i}><div style={{fontSize:9,color:'#48484a',textTransform:'uppercase',letterSpacing:'.05em',marginBottom:3}}>{l}</div><div style={{fontSize:15,fontWeight:800,color:c}}>{v}</div></div>
+                {[{l:'Retorno',v:R$(ret),c:'#3b82f6'},...(cfg?.temSocio?[{l:cfg.socioNome||'Sócio',v:R$(socio),c:'#7c3aed'}]:[]),{l:'Seu Lucro',v:R$(liq),c:'#10b981'}].map(({l,v,c},i)=>(
+                  <div key={i}><div style={{fontSize:9,color:'#6b7280',textTransform:'uppercase',letterSpacing:'.05em',marginBottom:3}}>{l}</div><div style={{fontSize:15,fontWeight:800,color:c}}>{v}</div></div>
                 ))}
               </div>
             </div>
@@ -469,8 +485,8 @@ const ContractModal=({contract,cfg,onSave,onClose})=>{
             <textarea rows={2} className="inp" style={{...iS(false),resize:'none'}} value={form.observacoes} onChange={e=>set('observacoes',e.target.value)} placeholder="Garantias, referências, etc."/>
           </Fw>
           <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:10,marginTop:4}}>
-            <button type="button" onClick={onClose} style={{background:'rgba(255,255,255,.06)',border:'1px solid rgba(255,255,255,.08)',color:'#8e8e93',borderRadius:13,padding:'13px',fontSize:14,fontWeight:600,cursor:'pointer',fontFamily:'inherit'}}>Cancelar</button>
-            <button type="submit" disabled={saving} style={{background:'#0a84ff',border:'none',color:'#fff',borderRadius:13,padding:'13px',fontSize:14,fontWeight:700,cursor:'pointer',fontFamily:'inherit',opacity:saving?.65:1}}>{saving?'Salvando…':contract?'Salvar':'Cadastrar'}</button>
+            <button type="button" onClick={onClose} style={{background:'rgba(255,255,255,.08)',border:'1px solid rgba(255,255,255,.08)',color:'#9ca3af',borderRadius:13,padding:'13px',fontSize:14,fontWeight:600,cursor:'pointer',fontFamily:'inherit'}}>Cancelar</button>
+            <button type="submit" disabled={saving} style={{background:'#3b82f6',border:'none',color:'#fff',borderRadius:13,padding:'13px',fontSize:14,fontWeight:700,cursor:'pointer',fontFamily:'inherit',opacity:saving?.65:1}}>{saving?'Salvando…':contract?'Salvar':'Cadastrar'}</button>
           </div>
         </form>
       </div>
@@ -481,12 +497,12 @@ const ContractModal=({contract,cfg,onSave,onClose})=>{
 /* ── Delete Modal ───────────────────────────────────────────────────────── */
 const DelModal=({name,onConfirm,onClose})=>(
   <div style={{position:'fixed',inset:0,background:'rgba(0,0,0,.9)',backdropFilter:'blur(12px)',zIndex:50,display:'flex',alignItems:'center',justifyContent:'center',padding:20}} onClick={e=>e.target===e.currentTarget&&onClose()}>
-    <div className="pop" style={{background:'#1c1c1e',border:'1px solid rgba(255,69,58,.18)',borderRadius:22,padding:26,width:'100%',maxWidth:310,textAlign:'center'}}>
+    <div className="pop" style={{background:'rgba(255,255,255,.05)',border:'1px solid rgba(255,69,58,.18)',borderRadius:22,padding:26,width:'100%',maxWidth:310,textAlign:'center'}}>
       <div style={{width:50,height:50,background:'rgba(255,69,58,.1)',borderRadius:15,display:'flex',alignItems:'center',justifyContent:'center',margin:'0 auto 14px'}}><Ic d={IC.trash} size={20} stroke='#ff453a'/></div>
       <div style={{fontWeight:800,fontSize:17,color:'#fff',marginBottom:7,letterSpacing:'-.02em'}}>Excluir contrato</div>
-      <div style={{fontSize:13,color:'#8e8e93',lineHeight:1.6,marginBottom:22}}>Excluir contrato de <strong style={{color:'#fff'}}>{name}</strong>?<br/><span style={{fontSize:11,color:'#48484a'}}>Esta ação não pode ser desfeita.</span></div>
+      <div style={{fontSize:13,color:'#9ca3af',lineHeight:1.6,marginBottom:22}}>Excluir contrato de <strong style={{color:'#fff'}}>{name}</strong>?<br/><span style={{fontSize:11,color:'#6b7280'}}>Esta ação não pode ser desfeita.</span></div>
       <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:9}}>
-        <button onClick={onClose} style={{background:'rgba(255,255,255,.06)',border:'1px solid rgba(255,255,255,.07)',color:'#8e8e93',borderRadius:12,padding:'12px',fontSize:14,fontWeight:600,cursor:'pointer',fontFamily:'inherit'}}>Cancelar</button>
+        <button onClick={onClose} style={{background:'rgba(255,255,255,.08)',border:'1px solid rgba(255,255,255,.09)',color:'#9ca3af',borderRadius:12,padding:'12px',fontSize:14,fontWeight:600,cursor:'pointer',fontFamily:'inherit'}}>Cancelar</button>
         <button onClick={onConfirm} style={{background:'#ff453a',border:'none',color:'#fff',borderRadius:12,padding:'12px',fontSize:14,fontWeight:700,cursor:'pointer',fontFamily:'inherit'}}>Excluir</button>
       </div>
     </div>
@@ -497,17 +513,17 @@ const DelModal=({name,onConfirm,onClose})=>(
 const MetaModal=({current,onSave,onClose})=>{
   const [val,setVal]=useState(current>0?String(current):'');
   return(
-    <div style={{position:'fixed',inset:0,background:'rgba(0,0,0,.88)',backdropFilter:'blur(12px)',zIndex:50,display:'flex',alignItems:'center',justifyContent:'center',padding:20}} onClick={e=>e.target===e.currentTarget&&onClose()}>
-      <div className="pop" style={{background:'#1c1c1e',border:'1px solid rgba(255,255,255,.08)',borderRadius:22,padding:26,width:'100%',maxWidth:310,textAlign:'center'}}>
-        <div style={{width:50,height:50,background:'rgba(10,132,255,.1)',borderRadius:15,display:'flex',alignItems:'center',justifyContent:'center',margin:'0 auto 14px'}}><Ic d={IC.cash} size={20} stroke='#0a84ff'/></div>
+    <div style={{position:'fixed',inset:0,background:'rgba(6,9,20,.95)',backdropFilter:'blur(12px)',zIndex:50,display:'flex',alignItems:'center',justifyContent:'center',padding:20}} onClick={e=>e.target===e.currentTarget&&onClose()}>
+      <div className="pop" style={{background:'rgba(255,255,255,.05)',border:'1px solid rgba(255,255,255,.08)',borderRadius:22,padding:26,width:'100%',maxWidth:310,textAlign:'center'}}>
+        <div style={{width:50,height:50,background:'rgba(10,132,255,.1)',borderRadius:15,display:'flex',alignItems:'center',justifyContent:'center',margin:'0 auto 14px'}}><Ic d={IC.cash} size={20} stroke='#3b82f6'/></div>
         <div style={{fontWeight:800,fontSize:19,color:'#fff',marginBottom:4,letterSpacing:'-.03em'}}>Meta do Mês</div>
-        <div style={{fontSize:12,color:'#8e8e93',marginBottom:18}}>Quanto quer lucrar esse mês?</div>
+        <div style={{fontSize:12,color:'#9ca3af',marginBottom:18}}>Quanto quer lucrar esse mês?</div>
         <Fw label="Lucro Líquido Alvo (R$)">
           <input type="number" min="0" step="0.01" className="inp" style={{...iS(false),textAlign:'center',fontSize:22,fontWeight:800}} value={val} onChange={e=>setVal(e.target.value)} placeholder="5000" autoFocus/>
         </Fw>
         <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:9,marginTop:8}}>
-          <button onClick={onClose} style={{background:'rgba(255,255,255,.06)',border:'1px solid rgba(255,255,255,.07)',color:'#8e8e93',borderRadius:12,padding:'12px',fontSize:14,fontWeight:600,cursor:'pointer',fontFamily:'inherit'}}>Cancelar</button>
-          <button onClick={()=>onSave(parseFloat(val)||0)} style={{background:'#0a84ff',border:'none',color:'#fff',borderRadius:12,padding:'12px',fontSize:14,fontWeight:700,cursor:'pointer',fontFamily:'inherit'}}>Definir</button>
+          <button onClick={onClose} style={{background:'rgba(255,255,255,.08)',border:'1px solid rgba(255,255,255,.09)',color:'#9ca3af',borderRadius:12,padding:'12px',fontSize:14,fontWeight:600,cursor:'pointer',fontFamily:'inherit'}}>Cancelar</button>
+          <button onClick={()=>onSave(parseFloat(val)||0)} style={{background:'#3b82f6',border:'none',color:'#fff',borderRadius:12,padding:'12px',fontSize:14,fontWeight:700,cursor:'pointer',fontFamily:'inherit'}}>Definir</button>
         </div>
       </div>
     </div>
@@ -523,7 +539,7 @@ const ContractCard=({c,cfg,onEdit,onDelete,onPay,index})=>{
   const isPago=!!c.pago,days=daysLeft(c.dataVencimento);
   const late=!isPago&&days<0,tod=!isPago&&days===0,urg=!isPago&&days>0&&days<=5;
   const initials=c.nome.trim().split(' ').filter(Boolean).slice(0,2).map(w=>w[0].toUpperCase()).join('');
-  const ac=isPago?'#30d158':late?'#ff453a':tod||urg?'#ff9f0a':'#0a84ff';
+  const ac=isPago?'#10b981':late?'#ff453a':tod||urg?'#ff9f0a':'#3b82f6';
   const sTxt=isPago?'Pago':late?'Atrasado':tod?'Vence Hoje':'No Prazo';
   const pedaladas=c.pedaladas||0;
   const maxPed=c.maxPedaladas??3;
@@ -531,14 +547,14 @@ const ContractCard=({c,cfg,onEdit,onDelete,onPay,index})=>{
   const copyPix=()=>{navigator.clipboard.writeText(c.chavePix).catch(()=>{});setCopied(true);setTimeout(()=>setCopied(false),2000);};
   const openWA=()=>{if(!c.telefone)return;const d=c.telefone.replace(/\D/g,''),br=d.startsWith('55')?d:'55'+d;window.open(`https://wa.me/${br}?text=${encodeURIComponent(`Olá ${c.nome.split(' ')[0]}, tudo bem? Passando para lembrar sobre o contrato.`)}`,'_blank');};
   return(
-    <div className="card-hover fu" style={{animationDelay:`${index*.055}s`,background:'#1c1c1e',border:'1px solid rgba(255,255,255,.06)',borderRadius:18,overflow:'hidden',marginBottom:9,borderLeft:`3px solid ${ac}`}}>
+    <div className="card-hover fu" style={{animationDelay:`${index*.055}s`,background:'rgba(255,255,255,.05)',border:'1px solid rgba(255,255,255,.08)',borderRadius:18,overflow:'hidden',marginBottom:9,borderLeft:`3px solid ${ac}`}}>
       <div style={{padding:'13px 14px 10px',display:'flex',alignItems:'center',gap:11}}>
         <div style={{width:42,height:42,borderRadius:13,flexShrink:0,background:`${ac}18`,display:'flex',alignItems:'center',justifyContent:'center',fontSize:13,fontWeight:800,color:ac}}>{initials}</div>
         <div style={{flex:1,minWidth:0}}>
           <div style={{fontWeight:700,fontSize:15,color:'#fff',overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap',letterSpacing:'-.02em'}}>{c.nome}</div>
           <button onClick={copyPix} style={{display:'flex',alignItems:'center',gap:4,background:'none',border:'none',cursor:'pointer',padding:0,marginTop:2}}>
-            <span style={{fontSize:11,color:copied?'#30d158':'#48484a',overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap',maxWidth:155}}>{c.chavePix}</span>
-            <Ic d={IC.copy} size={10} stroke={copied?'#30d158':'#48484a'}/>
+            <span style={{fontSize:11,color:copied?'#10b981':'#6b7280',overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap',maxWidth:155}}>{c.chavePix}</span>
+            <Ic d={IC.copy} size={10} stroke={copied?'#10b981':'#6b7280'}/>
           </button>
         </div>
         <div style={{display:'flex',flexDirection:'column',alignItems:'flex-end',gap:5}}>
@@ -556,12 +572,12 @@ const ContractCard=({c,cfg,onEdit,onDelete,onPay,index})=>{
       {showPedLog&&pedaladas>0&&(
         <div className="fi" style={{margin:'0 12px 10px',background:'rgba(255,159,10,.05)',border:'1px solid rgba(255,159,10,.14)',borderRadius:12,padding:12}}>
           <div style={{fontSize:10,fontWeight:700,color:'#ff9f0a',letterSpacing:'.07em',textTransform:'uppercase',marginBottom:6}}>Histórico de Pedaladas</div>
-          <div style={{fontSize:11,color:'#48484a',marginBottom:8,lineHeight:1.55,padding:'8px 10px',background:'rgba(255,255,255,.03)',borderRadius:8}}>
+          <div style={{fontSize:11,color:'#6b7280',marginBottom:8,lineHeight:1.55,padding:'8px 10px',background:'rgba(255,255,255,.03)',borderRadius:8}}>
             <strong style={{color:'#ff9f0a'}}>Pedalada</strong> = cliente pagou só os juros para ganhar mais 30 dias sem quitar o capital.
           </div>
           {(c.pedaladaLog||[]).map((p,i)=>(
-            <div key={i} style={{display:'flex',justifyContent:'space-between',padding:'5px 0',borderBottom:i<(c.pedaladaLog||[]).length-1?'1px solid rgba(255,255,255,.04)':'none'}}>
-              <div style={{fontSize:11,color:'#8e8e93'}}>#{i+1} · {new Date(p.data+'T00:00:00').toLocaleDateString('pt-BR')}</div>
+            <div key={i} style={{display:'flex',justifyContent:'space-between',padding:'5px 0',borderBottom:i<(c.pedaladaLog||[]).length-1?'1px solid rgba(255,255,255,.05)':'none'}}>
+              <div style={{fontSize:11,color:'#9ca3af'}}>#{i+1} · {new Date(p.data+'T00:00:00').toLocaleDateString('pt-BR')}</div>
               <div style={{fontSize:11,fontWeight:700,color:'#ff9f0a'}}>{R$(p.valor)}</div>
             </div>
           ))}
@@ -570,9 +586,9 @@ const ContractCard=({c,cfg,onEdit,onDelete,onPay,index})=>{
 
       <div style={{padding:'0 13px 11px'}}>
         {isPago?(
-          <div style={{display:'flex',alignItems:'center',gap:10,padding:'10px 12px',background:'rgba(48,209,88,.06)',borderRadius:12,border:'1px solid rgba(48,209,88,.12)'}}>
-            <div style={{width:30,height:30,background:'rgba(48,209,88,.12)',borderRadius:9,display:'flex',alignItems:'center',justifyContent:'center',flexShrink:0}}><Ic d={IC.check} size={15} stroke='#30d158'/></div>
-            <div><div style={{fontSize:13,fontWeight:700,color:'#30d158'}}>Pagamento Recebido</div><div style={{fontSize:10,color:'#48484a',marginTop:1}}>Lucro líquido: <span style={{color:'#30d158',fontWeight:700}}>{R$(fin.liquido)}</span></div></div>
+          <div style={{display:'flex',alignItems:'center',gap:10,padding:'10px 12px',background:'rgba(16,185,129,.06)',borderRadius:12,border:'1px solid rgba(16,185,129,.12)'}}>
+            <div style={{width:30,height:30,background:'rgba(16,185,129,.12)',borderRadius:9,display:'flex',alignItems:'center',justifyContent:'center',flexShrink:0}}><Ic d={IC.check} size={15} stroke='#10b981'/></div>
+            <div><div style={{fontSize:13,fontWeight:700,color:'#10b981'}}>Pagamento Recebido</div><div style={{fontSize:10,color:'#6b7280',marginTop:1}}>Lucro líquido: <span style={{color:'#10b981',fontWeight:700}}>{R$(fin.liquido)}</span></div></div>
           </div>
         ):(
           <>
@@ -588,17 +604,17 @@ const ContractCard=({c,cfg,onEdit,onDelete,onPay,index})=>{
         )}
       </div>
 
-      <div style={{display:'grid',gridTemplateColumns:'1fr 1fr 1fr',borderTop:'1px solid rgba(255,255,255,.04)',borderBottom:'1px solid rgba(255,255,255,.04)'}}>
-        {[{l:'Capital',v:R$(c.valorEmprestado),col:'#8e8e93'},{l:'Retorno',v:R$(c.valorRetorno),col:'#0a84ff'},{l:'Seu Lucro',v:R$(fin.liquido),col:'#30d158'}].map(({l,v,col},i)=>(
-          <div key={i} style={{padding:'10px 7px',textAlign:'center',borderLeft:i>0?'1px solid rgba(255,255,255,.04)':'none'}}>
-            <div style={{fontSize:8,color:'#48484a',textTransform:'uppercase',letterSpacing:'.07em',marginBottom:4,fontWeight:600}}>{l}</div>
+      <div style={{display:'grid',gridTemplateColumns:'1fr 1fr 1fr',borderTop:'1px solid rgba(255,255,255,.05)',borderBottom:'1px solid rgba(255,255,255,.05)'}}>
+        {[{l:'Capital',v:R$(c.valorEmprestado),col:'#9ca3af'},{l:'Retorno',v:R$(c.valorRetorno),col:'#3b82f6'},{l:'Seu Lucro',v:R$(fin.liquido),col:'#10b981'}].map(({l,v,col},i)=>(
+          <div key={i} style={{padding:'10px 7px',textAlign:'center',borderLeft:i>0?'1px solid rgba(255,255,255,.05)':'none'}}>
+            <div style={{fontSize:8,color:'#6b7280',textTransform:'uppercase',letterSpacing:'.07em',marginBottom:4,fontWeight:600}}>{l}</div>
             <div style={{fontSize:13,fontWeight:800,color:col}}>{v}</div>
           </div>
         ))}
       </div>
 
       {(cfg?.temSocio||c.observacoes)&&(
-        <button onClick={()=>setOpen(o=>!o)} style={{width:'100%',background:'none',border:'none',cursor:'pointer',display:'flex',alignItems:'center',justifyContent:'space-between',padding:'8px 14px',color:'#48484a',fontFamily:'inherit'}}>
+        <button onClick={()=>setOpen(o=>!o)} style={{width:'100%',background:'none',border:'none',cursor:'pointer',display:'flex',alignItems:'center',justifyContent:'space-between',padding:'8px 14px',color:'#6b7280',fontFamily:'inherit'}}>
           <span style={{fontSize:10,fontWeight:700,letterSpacing:'.07em',textTransform:'uppercase'}}>Detalhes</span>
           <Ic d={open?IC.cu:IC.cd} size={12}/>
         </button>
@@ -607,33 +623,107 @@ const ContractCard=({c,cfg,onEdit,onDelete,onPay,index})=>{
         <div className="fi" style={{padding:'0 11px 11px'}}>
           {cfg?.temSocio&&(
             <div style={{display:'grid',gridTemplateColumns:'1fr 1fr 1fr',gap:7,marginBottom:c.observacoes?9:0}}>
-              {[{l:'Lucro Bruto',v:R$(fin.lucro),col:'#8e8e93'},{l:cfg.socioNome||'Sócio',v:R$(fin.socio),col:'#5e5ce6'},{l:'Seu Líquido',v:R$(fin.liquido),col:'#30d158'}].map(({l,v,col},i)=>(
-                <div key={i} style={{background:'rgba(255,255,255,.02)',border:'1px solid rgba(255,255,255,.04)',borderRadius:10,padding:'9px 7px',textAlign:'center'}}>
-                  <div style={{fontSize:9,color:'#48484a',textTransform:'uppercase',letterSpacing:'.05em',marginBottom:3}}>{l}</div>
+              {[{l:'Lucro Bruto',v:R$(fin.lucro),col:'#9ca3af'},{l:cfg.socioNome||'Sócio',v:R$(fin.socio),col:'#7c3aed'},{l:'Seu Líquido',v:R$(fin.liquido),col:'#10b981'}].map(({l,v,col},i)=>(
+                <div key={i} style={{background:'rgba(255,255,255,.02)',border:'1px solid rgba(255,255,255,.05)',borderRadius:10,padding:'9px 7px',textAlign:'center'}}>
+                  <div style={{fontSize:9,color:'#6b7280',textTransform:'uppercase',letterSpacing:'.05em',marginBottom:3}}>{l}</div>
                   <div style={{fontSize:12,fontWeight:800,color:col}}>{v}</div>
                 </div>
               ))}
             </div>
           )}
-          {c.observacoes&&<div style={{fontSize:11,color:'#8e8e93',background:'rgba(255,255,255,.02)',borderRadius:10,padding:'9px 11px',lineHeight:1.5}}>{c.observacoes}</div>}
+          {c.observacoes&&<div style={{fontSize:11,color:'#9ca3af',background:'rgba(255,255,255,.02)',borderRadius:10,padding:'9px 11px',lineHeight:1.5}}>{c.observacoes}</div>}
         </div>
       )}
 
-      <div style={{display:'flex',borderTop:'1px solid rgba(255,255,255,.04)'}}>
-        <button onClick={()=>onPay(c)} style={{flex:1.4,background:isPago?'rgba(48,209,88,.06)':'none',border:'none',cursor:'pointer',padding:'11px 6px',display:'flex',alignItems:'center',justifyContent:'center',gap:5,color:isPago?'#30d158':'#8e8e93',fontFamily:'inherit',fontSize:11,fontWeight:700}}>
-          <Ic d={IC.check} size={12} stroke={isPago?'#30d158':'#8e8e93'}/>{isPago?'Pago':'Registrar'}
+      <div style={{display:'flex',borderTop:'1px solid rgba(255,255,255,.05)'}}>
+        <button onClick={()=>onPay(c)} style={{flex:1.4,background:isPago?'rgba(48,209,88,.06)':'none',border:'none',cursor:'pointer',padding:'11px 6px',display:'flex',alignItems:'center',justifyContent:'center',gap:5,color:isPago?'#10b981':'#9ca3af',fontFamily:'inherit',fontSize:11,fontWeight:700}}>
+          <Ic d={IC.check} size={12} stroke={isPago?'#10b981':'#9ca3af'}/>{isPago?'Pago':'Registrar'}
         </button>
         {c.telefone&&(
-          <button onClick={openWA} style={{flex:.8,background:'none',border:'none',borderLeft:'1px solid rgba(255,255,255,.04)',cursor:'pointer',padding:'11px 6px',display:'flex',alignItems:'center',justifyContent:'center',color:'#25d366',fontFamily:'inherit'}}><WA size={13}/></button>
+          <button onClick={openWA} style={{flex:.8,background:'none',border:'none',borderLeft:'1px solid rgba(255,255,255,.05)',cursor:'pointer',padding:'11px 6px',display:'flex',alignItems:'center',justifyContent:'center',color:'#25d366',fontFamily:'inherit'}}><WA size={13}/></button>
         )}
-        <button onClick={()=>onEdit(c)} style={{flex:.8,background:'none',border:'none',borderLeft:'1px solid rgba(255,255,255,.04)',cursor:'pointer',padding:'11px 6px',display:'flex',alignItems:'center',justifyContent:'center',color:'#0a84ff',fontFamily:'inherit'}}><Ic d={IC.edit} size={12}/></button>
-        <button onClick={()=>onDelete(c)} style={{flex:.7,background:'none',border:'none',borderLeft:'1px solid rgba(255,255,255,.04)',cursor:'pointer',padding:'11px 6px',display:'flex',alignItems:'center',justifyContent:'center',color:'#ff453a',fontFamily:'inherit'}}><Ic d={IC.trash} size={12}/></button>
+        <button onClick={()=>onEdit(c)} style={{flex:.8,background:'none',border:'none',borderLeft:'1px solid rgba(255,255,255,.05)',cursor:'pointer',padding:'11px 6px',display:'flex',alignItems:'center',justifyContent:'center',color:'#3b82f6',fontFamily:'inherit'}}><Ic d={IC.edit} size={12}/></button>
+        <button onClick={()=>onDelete(c)} style={{flex:.7,background:'none',border:'none',borderLeft:'1px solid rgba(255,255,255,.05)',cursor:'pointer',padding:'11px 6px',display:'flex',alignItems:'center',justifyContent:'center',color:'#ff453a',fontFamily:'inherit'}}><Ic d={IC.trash} size={12}/></button>
       </div>
     </div>
   );
 };
 
 /* ── App ────────────────────────────────────────────────────────────────── */
+const RecolhidoModal=({contracts,cfg,onClose})=>{
+  const pagos=[...contracts.filter(c=>c.pago)].sort((a,b)=>new Date(b.dataVencimento)-new Date(a.dataVencimento));
+  const totalRecebido=pagos.reduce((s,c)=>s+c.valorRetorno,0);
+  const totalLucro=pagos.reduce((s,c)=>s+calcFin(c,cfg).liquido,0);
+  const fmtDate=d=>d?new Date(d+'T00:00:00').toLocaleDateString('pt-BR',{day:'2-digit',month:'short',year:'numeric'}):'—';
+  return(
+    <div onClick={onClose} style={{position:'fixed',inset:0,zIndex:100,background:'rgba(0,0,0,.7)',backdropFilter:'blur(6px)',display:'flex',alignItems:'flex-end',justifyContent:'center'}}>
+      <div onClick={e=>e.stopPropagation()} style={{width:'100%',maxWidth:480,background:'#0d1117',border:'1px solid rgba(255,255,255,.09)',borderRadius:'24px 24px 0 0',maxHeight:'88vh',display:'flex',flexDirection:'column',overflow:'hidden'}}>
+        {/* header */}
+        <div style={{padding:'20px 20px 16px',borderBottom:'1px solid rgba(255,255,255,.07)',display:'flex',alignItems:'center',justifyContent:'space-between',flexShrink:0}}>
+          <div>
+            <div style={{fontSize:17,fontWeight:800,color:'#fff',letterSpacing:'-.02em'}}>Contratos Recolhidos</div>
+            <div style={{fontSize:12,color:'#6b7280',marginTop:2}}>{pagos.length} pago{pagos.length!==1?'s':''}</div>
+          </div>
+          <button onClick={onClose} style={{background:'rgba(255,255,255,.07)',border:'none',borderRadius:10,width:32,height:32,color:'#9ca3af',cursor:'pointer',fontSize:18,display:'flex',alignItems:'center',justifyContent:'center'}}>×</button>
+        </div>
+        {/* totais */}
+        <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:8,padding:'14px 16px',flexShrink:0}}>
+          {[{l:'Total Recebido',v:totalRecebido,c:'#fff'},{l:'Seu Lucro Líquido',v:totalLucro,c:'#10b981'}].map(({l,v,c},i)=>(
+            <div key={i} style={{background:'rgba(255,255,255,.04)',border:'1px solid rgba(255,255,255,.07)',borderRadius:14,padding:'12px 13px'}}>
+              <div style={{fontSize:9,color:'#6b7280',fontWeight:700,textTransform:'uppercase',letterSpacing:'.08em',marginBottom:5}}>{l}</div>
+              <div style={{fontSize:18,fontWeight:900,color:c,letterSpacing:'-.03em'}}><AV value={v}/></div>
+            </div>
+          ))}
+        </div>
+        {/* lista */}
+        <div style={{overflowY:'auto',padding:'0 16px 32px',flex:1}}>
+          {pagos.length===0?(
+            <div style={{textAlign:'center',padding:'40px 20px',color:'#4b5563',fontSize:13}}>Nenhum contrato pago ainda</div>
+          ):pagos.map((c,i)=>{
+            const fin=calcFin(c,cfg);
+            const initials=c.nome.trim().split(' ').filter(Boolean).slice(0,2).map(w=>w[0].toUpperCase()).join('');
+            const hasAtraso=(c.jurosAtrasoRecolhido||0)>0;
+            const hasPed=(c.pedaladas||0)>0;
+            return(
+              <div key={c.id} style={{background:'rgba(255,255,255,.03)',border:'1px solid rgba(16,185,129,.12)',borderRadius:14,padding:'14px',marginBottom:8,borderLeft:'3px solid #10b981'}}>
+                <div style={{display:'flex',alignItems:'center',gap:10,marginBottom:10}}>
+                  <div style={{width:36,height:36,borderRadius:10,background:'rgba(16,185,129,.15)',display:'flex',alignItems:'center',justifyContent:'center',fontSize:12,fontWeight:800,color:'#10b981',flexShrink:0}}>{initials}</div>
+                  <div style={{flex:1,minWidth:0}}>
+                    <div style={{fontSize:14,fontWeight:700,color:'#fff',whiteSpace:'nowrap',overflow:'hidden',textOverflow:'ellipsis'}}>{c.nome}</div>
+                    <div style={{fontSize:11,color:'#6b7280'}}>{c.cpf}</div>
+                  </div>
+                  <div style={{textAlign:'right'}}>
+                    <div style={{fontSize:15,fontWeight:800,color:'#10b981'}}>{R$(c.valorRetorno)}</div>
+                    <div style={{fontSize:10,color:'#6b7280',marginTop:1}}>recebido</div>
+                  </div>
+                </div>
+                <div style={{display:'grid',gridTemplateColumns:'1fr 1fr 1fr',gap:6,marginBottom:hasAtraso||hasPed?8:0}}>
+                  {[{l:'Capital',v:R$(c.valorEmprestado),c:'#9ca3af'},{l:'Juros',v:R$(c.valorRetorno-c.valorEmprestado),c:'#3b82f6'},{l:'Seu lucro',v:R$(fin.liquido),c:'#10b981'}].map(({l,v,c:col})=>(
+                    <div key={l} style={{background:'rgba(255,255,255,.04)',borderRadius:8,padding:'7px 8px'}}>
+                      <div style={{fontSize:8,color:'#4b5563',textTransform:'uppercase',letterSpacing:'.07em',marginBottom:3}}>{l}</div>
+                      <div style={{fontSize:12,fontWeight:700,color:col}}>{v}</div>
+                    </div>
+                  ))}
+                </div>
+                {(hasAtraso||hasPed)&&(
+                  <div style={{display:'flex',gap:5,flexWrap:'wrap'}}>
+                    {hasAtraso&&<div style={{fontSize:10,color:'#f59e0b',background:'rgba(245,158,11,.1)',border:'1px solid rgba(245,158,11,.2)',borderRadius:6,padding:'3px 8px',fontWeight:600}}>+{R$(c.jurosAtrasoRecolhido)} atraso</div>}
+                    {hasPed&&<div style={{fontSize:10,color:'#a78bfa',background:'rgba(167,139,250,.1)',border:'1px solid rgba(167,139,250,.2)',borderRadius:6,padding:'3px 8px',fontWeight:600}}>🚴 {c.pedaladas} pedalada{c.pedaladas!==1?'s':''}</div>}
+                  </div>
+                )}
+                <div style={{marginTop:8,paddingTop:8,borderTop:'1px solid rgba(255,255,255,.05)',display:'flex',gap:12}}>
+                  <div style={{fontSize:10,color:'#4b5563'}}><span style={{color:'#6b7280'}}>Início: </span>{fmtDate(c.dataInicio)}</div>
+                  <div style={{fontSize:10,color:'#4b5563'}}><span style={{color:'#6b7280'}}>Venc.: </span>{fmtDate(c.dataVencimento)}</div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </div>
+  );
+};
+
 const App=()=>{
   const [user,setUser]=useState(null);
   const [contracts,setContracts]=useState([]);
@@ -641,7 +731,7 @@ const App=()=>{
   const [search,setSearch]=useState('');
   const [modal,setModal]=useState(null);
   const [delTgt,setDelTgt]=useState(null);
-  const [filter,setFilter]=useState('all');
+  const [filter,setFilter]=useState('Prazo');
   const [toast,setToast]=useState(null);
   const [tab,setTab]=useState('contratos');
   const [meta,setMeta]=useState(()=>parseFloat(localStorage.getItem('bpx_meta')||'0'));
@@ -650,6 +740,7 @@ const App=()=>{
   const [payTgt,setPayTgt]=useState(null);
   const [settingsOpen,setSettingsOpen]=useState(false);
   const [cfg,setCfg]=useState(()=>loadCfg());
+  const [recolhidoModal,setRecolhidoModal]=useState(false);
 
   const showToast=(msg,type='success')=>{setToast({msg,type});setTimeout(()=>setToast(null),3000);};
   const load=useCallback(async()=>{const d=await api.get('/api/contratos');setContracts(Array.isArray(d)?d:[]);},[]);
@@ -671,10 +762,11 @@ const App=()=>{
   };
   const handleDelete=async()=>{await api.delete(`/api/contratos/${delTgt.id}`);await load();setDelTgt(null);showToast('Contrato excluído.','info');};
 
-  const handlePagoTotal=async()=>{
-    const u={...payTgt,pago:true};
+  const handlePagoTotal=async(jurosAtrasoRecolhido=0)=>{
+    const u={...payTgt,pago:true,...(jurosAtrasoRecolhido>0?{jurosAtrasoRecolhido}:{})};
     await api.put(`/api/contratos/${payTgt.id}`,u);
-    await load();setPayTgt(null);showToast('Pagamento registrado!');
+    await load();setPayTgt(null);
+    showToast(jurosAtrasoRecolhido>0?`Pagamento registrado! +${R$(jurosAtrasoRecolhido)} de atraso`:'Pagamento registrado!');
   };
 
   const handlePedalada=async valorJuros=>{
@@ -723,41 +815,40 @@ const App=()=>{
   },[contracts,search,filter]);
 
   if(loading)return(
-    <div style={{minHeight:'100vh',display:'flex',alignItems:'center',justifyContent:'center',flexDirection:'column',gap:13}}>
-      <svg className="spin" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0a84ff" strokeWidth="2.5"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83" strokeLinecap="round"/></svg>
-      <div style={{fontSize:13,color:'#48484a',fontWeight:600}}>Carregando…</div>
+    <div style={{minHeight:'100vh',display:'flex',alignItems:'center',justifyContent:'center',flexDirection:'column',gap:13,background:'#fff'}}>
+      <div style={{fontSize:20,color:'#000',fontWeight:700}}>Carregando...</div>
     </div>
   );
 
-  const fOpts=[{v:'all',l:'Todos'},{v:'Prazo',l:'No Prazo'},{v:'Hoje',l:'Hoje'},{v:'Atrasado',l:'Atrasados'},{v:'Pago',l:'Pagos'}];
+  const fOpts=[{v:'Prazo',l:'No Prazo'},{v:'Hoje',l:'Hoje'},{v:'Atrasado',l:'Atrasados'},{v:'Pago',l:'Pagos'},{v:'all',l:'Todos'}];
 
   return(
     <div style={{minHeight:'100vh',maxWidth:480,margin:'0 auto'}}>
 
       {/* Header */}
-      <div style={{position:'sticky',top:0,zIndex:30,background:'rgba(0,0,0,.92)',backdropFilter:'blur(24px)',borderBottom:'1px solid rgba(255,255,255,.06)',padding:'10px 15px',display:'flex',alignItems:'center',justifyContent:'space-between'}}>
-        <div style={{display:'flex',alignItems:'center',gap:10}}>
-          <img src="/logo.png" alt="" style={{height:32,filter:'drop-shadow(0 2px 12px rgba(10,132,255,.5))'}} className="float"/>
+      <div style={{position:'sticky',top:0,zIndex:30,background:'rgba(6,9,20,.96)',backdropFilter:'blur(28px)',WebkitBackdropFilter:'blur(28px)',borderBottom:'1px solid rgba(255,255,255,.06)',padding:'14px 18px',display:'flex',alignItems:'center',justifyContent:'space-between'}}>
+        <div style={{display:'flex',alignItems:'center',gap:12}}>
+          <img src="/logo.png" alt="" style={{height:36,width:36,objectFit:'contain',filter:'drop-shadow(0 2px 12px rgba(37,99,235,.5))'}}/>
           <div>
-            <div style={{fontWeight:800,fontSize:15,color:'#fff',letterSpacing:'-.03em',lineHeight:1.1}}>Bobo do Pix</div>
-            <div style={{fontSize:10,color:'#48484a',marginTop:1}}>{summary.count} contrato{summary.count!==1?'s':''} · {summary.pagoCount} pago{summary.pagoCount!==1?'s':''}</div>
+            <div style={{fontFamily:"'Space Grotesk',sans-serif",fontWeight:800,fontSize:17,letterSpacing:'-.02em',lineHeight:1.1,color:'#fff'}}>O Bobo Jurista</div>
+            <div style={{fontSize:11,color:'#6b7280',marginTop:1}}>{user}</div>
           </div>
         </div>
-        <div style={{display:'flex',alignItems:'center',gap:6}}>
+        <div style={{display:'flex',alignItems:'center',gap:8}}>
           {summary.late>0&&(
-            <div className="pr" style={{background:'rgba(255,69,58,.09)',border:'1px solid rgba(255,69,58,.22)',borderRadius:99,padding:'4px 9px',fontSize:11,fontWeight:700,color:'#ff453a'}}>
+            <div style={{background:'rgba(239,68,68,.12)',border:'1px solid rgba(239,68,68,.25)',borderRadius:99,padding:'4px 10px',fontSize:11,fontWeight:700,color:'#ef4444'}}>
               {summary.late} atrasado{summary.late!==1?'s':''}
             </div>
           )}
-          <button onClick={()=>setSettingsOpen(true)} style={{background:'rgba(255,255,255,.05)',border:'1px solid rgba(255,255,255,.06)',borderRadius:10,width:32,height:32,display:'flex',alignItems:'center',justifyContent:'center',cursor:'pointer',color:'#8e8e93'}}><Ic d={IC.gear} size={14}/></button>
-          <button onClick={logout} style={{background:'rgba(255,255,255,.05)',border:'1px solid rgba(255,255,255,.06)',borderRadius:10,width:32,height:32,display:'flex',alignItems:'center',justifyContent:'center',cursor:'pointer',color:'#8e8e93'}}><Ic d={IC.out} size={14}/></button>
+          <button onClick={()=>setSettingsOpen(true)} style={{background:'rgba(255,255,255,.06)',border:'1px solid rgba(255,255,255,.09)',borderRadius:10,width:34,height:34,display:'flex',alignItems:'center',justifyContent:'center',cursor:'pointer',color:'#9ca3af'}}><Ic d={IC.gear} size={14}/></button>
+          <button onClick={logout} style={{background:'rgba(255,255,255,.06)',border:'1px solid rgba(255,255,255,.09)',borderRadius:10,width:34,height:34,display:'flex',alignItems:'center',justifyContent:'center',cursor:'pointer',color:'#9ca3af'}}><Ic d={IC.out} size={14}/></button>
         </div>
       </div>
 
       {/* Tabs */}
-      <div style={{display:'flex',borderBottom:'1px solid rgba(255,255,255,.05)',background:'rgba(0,0,0,.7)'}}>
+      <div style={{display:'flex',background:'rgba(6,9,20,.8)',padding:'0 18px',borderBottom:'1px solid rgba(255,255,255,.06)'}}>
         {[['contratos','Contratos'],['financeiro','Financeiro']].map(([k,l])=>(
-          <button key={k} onClick={()=>setTab(k)} style={{flex:1,padding:'12px 10px',border:'none',cursor:'pointer',fontFamily:'inherit',fontSize:13,fontWeight:700,background:'transparent',color:tab===k?'#fff':'#48484a',borderBottom:tab===k?'2px solid #0a84ff':'2px solid transparent',transition:'all .15s'}}>{l}</button>
+          <button key={k} onClick={()=>setTab(k)} style={{flex:'none',padding:'14px 18px 13px',border:'none',cursor:'pointer',fontFamily:'inherit',fontSize:13,fontWeight:700,background:'transparent',color:tab===k?'#fff':'#4b5563',borderBottom:tab===k?'2px solid #3b82f6':'2px solid transparent',transition:'all .15s',marginRight:4}}>{l}</button>
         ))}
       </div>
 
@@ -769,21 +860,22 @@ const App=()=>{
             <MetaRing current={summary.liqPago} meta={meta} onClick={()=>setMetaModal(true)}/>
           </div>
 
-          <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:7,marginBottom:7}}>
+          <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:8,marginBottom:8}}>
             {[
-              {dot:'#ff9f0a',label:'Em Giro',v:summary.emGiro,sub:`${summary.ativoCount} ativo${summary.ativoCount!==1?'s':''}`,sublabel:'A receber',subv:summary.aReceber,subc:'#0a84ff',delay:'.04s'},
-              {dot:'#30d158',label:'Recolhido',v:summary.recolhido,sub:`${summary.pagoCount} pago${summary.pagoCount!==1?'s':''}`,sublabel:'Seu lucro',subv:summary.liqRecolhido,subc:'#30d158',delay:'.07s'},
-            ].map(({dot,label,v,sub,sublabel,subv,subc,delay},i)=>(
-              <div key={i} className="fu" style={{animationDelay:delay,background:'#1c1c1e',border:'1px solid rgba(255,255,255,.06)',borderRadius:15,padding:'13px 13px'}}>
-                <div style={{display:'flex',alignItems:'center',gap:5,marginBottom:7}}>
-                  <div style={{width:6,height:6,borderRadius:'50%',background:dot}}/>
-                  <div style={{fontSize:9,color:dot,fontWeight:700,textTransform:'uppercase',letterSpacing:'.09em'}}>{label}</div>
+              {dot:'#f59e0b',label:'Em Giro',v:summary.emGiro,sub:`${summary.ativoCount} ativo${summary.ativoCount!==1?'s':''}`,sublabel:'A receber',subv:summary.aReceber,subc:'#3b82f6',delay:'.04s',click:null},
+              {dot:'#10b981',label:'Recolhido',v:summary.recolhido,sub:`${summary.pagoCount} pago${summary.pagoCount!==1?'s':''}`,sublabel:'Seu lucro',subv:summary.liqRecolhido,subc:'#10b981',delay:'.07s',click:()=>setRecolhidoModal(true)},
+            ].map(({dot,label,v,sub,sublabel,subv,subc,delay,click},i)=>(
+              <div key={i} onClick={click||undefined} className="fu" style={{animationDelay:delay,background:'rgba(255,255,255,.04)',border:`1px solid ${click?'rgba(16,185,129,.2)':'rgba(255,255,255,.08)'}`,borderRadius:18,padding:'16px 14px',backdropFilter:'blur(12px)',cursor:click?'pointer':'default',transition:'border .15s'}}>
+                <div style={{display:'flex',alignItems:'center',gap:6,marginBottom:10}}>
+                  <div style={{width:8,height:8,borderRadius:'50%',background:dot,boxShadow:`0 0 8px ${dot}`}}/>
+                  <div style={{fontSize:10,color:'#6b7280',fontWeight:600,textTransform:'uppercase',letterSpacing:'.08em'}}>{label}</div>
+                  {click&&<div style={{marginLeft:'auto',fontSize:9,color:'#10b981',fontWeight:700,letterSpacing:'.05em'}}>VER ›</div>}
                 </div>
-                <div style={{fontSize:18,fontWeight:800,color:'#fff',letterSpacing:'-.04em',lineHeight:1,marginBottom:2}}><AV value={v}/></div>
-                <div style={{fontSize:9,color:'#48484a',marginBottom:8}}>{sub}</div>
-                <div style={{paddingTop:7,borderTop:'1px solid rgba(255,255,255,.04)'}}>
-                  <div style={{fontSize:8,color:'#48484a',textTransform:'uppercase',letterSpacing:'.06em',marginBottom:2}}>{sublabel}</div>
-                  <div style={{fontSize:12,fontWeight:700,color:subc}}><AV value={subv}/></div>
+                <div style={{fontSize:22,fontWeight:900,color:'#fff',letterSpacing:'-.04em',lineHeight:1,marginBottom:3}}><AV value={v}/></div>
+                <div style={{fontSize:10,color:'#6b7280',marginBottom:10}}>{sub}</div>
+                <div style={{paddingTop:10,borderTop:'1px solid rgba(255,255,255,.06)'}}>
+                  <div style={{fontSize:9,color:'#4b5563',textTransform:'uppercase',letterSpacing:'.07em',marginBottom:3}}>{sublabel}</div>
+                  <div style={{fontSize:14,fontWeight:800,color:subc}}><AV value={subv}/></div>
                 </div>
               </div>
             ))}
@@ -792,32 +884,59 @@ const App=()=>{
           {summary.totalPedaladas>0&&(
             <div className="fu" style={{animationDelay:'.09s',background:'rgba(255,159,10,.05)',border:'1px solid rgba(255,159,10,.15)',borderRadius:12,padding:'9px 13px',marginBottom:7,display:'flex',alignItems:'center',gap:8}}>
               <span style={{fontSize:15}}>🚴</span>
-              <div style={{fontSize:12,color:'#8e8e93'}}><strong style={{color:'#ff9f0a'}}>{summary.totalPedaladas} pedalada{summary.totalPedaladas!==1?'s':''}</strong> — clientes pagaram só os juros</div>
+              <div style={{fontSize:12,color:'#9ca3af'}}><strong style={{color:'#ff9f0a'}}>{summary.totalPedaladas} pedalada{summary.totalPedaladas!==1?'s':''}</strong> — clientes pagaram só os juros</div>
             </div>
           )}
 
           <div style={{position:'relative',marginBottom:7}}>
-            <div style={{position:'absolute',left:11,top:'50%',transform:'translateY(-50%)',color:'#48484a',pointerEvents:'none'}}><Ic d={IC.search} size={14}/></div>
-            <input value={search} onChange={e=>setSearch(e.target.value)} placeholder="Buscar por nome ou CPF…" className="inp" style={{width:'100%',background:'rgba(255,255,255,.04)',border:'1px solid rgba(255,255,255,.06)',borderRadius:12,padding:'10px 34px 10px 36px',fontSize:14,color:'#fff',outline:'none',fontFamily:'inherit',WebkitAppearance:'none'}}/>
-            {search&&<button onClick={()=>setSearch('')} style={{position:'absolute',right:10,top:'50%',transform:'translateY(-50%)',background:'none',border:'none',cursor:'pointer',color:'#48484a'}}><Ic d={IC.x} size={13}/></button>}
+            <div style={{position:'absolute',left:11,top:'50%',transform:'translateY(-50%)',color:'#6b7280',pointerEvents:'none'}}><Ic d={IC.search} size={14}/></div>
+            <input value={search} onChange={e=>setSearch(e.target.value)} placeholder="Buscar por nome ou CPF…" className="inp" style={{width:'100%',background:'rgba(255,255,255,.05)',border:'1px solid rgba(255,255,255,.08)',borderRadius:12,padding:'10px 34px 10px 36px',fontSize:14,color:'#fff',outline:'none',fontFamily:'inherit',WebkitAppearance:'none'}}/>
+            {search&&<button onClick={()=>setSearch('')} style={{position:'absolute',right:10,top:'50%',transform:'translateY(-50%)',background:'none',border:'none',cursor:'pointer',color:'#6b7280'}}><Ic d={IC.x} size={13}/></button>}
           </div>
 
           <div style={{display:'flex',gap:5,marginBottom:11,overflowX:'auto',scrollbarWidth:'none',paddingBottom:2}}>
             {fOpts.map(({v,l})=>(
-              <button key={v} onClick={()=>setFilter(v)} style={{flexShrink:0,padding:'6px 13px',borderRadius:99,border:`1px solid ${filter===v?'rgba(10,132,255,.45)':'rgba(255,255,255,.06)'}`,cursor:'pointer',fontFamily:'inherit',fontSize:12,fontWeight:700,background:filter===v?'rgba(10,132,255,.14)':'rgba(255,255,255,.02)',color:filter===v?'#0a84ff':'#48484a',transition:'all .14s'}}>{l}</button>
+              <button key={v} onClick={()=>setFilter(v)} style={{flexShrink:0,padding:'6px 13px',borderRadius:99,border:`1px solid ${filter===v?'rgba(10,132,255,.45)':'rgba(255,255,255,.08)'}`,cursor:'pointer',fontFamily:'inherit',fontSize:12,fontWeight:700,background:filter===v?'rgba(10,132,255,.14)':'rgba(255,255,255,.02)',color:filter===v?'#3b82f6':'#6b7280',transition:'all .14s'}}>{l}</button>
             ))}
-            <button onClick={()=>exportCSV(filtered)} style={{flexShrink:0,padding:'6px 11px',borderRadius:99,border:'1px solid rgba(255,255,255,.06)',background:'rgba(255,255,255,.02)',color:'#48484a',cursor:'pointer',fontFamily:'inherit',fontSize:12,fontWeight:700,display:'flex',alignItems:'center',gap:4,marginLeft:'auto'}}><Ic d={IC.down} size={11}/>CSV</button>
+            <button onClick={()=>exportCSV(filtered)} style={{flexShrink:0,padding:'6px 11px',borderRadius:99,border:'1px solid rgba(255,255,255,.08)',background:'rgba(255,255,255,.02)',color:'#6b7280',cursor:'pointer',fontFamily:'inherit',fontSize:12,fontWeight:700,display:'flex',alignItems:'center',gap:4,marginLeft:'auto'}}><Ic d={IC.down} size={11}/>CSV</button>
           </div>
 
-          {filtered.length===0?(
-            <div className="fi" style={{textAlign:'center',padding:'54px 20px'}}>
-              <div style={{width:50,height:50,background:'rgba(255,255,255,.04)',borderRadius:15,display:'flex',alignItems:'center',justifyContent:'center',margin:'0 auto 13px'}}><Ic d={IC.search} size={20} stroke='#48484a'/></div>
-              <div style={{color:'#48484a',fontSize:14,fontWeight:700,marginBottom:4}}>{search||filter!=='all'?'Nenhum resultado':'Nenhum contrato ainda'}</div>
-              <div style={{color:'#3a3a3c',fontSize:12}}>{search||filter!=='all'?'Ajuste o filtro ou busca':'Toque em + para cadastrar'}</div>
-            </div>
-          ):filtered.map((c,i)=>(
-            <ContractCard key={c.id} c={c} cfg={cfg} index={i} onEdit={c=>setModal({contract:c})} onDelete={c=>setDelTgt(c)} onPay={c=>setPayTgt(c)}/>
-          ))}
+          {(()=>{
+            const ativos=filtered.filter(c=>!c.pago);
+            const pagos=filtered.filter(c=>c.pago);
+            if(filtered.length===0)return(
+              <div className="fi" style={{textAlign:'center',padding:'54px 20px'}}>
+                <div style={{width:50,height:50,background:'rgba(255,255,255,.05)',borderRadius:15,display:'flex',alignItems:'center',justifyContent:'center',margin:'0 auto 13px'}}><Ic d={IC.search} size={20} stroke='#6b7280'/></div>
+                <div style={{color:'#6b7280',fontSize:14,fontWeight:700,marginBottom:4}}>{search||filter!=='Prazo'?'Nenhum resultado':'Nenhum contrato no prazo'}</div>
+                <div style={{color:'#374151',fontSize:12}}>{search||filter!=='Prazo'?'Ajuste o filtro ou busca':'Toque em + para cadastrar'}</div>
+              </div>
+            );
+            return(<>
+              {ativos.length>0&&(
+                <>
+                  {(filter==='all'||filter==='Prazo')&&<div style={{fontSize:10,color:'#6b7280',fontWeight:700,letterSpacing:'.1em',textTransform:'uppercase',marginBottom:7,paddingLeft:2}}>Ativos — {ativos.length}</div>}
+                  {ativos.map((c,i)=>(
+                    <ContractCard key={c.id} c={c} cfg={cfg} index={i} onEdit={c=>setModal({contract:c})} onDelete={c=>setDelTgt(c)} onPay={c=>setPayTgt(c)}/>
+                  ))}
+                </>
+              )}
+              {pagos.length>0&&(
+                <>
+                  <div style={{display:'flex',alignItems:'center',gap:8,margin:'16px 2px 8px'}}>
+                    <div style={{flex:1,height:1,background:'rgba(16,185,129,.15)'}}/>
+                    <div style={{fontSize:10,color:'#10b981',fontWeight:700,letterSpacing:'.1em',textTransform:'uppercase',display:'flex',alignItems:'center',gap:5}}>
+                      <div style={{width:6,height:6,borderRadius:'50%',background:'#10b981'}}/>
+                      Pagos — {pagos.length}
+                    </div>
+                    <div style={{flex:1,height:1,background:'rgba(16,185,129,.15)'}}/>
+                  </div>
+                  {pagos.map((c,i)=>(
+                    <ContractCard key={c.id} c={c} cfg={cfg} index={ativos.length+i} onEdit={c=>setModal({contract:c})} onDelete={c=>setDelTgt(c)} onPay={c=>setPayTgt(c)}/>
+                  ))}
+                </>
+              )}
+            </>);
+          })()}
         </div>
       )}
 
@@ -826,23 +945,23 @@ const App=()=>{
         <div style={{padding:'13px 11px 120px'}}>
 
           {[
-            {dot:'#ff9f0a',label:'Capital em Giro — Risco Atual',delay:'0s',vals:[{l:'Na Rua',v:summary.emGiro,c:'#fff',big:true},{l:'A Receber',v:summary.aReceber,c:'#0a84ff',big:true}],sub:[{l:'Juros Esperados',v:summary.lucroAtivo,c:'#8e8e93'},{l:'Seu Lucro Esperado',v:summary.liqAtivo,c:'#0a84ff'}]},
-            {dot:'#30d158',label:'Recolhido — Em Caixa',delay:'.05s',vals:[{l:'Total Recebido',v:summary.recolhido,c:'#fff',big:true},{l:'Juros Recolhidos',v:summary.jurosRecolhidos,c:'#30d158',big:true}],sub:[...(cfg?.temSocio?[{l:`Parte ${cfg.socioNome}`,v:summary.socioRecolhido,c:'#5e5ce6'}]:[]),{l:'Seu Líquido Real',v:summary.liqRecolhido,c:'#30d158'}]},
+            {dot:'#ff9f0a',label:'Capital em Giro — Risco Atual',delay:'0s',vals:[{l:'Na Rua',v:summary.emGiro,c:'#fff',big:true},{l:'A Receber',v:summary.aReceber,c:'#3b82f6',big:true}],sub:[{l:'Juros Esperados',v:summary.lucroAtivo,c:'#9ca3af'},{l:'Seu Lucro Esperado',v:summary.liqAtivo,c:'#3b82f6'}]},
+            {dot:'#10b981',label:'Recolhido — Em Caixa',delay:'.05s',vals:[{l:'Total Recebido',v:summary.recolhido,c:'#fff',big:true},{l:'Juros Recolhidos',v:summary.jurosRecolhidos,c:'#10b981',big:true}],sub:[...(cfg?.temSocio?[{l:`Parte ${cfg.socioNome}`,v:summary.socioRecolhido,c:'#7c3aed'}]:[]),{l:'Seu Líquido Real',v:summary.liqRecolhido,c:'#10b981'}]},
           ].map(({dot,label,delay,vals,sub},i)=>(
-            <div key={i} className="fu" style={{animationDelay:delay,background:'#1c1c1e',border:'1px solid rgba(255,255,255,.06)',borderRadius:18,padding:16,marginBottom:9}}>
+            <div key={i} className="fu" style={{animationDelay:delay,background:'rgba(255,255,255,.05)',border:'1px solid rgba(255,255,255,.08)',borderRadius:18,padding:16,marginBottom:9}}>
               <div style={{display:'flex',alignItems:'center',gap:6,marginBottom:13}}>
                 <div style={{width:6,height:6,borderRadius:'50%',background:dot}}/>
                 <div style={{fontSize:10,color:dot,fontWeight:700,textTransform:'uppercase',letterSpacing:'.1em'}}>{label}</div>
               </div>
               <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:13,marginBottom:13}}>
                 {vals.map(({l,v,c},j)=>(
-                  <div key={j}><div style={{fontSize:9,color:'#8e8e93',textTransform:'uppercase',letterSpacing:'.07em',marginBottom:3}}>{l}</div><div style={{fontSize:22,fontWeight:800,color:c,letterSpacing:'-.04em'}}><AV value={v}/></div></div>
+                  <div key={j}><div style={{fontSize:9,color:'#9ca3af',textTransform:'uppercase',letterSpacing:'.07em',marginBottom:3}}>{l}</div><div style={{fontSize:22,fontWeight:800,color:c,letterSpacing:'-.04em'}}><AV value={v}/></div></div>
                 ))}
               </div>
               <div style={{height:1,background:'rgba(255,255,255,.05)',marginBottom:11}}/>
               <div style={{display:'grid',gridTemplateColumns:`repeat(${sub.length},1fr)`,gap:9}}>
                 {sub.map(({l,v,c},j)=>(
-                  <div key={j}><div style={{fontSize:9,color:'#48484a',textTransform:'uppercase',letterSpacing:'.06em',marginBottom:3}}>{l}</div><div style={{fontSize:13,fontWeight:700,color:c}}><AV value={v}/></div></div>
+                  <div key={j}><div style={{fontSize:9,color:'#6b7280',textTransform:'uppercase',letterSpacing:'.06em',marginBottom:3}}>{l}</div><div style={{fontSize:13,fontWeight:700,color:c}}><AV value={v}/></div></div>
                 ))}
               </div>
             </div>
@@ -854,41 +973,41 @@ const App=()=>{
 
           {cfg?.temSocio&&(
             <div className="fu" style={{animationDelay:'.12s',background:'rgba(94,92,230,.07)',border:'1px solid rgba(94,92,230,.18)',borderRadius:18,padding:16,marginBottom:9}}>
-              <div style={{fontSize:10,color:'#5e5ce6',fontWeight:700,textTransform:'uppercase',letterSpacing:'.09em',marginBottom:13}}>Sócio · {cfg.socioNome} ({cfg.socioPct}%)</div>
+              <div style={{fontSize:10,color:'#7c3aed',fontWeight:700,textTransform:'uppercase',letterSpacing:'.09em',marginBottom:13}}>Sócio · {cfg.socioNome} ({cfg.socioPct}%)</div>
               <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:9}}>
-                {[{l:'Recolhido p/ Sócio',v:summary.socioRecolhido,c:'#5e5ce6',prev:summary.totalSocio},{l:'Seu Líquido Real',v:summary.liqRecolhido,c:'#30d158',prev:summary.totalLiq}].map(({l,v,c,prev},i)=>(
+                {[{l:'Recolhido p/ Sócio',v:summary.socioRecolhido,c:'#7c3aed',prev:summary.totalSocio},{l:'Seu Líquido Real',v:summary.liqRecolhido,c:'#10b981',prev:summary.totalLiq}].map(({l,v,c,prev},i)=>(
                   <div key={i} style={{background:`${c}09`,borderRadius:13,padding:13}}>
-                    <div style={{fontSize:9,color:'#8e8e93',textTransform:'uppercase',letterSpacing:'.06em',marginBottom:4}}>{l}</div>
+                    <div style={{fontSize:9,color:'#9ca3af',textTransform:'uppercase',letterSpacing:'.06em',marginBottom:4}}>{l}</div>
                     <div style={{fontSize:18,fontWeight:800,color:c}}><AV value={v}/></div>
-                    <div style={{fontSize:9,color:'#48484a',marginTop:3}}>Previsto: {R$(prev)}</div>
+                    <div style={{fontSize:9,color:'#6b7280',marginTop:3}}>Previsto: {R$(prev)}</div>
                   </div>
                 ))}
               </div>
             </div>
           )}
 
-          <div style={{fontSize:10,color:'#48484a',fontWeight:700,letterSpacing:'.09em',textTransform:'uppercase',marginBottom:8}}>Por Contrato</div>
+          <div style={{fontSize:10,color:'#6b7280',fontWeight:700,letterSpacing:'.09em',textTransform:'uppercase',marginBottom:8}}>Por Contrato</div>
           {[...contracts].sort((a,b)=>{if(a.pago&&!b.pago)return 1;if(!a.pago&&b.pago)return-1;return daysLeft(a.dataVencimento)-daysLeft(b.dataVencimento);}).map((c,i)=>{
             const fin=calcFin(c,cfg),isPago=!!c.pago,days=daysLeft(c.dataVencimento),late=!isPago&&days<0;
-            const ac=isPago?'#30d158':late?'#ff453a':'#0a84ff';
+            const ac=isPago?'#10b981':late?'#ff453a':'#3b82f6';
             const initials=c.nome.trim().split(' ').filter(Boolean).slice(0,2).map(w=>w[0].toUpperCase()).join('');
             return(
-              <div key={c.id} className="fu" style={{animationDelay:`${i*.04}s`,background:'#1c1c1e',border:'1px solid rgba(255,255,255,.05)',borderRadius:14,marginBottom:7,overflow:'hidden',borderLeft:`3px solid ${ac}`}}>
+              <div key={c.id} className="fu" style={{animationDelay:`${i*.04}s`,background:'rgba(255,255,255,.05)',border:'1px solid rgba(255,255,255,.05)',borderRadius:14,marginBottom:7,overflow:'hidden',borderLeft:`3px solid ${ac}`}}>
                 <div style={{padding:'11px 13px',display:'flex',alignItems:'center',gap:9}}>
                   <div style={{width:34,height:34,borderRadius:10,background:`${ac}18`,display:'flex',alignItems:'center',justifyContent:'center',fontSize:11,fontWeight:800,color:ac,flexShrink:0}}>{initials}</div>
                   <div style={{flex:1,minWidth:0}}>
                     <div style={{fontWeight:700,fontSize:13,color:'#fff',overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap'}}>{c.nome}</div>
-                    <div style={{fontSize:10,color:'#48484a',marginTop:1}}>{isPago?'Pago':late?`${Math.abs(days)}d atraso`:days===0?'Vence hoje':`${days}d`} · {new Date(c.dataVencimento+'T00:00:00').toLocaleDateString('pt-BR')}{(c.pedaladas||0)>0?` · 🚴 ${c.pedaladas}`:''}</div>
+                    <div style={{fontSize:10,color:'#6b7280',marginTop:1}}>{isPago?'Pago':late?`${Math.abs(days)}d atraso`:days===0?'Vence hoje':`${days}d`} · {new Date(c.dataVencimento+'T00:00:00').toLocaleDateString('pt-BR')}{(c.pedaladas||0)>0?` · 🚴 ${c.pedaladas}`:''}</div>
                   </div>
                   <div style={{textAlign:'right'}}>
-                    <div style={{fontSize:9,color:'#48484a',marginBottom:1}}>Capital</div>
-                    <div style={{fontSize:12,fontWeight:700,color:'#8e8e93'}}>{R$(c.valorEmprestado)}</div>
+                    <div style={{fontSize:9,color:'#6b7280',marginBottom:1}}>Capital</div>
+                    <div style={{fontSize:12,fontWeight:700,color:'#9ca3af'}}>{R$(c.valorEmprestado)}</div>
                   </div>
                 </div>
-                <div style={{display:'grid',gridTemplateColumns:cfg?.temSocio?'1fr 1fr 1fr':'1fr 1fr',borderTop:'1px solid rgba(255,255,255,.04)'}}>
-                  {[{l:'Lucro Bruto',v:R$(fin.lucro),c:'#8e8e93'},...(cfg?.temSocio?[{l:cfg.socioNome,v:R$(fin.socio),c:'#5e5ce6'}]:[]),{l:'Líquido',v:R$(fin.liquido),c:'#30d158'}].map(({l,v,c},j)=>(
-                    <div key={j} style={{padding:'8px 7px',textAlign:'center',borderLeft:j>0?'1px solid rgba(255,255,255,.04)':'none'}}>
-                      <div style={{fontSize:8,color:'#48484a',textTransform:'uppercase',letterSpacing:'.05em',marginBottom:2}}>{l}</div>
+                <div style={{display:'grid',gridTemplateColumns:cfg?.temSocio?'1fr 1fr 1fr':'1fr 1fr',borderTop:'1px solid rgba(255,255,255,.05)'}}>
+                  {[{l:'Lucro Bruto',v:R$(fin.lucro),c:'#9ca3af'},...(cfg?.temSocio?[{l:cfg.socioNome,v:R$(fin.socio),c:'#7c3aed'}]:[]),{l:'Líquido',v:R$(fin.liquido),c:'#10b981'}].map(({l,v,c},j)=>(
+                    <div key={j} style={{padding:'8px 7px',textAlign:'center',borderLeft:j>0?'1px solid rgba(255,255,255,.05)':'none'}}>
+                      <div style={{fontSize:8,color:'#6b7280',textTransform:'uppercase',letterSpacing:'.05em',marginBottom:2}}>{l}</div>
                       <div style={{fontSize:12,fontWeight:700,color:c}}>{v}</div>
                     </div>
                   ))}
@@ -900,7 +1019,7 @@ const App=()=>{
       )}
 
       {/* FAB */}
-      <button onClick={()=>setModal('add')} className="glow" style={{position:'fixed',bottom:24,right:17,width:56,height:56,borderRadius:'50%',background:'#0a84ff',border:'none',cursor:'pointer',display:'flex',alignItems:'center',justifyContent:'center',boxShadow:'0 6px 28px rgba(10,132,255,.6)',color:'#fff',zIndex:40}}>
+      <button onClick={()=>setModal('add')} className="glow" style={{position:'fixed',bottom:24,right:17,width:56,height:56,borderRadius:'50%',background:'#3b82f6',border:'none',cursor:'pointer',display:'flex',alignItems:'center',justifyContent:'center',boxShadow:'0 6px 28px rgba(10,132,255,.6)',color:'#fff',zIndex:40}}>
         <Ic d={IC.plus} size={22} sw={2.5}/>
       </button>
 
@@ -910,6 +1029,7 @@ const App=()=>{
       {payTgt&&<PaymentModal contract={payTgt} cfg={cfg} onPagoTotal={handlePagoTotal} onPedalada={handlePedalada} onClose={()=>setPayTgt(null)}/>}
       {settingsOpen&&<SettingsModal onSave={handleCfgSave} onClose={()=>setSettingsOpen(false)}/>}
       {celeb&&<CelebrationModal contract={celeb} cfg={cfg} onClose={()=>{setCeleb(null);showToast('Contrato cadastrado!');}}/>}
+      {recolhidoModal&&<RecolhidoModal contracts={contracts} cfg={cfg} onClose={()=>setRecolhidoModal(false)}/>}
       {toast&&<Toast msg={toast.msg} type={toast.type}/>}
     </div>
   );
